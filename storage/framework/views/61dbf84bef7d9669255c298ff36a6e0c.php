@@ -12,3 +12,4 @@
         </div>
     </div>
 </footer>
+<?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/layouts/footer.blade.php ENDPATH**/ ?>

@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('build/images/favicon.ico')}}">
     @include('layouts.head-css')
@@ -31,6 +33,10 @@
             </div>
             <!-- End Page-content -->
             @include('layouts.footer')
+                  <!-- Include SweetAlert alerts -->
+                  @include('partials.alerts')
+
+
         </div>
         <!-- end main content-->
     </div>

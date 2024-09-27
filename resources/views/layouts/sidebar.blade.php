@@ -31,7 +31,7 @@
 
             <div id="two-column-menu">
             </div>
-            <ul class="navbar-nav" id="navbar-nav">
+            {{-- <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span>@lang('translation.menu')
                     </span></li>
                 <li class="nav-item">
@@ -82,7 +82,63 @@
 
 
 
+            </ul> --}}
+            <ul class="navbar-nav" id="navbar-nav">
+                <li class="menu-title"><span>@lang('translation.menu')</span></li>
+                
+                <!-- Dashboard Menu -->
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarDashboards">
+                        <i class="mdi mdi-speedometer"></i> <span>@lang('translation.dashboards')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarDashboards">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="dashboard-analytics" class="nav-link">@lang('translation.analytics')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dashboard-crm" class="nav-link">@lang('translation.crm')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="index" class="nav-link">@lang('translation.ecommerce')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dashboard-crypto" class="nav-link">@lang('translation.crypto')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dashboard-projects" class="nav-link">@lang('translation.projects')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dashboard-nft" class="nav-link">@lang('translation.nft')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="dashboard-job" class="nav-link"><span>@lang('translation.job')</span> 
+                                <span class="badge badge-pill bg-success">@lang('translation.new')</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> <!-- end Dashboard Menu -->
+            
+                <!-- Campus Menu -->
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarCampus" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarCampus">
+                        <i class="mdi mdi-school"></i> <span>@lang('Campus')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarCampus">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('campus.index') }}" class="nav-link">@lang('Show Capmus')</a>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                </li>
+                
+                <!-- end Campus Menu -->
             </ul>
+            
         </div>
         <!-- Sidebar -->
     </div>
