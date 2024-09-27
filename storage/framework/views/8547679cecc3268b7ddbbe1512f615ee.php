@@ -31,7 +31,7 @@
 
             <div id="two-column-menu">
             </div>
-            
+           
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span><?php echo app('translator')->get('translation.menu'); ?></span></li>
                 

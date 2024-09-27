@@ -76,7 +76,8 @@
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="phone_number" class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control" id="phone_number" name="phone_number" required>
+                                    <input type="text" class="form-control" id="phone_number" name="phone_number"
+                                        required>
                                 </div>
                             </div>
                             <!--end col-->
@@ -135,8 +136,8 @@
                                     <select class="form-select mb-3" aria-label="Default select example" name="status">
                                         <option value="active">Active</option>
                                         <option value="inactive">Inactive</option>
-                                        
-                                        </select>
+
+                                    </select>
                                 </div>
                             </div>
                             <!--end col-->
