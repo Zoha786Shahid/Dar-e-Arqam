@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CampusController;
+use App\Http\Controllers\TeacherController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +15,7 @@ use App\Http\Controllers\CampusController;
 |
 */
 Route::resource('campus', CampusController::class);
+Route::resource('teacher', TeacherController::class);
 // Route::get('/test', [App\Http\Controllers\CampusController::class, 'test'])->name('test');
 Auth::routes();
 //Language Translation

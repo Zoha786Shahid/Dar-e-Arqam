@@ -5,6 +5,7 @@
         <!-- Dark Logo-->
         <a href="index" class="logo logo-dark">
             <span class="logo-sm">
+                {{-- <img src="{{ URL::asset('build/images/school.jpeg') }}" alt="" height="45"  width="40"> --}}
                 <img src="{{ URL::asset('build/images/logo-sm.png') }}" alt="" height="22">
             </span>
             <span class="logo-lg">
@@ -31,10 +32,10 @@
 
             <div id="two-column-menu">
             </div>
-           
+
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span>@lang('translation.menu')</span></li>
-                
+
                 <!-- Dashboard Menu -->
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button"
@@ -62,13 +63,13 @@
                                 <a href="dashboard-nft" class="nav-link">@lang('translation.nft')</a>
                             </li>
                             <li class="nav-item">
-                                <a href="dashboard-job" class="nav-link"><span>@lang('translation.job')</span> 
-                                <span class="badge badge-pill bg-success">@lang('translation.new')</span></a>
+                                <a href="dashboard-job" class="nav-link"><span>@lang('translation.job')</span>
+                                    <span class="badge badge-pill bg-success">@lang('translation.new')</span></a>
                             </li>
                         </ul>
                     </div>
                 </li> <!-- end Dashboard Menu -->
-            
+
                 <!-- Campus Menu -->
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCampus" data-bs-toggle="collapse" role="button"
@@ -80,14 +81,52 @@
                             <li class="nav-item">
                                 <a href="{{ route('campus.index') }}" class="nav-link">@lang('Show Capmus')</a>
                             </li>
-                           
+
                         </ul>
                     </div>
                 </li>
-                
+
                 <!-- end Campus Menu -->
+                <!-- Teacher Menu -->
+                {{-- <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarTeacher" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarTeacher">
+                        <i class="mdi mdi-school"></i> <span>@lang('Teacher')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarTeacher">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('teacher.index') }}" class="nav-link">@lang('Show Teachers')</a>
+                            </li>
+                           
+                        </ul>
+                    </div>
+                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarTeacher" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarTeacher">
+                        <!-- Teacher Icon -->
+
+                        <i class="mdi mdi-account-plus-outline"></i>
+                        <span>@lang('Teachers')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarTeacher">
+                        <ul class="nav nav-sm flex-column">
+                            <!-- Show Teachers Link -->
+                            <li class="nav-item">
+                                <a href="{{ route('teacher.index') }}" class="nav-link">
+                                    <i class="mdi mdi-account-multiple-outline"></i> <!-- List Icon -->
+                                    @lang('Show Teachers')
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- end Teacher Menu -->
             </ul>
-            
+
         </div>
         <!-- Sidebar -->
     </div>
