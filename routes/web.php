@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +15,10 @@ use App\Http\Controllers\TeacherController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::resource('campus', CampusController::class);
+// Route::resource('campus', CampusController::class);
+Route::resource('campus', CampusController::class)->middleware('permission:view campus');
 Route::resource('teacher', TeacherController::class);
+Route::resource('user', UserController::class);
 // Route::get('/test', [App\Http\Controllers\CampusController::class, 'test'])->name('test');
 Auth::routes();
 //Language Translation

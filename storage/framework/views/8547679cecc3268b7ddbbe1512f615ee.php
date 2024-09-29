@@ -88,7 +88,6 @@
 
                 <!-- end Campus Menu -->
                 <!-- Teacher Menu -->
-                
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarTeacher" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTeacher">
@@ -110,8 +109,31 @@
                         </ul>
                     </div>
                 </li>
-
                 <!-- end Teacher Menu -->
+                 <!-- Users Menu -->
+                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarUser" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarUser">
+                        <!-- User Icon -->
+                        <i class="mdi mdi-account-outline"></i>
+                        <span><?php echo app('translator')->get('Users'); ?></span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarUser">
+                        <ul class="nav nav-sm flex-column">
+                            <!-- Show Users Link -->
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('user.index')); ?>" class="nav-link">
+                                    <i class="mdi mdi-account-multiple-outline"></i> <!-- List Icon -->
+                                    <?php echo app('translator')->get('Show Users'); ?>
+                                </a>
+                            </li>
+                            <!-- Add more links for user-specific actions if necessary -->
+                        </ul>
+                    </div>
+                </li>
+                
+
+                <!-- end Users Menu -->
             </ul>
 
         </div>

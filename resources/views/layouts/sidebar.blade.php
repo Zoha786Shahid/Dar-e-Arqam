@@ -88,20 +88,6 @@
 
                 <!-- end Campus Menu -->
                 <!-- Teacher Menu -->
-                {{-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarTeacher" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarTeacher">
-                        <i class="mdi mdi-school"></i> <span>@lang('Teacher')</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarTeacher">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('teacher.index') }}" class="nav-link">@lang('Show Teachers')</a>
-                            </li>
-                           
-                        </ul>
-                    </div>
-                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarTeacher" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTeacher">
@@ -123,8 +109,31 @@
                         </ul>
                     </div>
                 </li>
-
                 <!-- end Teacher Menu -->
+                 <!-- Users Menu -->
+                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarUser" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarUser">
+                        <!-- User Icon -->
+                        <i class="mdi mdi-account-outline"></i>
+                        <span>@lang('Users')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarUser">
+                        <ul class="nav nav-sm flex-column">
+                            <!-- Show Users Link -->
+                            <li class="nav-item">
+                                <a href="{{ route('user.index') }}" class="nav-link">
+                                    <i class="mdi mdi-account-multiple-outline"></i> <!-- List Icon -->
+                                    @lang('Show Users')
+                                </a>
+                            </li>
+                            <!-- Add more links for user-specific actions if necessary -->
+                        </ul>
+                    </div>
+                </li>
+                
+
+                <!-- end Users Menu -->
             </ul>
 
         </div>

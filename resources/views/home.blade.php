@@ -1,4 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.layouts-detached')
+
+
+
 
 @section('content')
 <div class="container">
