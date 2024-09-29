@@ -155,6 +155,7 @@ return array(
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'Database\\Seeders\\PermissionsTableSeeder' => $baseDir . '/database/seeders/PermissionsTableSeeder.php',
+    'Database\\Seeders\\RolePermissionsSeeder' => $baseDir . '/database/seeders/RolePermissionsSeeder.php',
     'Database\\Seeders\\RolesAndPermissionsSeeder' => $baseDir . '/database/seeders/RolesAndPermissionsSeeder.php',
     'Database\\Seeders\\RolesTableSeeder' => $baseDir . '/database/seeders/RolesTableSeeder.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',

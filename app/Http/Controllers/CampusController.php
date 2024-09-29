@@ -2,14 +2,26 @@
 
 namespace App\Http\Controllers;
 use App\Models\Campus;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CampusController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view campus')->only(['index', 'show']);
+        $this->middleware('permission:edit campus')->only(['edit', 'update']);
+        $this->middleware('permission:delete campus')->only(['destroy']);
+    }
         // Display a listing of the resource
         public function index()
         {
+
              $campuses = Campus::all();
+             $user = User::find(2); // Replace 2 with auth()->id() for dynamic user ID
+             $permissions = $user->getAllPermissions(); // Adjust this to the actual method to get permissions
+             dd('User ID: ' . $user->id . ', Permissions: ', $permissions->toArray());
+     
             return view('campus.index', compact('campuses'));
             
          

@@ -670,6 +670,7 @@ class ComposerStaticInit11f9c6211c97b1129040f91013a55add
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\PermissionsTableSeeder' => __DIR__ . '/../..' . '/database/seeders/PermissionsTableSeeder.php',
+        'Database\\Seeders\\RolePermissionsSeeder' => __DIR__ . '/../..' . '/database/seeders/RolePermissionsSeeder.php',
         'Database\\Seeders\\RolesAndPermissionsSeeder' => __DIR__ . '/../..' . '/database/seeders/RolesAndPermissionsSeeder.php',
         'Database\\Seeders\\RolesTableSeeder' => __DIR__ . '/../..' . '/database/seeders/RolesTableSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
