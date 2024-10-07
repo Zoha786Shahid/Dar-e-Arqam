@@ -134,6 +134,37 @@
                 
 
                 <!-- end Users Menu -->
+
+                <!-- Evaluation Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#sidebarEvaluation" data-bs-toggle="collapse" role="button"
+        aria-expanded="false" aria-controls="sidebarEvaluation">
+        <!-- Evaluation Icon (e.g., clipboard outline) -->
+        <i class="mdi mdi-clipboard-outline"></i>
+        <span>@lang('Teacher Evaluations')</span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarEvaluation">
+        <ul class="nav nav-sm flex-column">
+            <!-- Show Evaluations Link -->
+            <li class="nav-item">
+                <a href="{{ route('evaluation.index') }}" class="nav-link">
+                    <i class="mdi mdi-clipboard-text-outline"></i> <!-- List Icon for evaluations -->
+                    @lang('View Evaluations')
+                </a>
+            </li>
+            <!-- Add New Evaluation Link -->
+            <li class="nav-item">
+                <a href="{{ route('evaluation.create') }}" class="nav-link">
+                    <i class="mdi mdi-clipboard-plus-outline"></i> <!-- Add Icon for evaluations -->
+                    @lang('Add Evaluation')
+                </a>
+            </li>
+            <!-- Add more links if necessary for additional evaluation-related actions -->
+        </ul>
+    </div>
+</li>
+<!-- end Evaluation Menu -->
+
             </ul>
 
         </div>

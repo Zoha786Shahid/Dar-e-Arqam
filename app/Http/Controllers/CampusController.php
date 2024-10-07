@@ -16,17 +16,17 @@ class CampusController extends Controller
         // Display a listing of the resource
         public function index()
         {
-
-             $campuses = Campus::all();
-             $user = User::find(1); // Replace 2 with auth()->id() for dynamic user ID
-             $permissions = $user->givePermissionsTo(); // Adjust this to the actual method to get permissions
-            //  dd('User ID: ' . $user->id . ', Permissions: ', $permissions->toArray());
-     
-            return view('campus.index', compact('campuses'));
+            $campuses = Campus::all();
+            $user = User::find(1); // Use auth()->id() to get the logged-in user dynamically
             
-         
+            // Fetch all permissions the user has
+            $permissions = $user->getAllPermissions(); // Correct method to get user permissions
+            
+            // dd('User ID: ' . $user->id . ', Permissions: ', $permissions->toArray());
+        
+            return view('campus.index', compact('campuses'));
         }
-      
+        
         // Show the form for creating a new resource
         public function create()
         {

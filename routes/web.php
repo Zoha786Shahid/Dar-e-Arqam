@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EvaluationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +19,12 @@ use App\Http\Controllers\UserController;
 */
 // Route::resource('campus', CampusController::class);
 Route::resource('campus', CampusController::class)->middleware('permission:view campus');
+Route::resource('evaluation', EvaluationController::class);
 Route::resource('teacher', TeacherController::class);
 Route::resource('user', UserController::class);
-// Route::get('/test', [App\Http\Controllers\CampusController::class, 'test'])->name('test');
+Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPDF'])->name('evaluation.download');
+Route::post('/evaluation/save', [EvaluationController::class, 'save'])->name('evaluation.save');
+
 Auth::routes();
 //Language Translation
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);

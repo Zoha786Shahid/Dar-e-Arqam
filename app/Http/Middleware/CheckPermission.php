@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class CheckPermission
 {
     /**
@@ -15,17 +16,17 @@ class CheckPermission
      */
     public function handle($request, Closure $next, $permission)
     {
-        if (!auth()->user()) {
+        // Ensure the user is authenticated
+        if (!auth()->check()) {
             return redirect()->route('root')->with('error', 'You must be logged in to access this page.');
         }
-    
-        $user = auth()->user();
-    
-        // Check for user permissions through the role
-        if (!$user->hasPermission($permission)) {
+
+        // Check if the authenticated user has the required permission
+        if (!auth()->user()->hasPermissionTo($permission)) {
             return redirect()->route('root')->with('error', 'You do not have permission to access this page.');
         }
-    
+
+        // Proceed to the next request if permission check passes
         return $next($request);
     }
     
