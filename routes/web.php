@@ -24,6 +24,7 @@ Route::resource('teacher', TeacherController::class);
 Route::resource('user', UserController::class);
 Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPDF'])->name('evaluation.download');
 Route::post('/evaluation/save', [EvaluationController::class, 'save'])->name('evaluation.save');
+Route::get('/get-teachers/{campusId}', [EvaluationController::class, 'getTeachers']);
 
 Auth::routes();
 //Language Translation

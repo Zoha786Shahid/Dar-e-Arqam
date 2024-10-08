@@ -37,9 +37,10 @@
                         <tbody>
                             @foreach ($evaluations as $evaluation)
                                 <tr>
-                                    <td>{{ $evaluation->teacher_name }}</td>
+                                    <td>{{ $evaluation->teacher->first_name }} {{ $evaluation->teacher->last_name }}</td>
+                                    <!-- Concatenate first_name and last_name --><!-- Display the teacher's name from the relationship -->
                                     <td>{{ $evaluation->campus->name ?? 'N/A' }}</td> <!-- Display campus name -->
-                                    <td>{{ $evaluation->percentage}}%</td>
+                                    <td>{{ $evaluation->percentage }}%</td>
                                     <td>{{ $evaluation->created_at->format('Y-m-d') }}</td>
                                     <td>
                                         <div class="dropdown">
@@ -49,7 +50,9 @@
                                             </a>
 
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <li><a class="dropdown-item" href="{{ route('evaluation.download', $evaluation->id) }}">Download</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="{{ route('evaluation.download', $evaluation->id) }}">Download</a>
+                                                </li>
 
                                                 <li><a class="dropdown-item"
                                                         href="{{ route('evaluation.edit', $evaluation->id) }}">Edit</a></li>

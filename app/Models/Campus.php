@@ -27,5 +27,9 @@ class Campus extends Model
         'created_at',
         'updated_at',
     ];
-
+ // Optional: Define relationship: Campus has many Teachers
+ public function teachers()
+ {
+     return $this->hasMany(Teacher::class);
+ }
 }

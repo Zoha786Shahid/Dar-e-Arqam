@@ -10,7 +10,7 @@
             Forms
         @endslot
         @slot('title')
-        Teacher Performance Report
+            Teacher Performance Report
         @endslot
     @endcomponent
 
@@ -28,56 +28,10 @@
 
                             <div class="col-xxl-4 col-md-6">
                                 <div>
-                                    <label for="teacher_name" class="form-label">Teacher’s name</label>
-                                    <input type="text" class="form-control" id="teacher_name" name="teacher_name"
-                                        placeholder="Teacher’s name" required>
-                                </div>
-                            </div>
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="qualification" class="form-label">Qualification</label>
-                                    <input type="text" class="form-control" id="qualification" name="qualification"
-                                        placeholder="Qualification" required>
-                                </div>
-                            </div>
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="joining_date" class="form-label">Joining Date</label>
-                                    <input type="date" class="form-control" id="joining_date" name="joining_date"
-                                        placeholder="Joining Date" required>
-                                </div>
-                            </div>
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="class_section" class="form-label">Class/Sec</label>
-                                    <input type="text" class="form-control" id="class_section" name="class_section"
-                                        placeholder="Class/Sec" required>
-                                </div>
-                            </div>
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="subject" class="form-label">Subject</label>
-                                    <input type="text" class="form-control" id="subject" name="subject"
-                                        placeholder="Subject" required>
-                                </div>
-                            </div>
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="topic" class="form-label">Topic</label>
-                                    <input type="text" class="form-control" id="topic" name="topic"
-                                        placeholder="Topic">
-                                </div>
-                            </div>
-
-                            
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
                                     <label for="campus_id" class="form-label">Campus</label>
-                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id" name="campus_id" required>
+                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                        name="campus_id" required>
+                                        <option value="">Select Campus</option>
                                         @foreach ($campuses as $campus)
                                             <option value="{{ $campus->id }}">{{ $campus->name }}</option>
                                         @endforeach
@@ -87,7 +41,28 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="teacher_id" class="form-label">Teacher’s name</label>
+                                    <select class="form-select @error('teacher_id') is-invalid @enderror" id="teacher_id"
+                                        name="teacher_id" required>
+                                        <option value="">Select Teacher</option>
+                                    </select>
 
+                                    </select>
+                                    @error('teacher_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="observer_name" class="form-label">Observer Name</label>
+                                    <input type="text" class="form-control" id="observer_name" name="observer_name"
+                                        placeholder="Observer Name" required>
+                                </div>
+                            </div>
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="total_students" class="form-label">Total Students</label>
@@ -96,12 +71,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="date" class="form-control" id="date" name="date" required>
-                                </div>
-                            </div>
 
                             <!-- Marks fields for evaluation sections -->
                             <div class="col-xxl-4 col-md-6">
@@ -120,23 +89,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="assessment" class="form-label">Assessment</label>
-                                    <input type="number" class="form-control" id="assessment" name="assessment"
-                                        placeholder="Assessment">
-                                </div>
-                            </div>
 
                             <!-- Repeat similar structure for other evaluation criteria fields -->
 
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="observer_name" class="form-label">Observer Name</label>
-                                    <input type="text" class="form-control" id="observer_name" name="observer_name"
-                                        placeholder="Observer Name" required>
-                                </div>
-                            </div>
+
 
                             <div class="col-xxl-4 col-md-6">
                                 <div>
@@ -179,8 +135,7 @@
                                     <label for="gesture_tone_body_language" class="form-label">Gesture/Tone/Body
                                         Language</label>
                                     <input type="number" class="form-control" id="gesture_tone_body_language"
-                                        name="gesture_tone_body_language" placeholder="Gesture/Tone/Body Language"
-                                        required>
+                                        name="gesture_tone_body_language" placeholder="Gesture/Tone/Body Language" required>
                                 </div>
                             </div>
 
@@ -276,15 +231,6 @@
                                         name="diary_hw_checking" placeholder="Diary Homework Checking" required>
                                 </div>
                             </div>
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="class_participation" class="form-label">Class Participation</label>
-                                    <input type="number" class="form-control" id="class_participation"
-                                        name="class_participation" placeholder="Class Participation" required>
-                                </div>
-                            </div>
-
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="call_on_board" class="form-label">Call on Board</label>
@@ -341,7 +287,7 @@
                                 <div>
                                     <label for="total_marks" class="form-label">Total Marks</label>
                                     <input type="number" class="form-control" id="total_marks" name="total_marks"
-                                        placeholder="Total Marks" required>
+                                        placeholder="Total Marks" readonly>
                                 </div>
                             </div>
 
@@ -349,11 +295,10 @@
                                 <div>
                                     <label for="percentage" class="form-label">Percentage</label>
                                     <input type="number" class="form-control" id="percentage" name="percentage"
-                                        placeholder="Percentage" required>
+                                        placeholder="Percentage" readonly>
                                 </div>
                             </div>
 
-                            {{-- end --}}
                             <div class="col-xxl-12">
                                 <div>
                                     <label for="observer_guidance" class="form-label">Guidance by Observer</label>
@@ -365,18 +310,12 @@
                             <div class="col-xxl-12">
                                 <div>
                                     <label for="teacher_views" class="form-label">Teacher’s Views</label>
-                                    <textarea class="form-control" id="teacher_views" name="teacher_views" placeholder="Teacher’s Views" rows="3"
-                                        ></textarea>
+                                    <textarea class="form-control" id="teacher_views" name="teacher_views" placeholder="Teacher’s Views"
+                                        rows="3"></textarea>
                                 </div>
                             </div>
 
-                            <div class="col-xxl-12">
-                                <div>
-                                    <label for="teacher_signature" class="form-label">Teacher’s Signature</label>
-                                    <input type="text" class="form-control" id="teacher_signature"
-                                        name="teacher_signature" placeholder="Teacher’s Signature" required>
-                                </div>
-                            </div>
+
 
                         </div>
 
@@ -393,8 +332,119 @@
     </div>
     <!-- end row -->
 @endsection
-
 @section('script')
+    <!-- Load jQuery before your script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Your other script files -->
     <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#campus_id').on('change', function() {
+                var campusId = $(this).val(); // Get the selected campus ID
+                if (campusId) {
+                    $.ajax({
+                        url: '/get-teachers/' + campusId, // Call to the controller
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            console.log("Data received: ",
+                                data); // Log the data to ensure it's being received
+
+                            $('#teacher_id').empty(); // Clear the dropdown
+                            $('#teacher_id').append(
+                                '<option value="">Select Teacher</option>'
+                                ); // Add the default option
+
+                            if (Array.isArray(data) && data.length > 0) {
+                                $.each(data, function(key, value) {
+                                    console.log("Adding teacher: ", value
+                                        .name); // Log each teacher being added
+                                    $('#teacher_id').append('<option value="' + value
+                                        .id + '">' + value.name + '</option>');
+                                });
+                            } else {
+                                $('#teacher_id').append(
+                                    '<option value="">No Teachers Available</option>');
+                            }
+                        },
+
+                        error: function() {
+                            $('#teacher_id').empty();
+                            $('#teacher_id').append(
+                                '<option value="">Error loading teachers</option>');
+                        }
+                    });
+                } else {
+                    $('#teacher_id').empty();
+                    $('#teacher_id').append('<option value="">Select Teacher</option>');
+                }
+            });
+        });
+    </script>
+
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // List of all input field IDs
+            const fields = [
+                'appearance_dress_code',
+                'lesson_plan',
+                'standard_of_lesson_plan',
+                'introduction_pk_testing',
+                'islamization',
+                'gesture_tone_body_language',
+                'communication_skill',
+                'strategies_activities',
+                'discipline_class_control',
+                'tools_av_aids',
+                'tools_illustrative_material',
+                'tools_writing_board',
+                'real_life_integration',
+                'competency_command_on_subject',
+                'time_management',
+                'evaluation_conclusion',
+                'diary_hw_checking',
+                'call_on_board',
+                'knowledge_gain',
+                'skill_gain_spoken',
+                'skill_gain_written',
+                'personality_trait_confidence',
+                'response_of_previous_knowledge'
+            ];
+    
+            function calculateTotalAndPercentage() {
+                let total = 0;
+                let count = fields.length; // The total number of fields
+    
+                // Iterate through each field and sum up the values
+                fields.forEach(function(field) {
+                    const fieldValue = parseInt($(`#${field}`).val()) || 0; // Default to 0 if empty
+                    total += fieldValue;
+                });
+    
+                // Set the total marks in the total_marks field
+                $('#total_marks').val(total);
+    
+                // Calculate percentage (assuming max value for each field is 10)
+                let maxMarks = count * 10; // Maximum marks for all fields (23 fields with max 10 each)
+                let percentage = (total / maxMarks) * 100;
+    
+                // Set the calculated percentage in the percentage field
+                $('#percentage').val(percentage.toFixed(2)); // Round to 2 decimal places
+            }
+    
+            // Attach an event listener to all the fields to trigger the calculation when values change
+            fields.forEach(function(field) {
+                $(`#${field}`).on('input', function() {
+                    calculateTotalAndPercentage();
+                });
+            });
+        });
+    </script>
+    
 @endsection

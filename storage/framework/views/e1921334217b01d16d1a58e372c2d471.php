@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('title'); ?>
 <?php echo app('translator')->get('translation.dashboards'); ?>
 <?php $__env->stopSection(); ?>
@@ -16,9 +15,9 @@
                 <div class="col-12">
                     <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                         <div class="flex-grow-1">
-                            <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
+                            <!-- <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
                             <p class="text-muted mb-0">Here's what's happening with your store
-                                today.</p>
+                                today.</p> -->
                         </div>
                         <div class="mt-3 mt-lg-0">
                             <form action="javascript:void(0);">
@@ -33,8 +32,8 @@
                                     </div>
                                     <!--end col-->
                                     <div class="col-auto">
-                                        <button type="button" class="btn btn-soft-success shadow-none"><i class="ri-add-circle-line align-middle me-1"></i>
-                                            Add Product</button>
+                                        <!-- <button type="button" class="btn btn-soft-success shadow-none"><i class="ri-add-circle-line align-middle me-1"></i>
+                                            Add Product</button> -->
                                     </div>
                                     <!--end col-->
                                     <div class="col-auto">
@@ -62,10 +61,10 @@
                                         Total Earnings</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
+                                    <!-- <h5 class="text-success fs-14 mb-0">
                                         <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                         +16.24 %
-                                    </h5>
+                                    </h5> -->
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
@@ -95,10 +94,10 @@
                                         Orders</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-danger fs-14 mb-0">
+                                    <!-- <h5 class="text-danger fs-14 mb-0">
                                         <i class="ri-arrow-right-down-line fs-13 align-middle"></i>
                                         -3.57 %
-                                    </h5>
+                                    </h5> -->
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
@@ -126,10 +125,10 @@
                                         Customers</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
+                                    <!-- <h5 class="text-success fs-14 mb-0">
                                         <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
                                         +29.08 %
-                                    </h5>
+                                    </h5> -->
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
@@ -180,7 +179,7 @@
                 </div><!-- end col -->
             </div> <!-- end row-->
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-xl-8">
                     <div class="card">
                         <div class="card-header border-0 align-items-center d-flex">
@@ -199,9 +198,10 @@
                                     1Y
                                 </button>
                             </div>
-                        </div><!-- end card header -->
+                        </div>
+                         end card header -->
 
-                        <div class="card-header p-0 border-0 bg-soft-light">
+                        <!-- <div class="card-header p-0 border-0 bg-soft-light">
                             <div class="row g-0 text-center">
                                 <div class="col-6 col-sm-3">
                                     <div class="p-3 border border-dashed border-start-0">
@@ -209,53 +209,58 @@
                                         <p class="text-muted mb-0">Orders</p>
                                     </div>
                                 </div>
-                                <!--end col-->
-                                <div class="col-6 col-sm-3">
+                                end col-->
+                                <!-- <div class="col-6 col-sm-3">
                                     <div class="p-3 border border-dashed border-start-0">
                                         <h5 class="mb-1">$<span class="counter-value" data-target="22.89">0</span>k</h5>
                                         <p class="text-muted mb-0">Earnings</p>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--end col-->
-                                <div class="col-6 col-sm-3">
+                                <!-- <div class="col-6 col-sm-3">
                                     <div class="p-3 border border-dashed border-start-0">
                                         <h5 class="mb-1"><span class="counter-value" data-target="367">0</span></h5>
                                         <p class="text-muted mb-0">Refunds</p>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--end col-->
-                                <div class="col-6 col-sm-3">
+                                <!-- <div class="col-6 col-sm-3">
                                     <div class="p-3 border border-dashed border-start-0 border-end-0">
                                         <h5 class="mb-1 text-success"><span class="counter-value" data-target="18.92">0</span>%</h5>
                                         <p class="text-muted mb-0">Conversation Ratio</p>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!--end col-->
-                            </div>
-                        </div><!-- end card header -->
+                            <!-- </div> -->
+                        <!-- </div>  -->
+                        <!-- end card header -->
 
-                        <div class="card-body p-0 pb-2">
+                        <!-- <div class="card-body p-0 pb-2">
                             <div class="w-100">
                                 <div id="customer_impression_charts" data-colors='["--vz-success", "--vz-primary", "--vz-danger"]' class="apex-charts" dir="ltr"></div>
-                            </div>
-                        </div><!-- end card body -->
-                    </div><!-- end card -->
-                </div><!-- end col -->
+                            </div> -->
+                        <!-- </div> -->
+                        <!-- end card body -->
+                    <!-- </div> -->
+                    <!-- end card -->
+                <!-- </div> -->
+                <!-- end col -->
 
-                <div class="col-xl-4">
+                <!-- <div class="col-xl-4"> -->
                     <!-- card -->
-                    <div class="card card-height-100">
+                    <!-- <div class="card card-height-100">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Sales by Locations</h4>
                             <div class="flex-shrink-0">
                                 <button type="button" class="btn btn-soft-primary btn-sm shadow-none">
                                     Export Report
                                 </button>
-                            </div>
-                        </div><!-- end card header -->
+                            </div> -->
+                        <!-- </div> -->
+                        <!-- end card header -->
 
                         <!-- card body -->
-                        <div class="card-body">
+                        <!-- <div class="card-body">
 
                             <div id="sales-by-locations" data-colors='["--vz-light", "--vz-success", "--vz-primary"]' style="height: 269px" dir="ltr"></div>
 
@@ -279,15 +284,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- end card body -->
-                    </div>
+                    <!-- </div> -->
                     <!-- end card -->
-                </div>
+                <!-- </div> -->
                 <!-- end col -->
-            </div>
+            <!-- </div>  -->
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-xl-6">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -308,9 +313,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- end card header -->
+                        </div>end card header -->
 
-                        <div class="card-body">
+                        <!-- <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table class="table table-hover table-centered align-middle table-nowrap mb-0">
                                     <tbody>
@@ -468,9 +473,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> -->
 
-                            <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
+                            <!-- <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
                                 <div class="col-sm">
                                     <div class="text-muted">
                                         Showing <span class="fw-semibold">5</span> of <span class="fw-semibold">25</span> Results
@@ -499,9 +504,9 @@
 
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="col-xl-6">
+                <!-- <div class="col-xl-6">
                     <div class="card card-height-100">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Top Sellers</h4>
@@ -517,9 +522,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- end card header -->
+                        </div> -->
 
-                        <div class="card-body">
+                        <!-- <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table class="table table-centered table-hover align-middle table-nowrap mb-0">
                                     <tbody>
@@ -550,8 +555,8 @@
                                                 <h5 class="fs-14 mb-0">32%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i>
                                                 </h5>
                                             </td>
-                                        </tr><!-- end -->
-                                        <tr>
+                                        </tr> -->
+                                        <!-- <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
@@ -578,7 +583,7 @@
                                                 <h5 class="fs-14 mb-0">79%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i>
                                                 </h5>
                                             </td>
-                                        </tr><!-- end -->
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -607,7 +612,7 @@
                                                 <h5 class="fs-14 mb-0">90%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i>
                                                 </h5>
                                             </td>
-                                        </tr><!-- end -->
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -635,7 +640,7 @@
                                                 <h5 class="fs-14 mb-0">40%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i>
                                                 </h5>
                                             </td>
-                                        </tr><!-- end -->
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -663,12 +668,12 @@
                                                 <h5 class="fs-14 mb-0">57%<i class="ri-bar-chart-fill text-success fs-16 align-middle ms-2"></i>
                                                 </h5>
                                             </td>
-                                        </tr><!-- end -->
+                                        </tr>
                                     </tbody>
-                                </table><!-- end table -->
-                            </div>
+                                </table>
+                            </div> -->
 
-                            <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
+                            <!-- <div class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
                                 <div class="col-sm">
                                     <div class="text-muted">
                                         Showing <span class="fw-semibold">5</span> of <span class="fw-semibold">25</span> Results
@@ -695,12 +700,12 @@
                                 </div>
                             </div>
 
-                        </div> <!-- .card-body-->
-                    </div> <!-- .card-->
-                </div> <!-- .col-->
-            </div> <!-- end row-->
+                        </div> 
+                    </div> 
+                </div> 
+            </div>   -->
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-xl-4">
                     <div class="card card-height-100">
                         <div class="card-header align-items-center d-flex">
@@ -717,15 +722,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </div><!-- end card header -->
+                        </div> -->
 
-                        <div class="card-body">
+                        <!-- <div class="card-body">
                             <div id="store-visits-source" data-colors='["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]' class="apex-charts" dir="ltr"></div>
                         </div>
-                    </div> <!-- .card-->
-                </div> <!-- .col-->
+                    </div> 
+                </div>  -->
 
-                <div class="col-xl-8">
+                <!-- <div class="col-xl-8">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Recent Orders</h4>
@@ -734,9 +739,8 @@
                                     <i class="ri-file-list-3-line align-middle"></i> Generate Report
                                 </button>
                             </div>
-                        </div><!-- end card header -->
-
-                        <div class="card-body">
+                        </div> -->
+                        <!-- <div class="card-body">
                             <div class="table-responsive table-card">
                                 <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
                                     <thead class="text-muted table-light">
@@ -775,8 +779,8 @@
                                                 <h5 class="fs-14 fw-medium mb-0">5.0<span class="text-muted fs-11 ms-1">(61
                                                         votes)</span></h5>
                                             </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
+                                        </tr> -->
+                                        <!-- <tr>
                                             <td>
                                                 <a href="<?php echo e(URL::asset('/apps-ecommerce-order-details')); ?>" class="fw-medium link-primary">#VZ2111</a>
                                             </td>
@@ -800,8 +804,8 @@
                                                 <h5 class="fs-14 fw-medium mb-0">4.5<span class="text-muted fs-11 ms-1">(61
                                                         votes)</span></h5>
                                             </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
+                                        </tr> -->
+                                        <!-- <tr>
                                             <td>
                                                 <a href="<?php echo e(URL::asset('/apps-ecommerce-order-details')); ?>" class="fw-medium link-primary">#VZ2109</a>
                                             </td>
@@ -825,8 +829,8 @@
                                                 <h5 class="fs-14 fw-medium mb-0">4.9<span class="text-muted fs-11 ms-1">(89
                                                         votes)</span></h5>
                                             </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
+                                        </tr> -->
+                                        <!-- <tr>
                                             <td>
                                                 <a href="<?php echo e(URL::asset('/apps-ecommerce-order-details')); ?>" class="fw-medium link-primary">#VZ2108</a>
                                             </td>
@@ -849,8 +853,8 @@
                                             <td>
                                                 <h5 class="fs-14 fw-medium mb-0">4.3<span class="text-muted fs-11 ms-1">(47
                                                         votes)</span></h5>
-                                            </td>
-                                        </tr><!-- end tr -->
+                                            </td> -->
+                                        <!-- </tr>
                                         <tr>
                                             <td>
                                                 <a href="<?php echo e(URL::asset('/apps-ecommerce-order-details')); ?>" class="fw-medium link-primary">#VZ2107</a>
@@ -874,21 +878,21 @@
                                             <td>
                                                 <h5 class="fs-14 fw-medium mb-0">4.7<span class="text-muted fs-11 ms-1">(161
                                                         votes)</span></h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                    </tbody><!-- end tbody -->
-                                </table><!-- end table -->
+                                            </td> -->
+                                        <!-- </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div> <!-- .card-->
-                </div> <!-- .col-->
-            </div> <!-- end row-->
+                    </div> 
+                </div> 
+            </div> 
 
-        </div> <!-- end .h-100-->
+        </div> 
 
-    </div> <!-- end col -->
+    </div> -->
 
-    <div class="col-auto layout-rightside-col">
+    <!-- <div class="col-auto layout-rightside-col">
         <div class="overlay"></div>
         <div class="layout-rightside">
             <div class="card h-100 rounded-0">
@@ -1065,7 +1069,6 @@
                     </div>
                     <div class="p-3">
                         <h6 class="text-muted mb-3 text-uppercase fw-semibold">Products Reviews</h6>
-                        <!-- Swiper -->
                         <div class="swiper vertical-swiper" style="height: 250px;">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
@@ -1127,8 +1130,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
+                                </div> -->
+                                <!-- <div class="swiper-slide">
                                     <div class="card border border-dashed shadow-none">
                                         <div class="card-body">
                                             <div class="d-flex">
@@ -1234,10 +1237,9 @@
                                         <h6 class="mb-0 text-muted">2758</h6>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- end row -->
+                            </div> -->
 
-                            <div class="row align-items-center g-2">
+                            <!-- <div class="row align-items-center g-2">
                                 <div class="col-auto">
                                     <div class="p-1">
                                         <h6 class="mb-0">4 star</h6>
@@ -1255,10 +1257,10 @@
                                         <h6 class="mb-0 text-muted">1063</h6>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- end row -->
 
-                            <div class="row align-items-center g-2">
+                            <!-- <div class="row align-items-center g-2">
                                 <div class="col-auto">
                                     <div class="p-1">
                                         <h6 class="mb-0">3 star</h6>
@@ -1276,10 +1278,10 @@
                                         <h6 class="mb-0 text-muted">997</h6>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!-- end row -->
 
-                            <div class="row align-items-center g-2">
+                            <!-- <div class="row align-items-center g-2">
                                 <div class="col-auto">
                                     <div class="p-1">
                                         <h6 class="mb-0">2 star</h6>
@@ -1299,7 +1301,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- end row -->
 
                             <div class="row align-items-center g-2">
                                 <div class="col-auto">
@@ -1318,12 +1319,12 @@
                                     <div class="p-1">
                                         <h6 class="mb-0 text-muted">408</h6>
                                     </div>
-                                </div>
-                            </div><!-- end row -->
+                                </div> -->
+                            <!-- </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="card sidebar-alert bg-light border-0 text-center mx-4 mb-0 mt-3">
+                    <!-- <div class="card sidebar-alert bg-light border-0 text-center mx-4 mb-0 mt-3">
                         <div class="card-body">
                             <img src="<?php echo e(URL::asset('build/images/giftbox.png')); ?>" alt="">
                             <div class="mt-4">
@@ -1334,7 +1335,7 @@
                                     Invite Now</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
             </div> <!-- end card-->
