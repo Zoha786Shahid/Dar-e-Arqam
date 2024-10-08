@@ -149,7 +149,7 @@
             <li class="nav-item">
                 <a href="{{ route('evaluation.index') }}" class="nav-link">
                     <i class="mdi mdi-clipboard-text-outline"></i> <!-- List Icon for evaluations -->
-                    @lang('View Evaluations')
+                    @lang('View Evaluations 1-7')
                 </a>
             </li>
             <!-- Add New Evaluation Link -->

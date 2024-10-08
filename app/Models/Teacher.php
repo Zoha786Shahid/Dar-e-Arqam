@@ -24,5 +24,9 @@ class Teacher extends Model
         'experience',
         'campus_id',
     ];
-
+ // Define relationship: Teacher belongs to a Campus
+ public function campus()
+ {
+     return $this->belongsTo(Campus::class);
+ }
 }
