@@ -37,7 +37,8 @@
                         <tbody>
                             <?php $__currentLoopData = $evaluations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $evaluation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><?php echo e($evaluation->teacher_name); ?></td>
+                                    <td><?php echo e($evaluation->teacher->first_name); ?> <?php echo e($evaluation->teacher->last_name); ?></td>
+                                    <!-- Concatenate first_name and last_name --><!-- Display the teacher's name from the relationship -->
                                     <td><?php echo e($evaluation->campus->name ?? 'N/A'); ?></td> <!-- Display campus name -->
                                     <td><?php echo e($evaluation->percentage); ?>%</td>
                                     <td><?php echo e($evaluation->created_at->format('Y-m-d')); ?></td>
@@ -49,7 +50,9 @@
                                             </a>
 
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <li><a class="dropdown-item" href="<?php echo e(route('evaluation.download', $evaluation->id)); ?>">Download</a></li>
+                                                <li><a class="dropdown-item"
+                                                        href="<?php echo e(route('evaluation.download', $evaluation->id)); ?>">Download</a>
+                                                </li>
 
                                                 <li><a class="dropdown-item"
                                                         href="<?php echo e(route('evaluation.edit', $evaluation->id)); ?>">Edit</a></li>

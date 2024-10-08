@@ -37,7 +37,7 @@
                 <li class="menu-title"><span><?php echo app('translator')->get('translation.menu'); ?></span></li>
 
                 <!-- Dashboard Menu -->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="mdi mdi-speedometer"></i> <span><?php echo app('translator')->get('translation.dashboards'); ?></span>
@@ -68,7 +68,7 @@
                             </li>
                         </ul>
                     </div>
-                </li> <!-- end Dashboard Menu -->
+                </li> end Dashboard Menu -->
 
                 <!-- Campus Menu -->
                 <li class="nav-item">
@@ -149,7 +149,7 @@
             <li class="nav-item">
                 <a href="<?php echo e(route('evaluation.index')); ?>" class="nav-link">
                     <i class="mdi mdi-clipboard-text-outline"></i> <!-- List Icon for evaluations -->
-                    <?php echo app('translator')->get('View Evaluations'); ?>
+                    <?php echo app('translator')->get('View Evaluations 1-7'); ?>
                 </a>
             </li>
             <!-- Add New Evaluation Link -->
