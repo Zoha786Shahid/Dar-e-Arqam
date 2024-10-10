@@ -6,6 +6,8 @@ use App\Http\Controllers\CampusController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\SeniorEvaluationReportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,9 @@ use App\Http\Controllers\EvaluationController;
 // Route::resource('campus', CampusController::class);
 Route::resource('campus', CampusController::class)->middleware('permission:view campus');
 Route::resource('evaluation', EvaluationController::class);
+Route::resource('seniorevaluation', SeniorEvaluationReportController::class);
+Route::get('seniorevaluation/{id}/download', [SeniorEvaluationReportController::class, 'downloadEvaluationPDF'])->name('seniorevaluation.download');
+Route::post('/seniorevaluation/save', [SeniorEvaluationReportController::class, 'save'])->name('seniorevaluation.save');
 Route::resource('teacher', TeacherController::class);
 Route::resource('user', UserController::class);
 Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPDF'])->name('evaluation.download');

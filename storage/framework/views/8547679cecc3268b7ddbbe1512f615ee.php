@@ -154,9 +154,9 @@
             </li>
             <!-- Add New Evaluation Link -->
             <li class="nav-item">
-                <a href="<?php echo e(route('evaluation.create')); ?>" class="nav-link">
+                <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="nav-link">
                     <i class="mdi mdi-clipboard-plus-outline"></i> <!-- Add Icon for evaluations -->
-                    <?php echo app('translator')->get('Add Evaluation'); ?>
+                    <?php echo app('translator')->get('View Evaluation 8-10'); ?>
                 </a>
             </li>
             <!-- Add more links if necessary for additional evaluation-related actions -->
