@@ -13,13 +13,14 @@ class SeniorEvaluationReportController extends Controller
 
 
     public function showEvaluationForm($id)
-{
-    // Fetch evaluation data
-    $evaluation = SeniorEvaluationReport::find($id);
-
-    // Pass the evaluation data to the view
-    return view('seniorEvaluation.evaluation_pdf', compact('evaluation'));
-}
+    {
+        // Fetch evaluation data
+        $evaluation = SeniorEvaluationReport::findOrFail($id);
+    
+        // Pass the evaluation data to the view
+        return view('seniorEvaluation.evaluation_pdf', compact('evaluation'));
+    }
+    
 
     public function downloadEvaluationPDF($id)
     {

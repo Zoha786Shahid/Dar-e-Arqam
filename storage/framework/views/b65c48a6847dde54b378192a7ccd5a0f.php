@@ -56,11 +56,13 @@
 
 <body>
     <div class="header">
-     
+      
+        
 
-        
-        
-        <img src="<?php echo e(url('build/images/school.jpeg')); ?>" alt="School Image" height="100">
+        <img src="<?php echo e(public_path('images/school.jpeg')); ?>" alt="School Image">
+
+
+
 
         <h2>Dare Arqam Schools</h2>
 
@@ -68,10 +70,13 @@
     <h3>CLASS OBSERVATION CHECKLIST (GRADE 8-10)</h3>
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Teacher's Name:</strong>M Farhan</p>
-        <p style=" display: inline-block;"><strong>Qualification:</strong> MA</p>
-        <p style="display: inline-block;"><strong>Joining Date:</strong> 29-05-2023</p>
+        <p style=" display: inline-block;"><strong>Teacher's Name:</strong> <?php echo e($evaluation->teacher->first_name ?? 'N/A'); ?>
+
+                <?php echo e($evaluation->teacher->last_name ?? ''); ?> </p>
+        <p style=" display: inline-block;"><strong>Qualification:</strong> <?php echo e($evaluation->teacher->qualification ?? 'N/A'); ?></p>
+        <p style="display: inline-block;"><strong>Joining Date:</strong><?php echo e(\Carbon\Carbon::parse($evaluation->teacher->joining_date)->format('d-m-Y') ?? 'N/A'); ?></p>
     </div>
+
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
         <p style=" display: inline-block;"><strong>Class/Sec:</strong> 5th C</p>
@@ -80,9 +85,10 @@
     </div>
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Campus:</strong> Gujrat</p>
+        <p style=" display: inline-block;"><strong>Campus:</strong> <?php echo e($evaluation->campus->name ?? 'N/A'); ?></p>
         <p style=" display: inline-block;"><strong>Total Students:</strong> 80</p>
-        <p style="display: inline-block;"><strong>Date:</strong> 10-08-1024</p>
+        <p style="display: inline-block;"><strong>Date:</strong>  <?php echo e(\Carbon\Carbon::now()->format('d-m-Y')); ?></p>
+        
     </div>
 
 
@@ -97,182 +103,191 @@
             </tr>
         </thead>
         <tbody>
+            <?php $serial = 1; ?>
             <tr>
-                <td>1</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Entrance (Salam/Welcome)</td>
-                <td>2</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Appearance (Dress Code)</td>
-                <td>2</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Seating Arrangement & Cleanliness</td>
-                <td>3</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Writing Board Preparation & Sketching</td>
-                <td>2</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
                 <td>5</td>
+                <td><?php echo e($evaluation->entrance_welcome_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_entrance_welcome ?? ''); ?></td>
+            </tr>
+            <tr>
+                <td><?php echo e($serial++); ?></td>
+                <td>Appearance (Dress Code)</td>
+                <td>5</td>
+                <td><?php echo e($evaluation->appearance_dress_code_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_appearance_dress_code ?? ''); ?></td>
+            </tr>
+            <tr>
+                <td><?php echo e($serial++); ?></td>
+                <td>Seating Arrangement & Cleanliness</td>
+                <td>5</td>
+                <td><?php echo e($evaluation->seating_cleanliness_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_seating_cleanliness ?? ''); ?></td>
+            </tr>
+            <tr>
+                <td><?php echo e($serial++); ?></td>
+                <td>Writing Board Preparation & Sketching</td>
+                <td>5</td>
+                <td><?php echo e($evaluation->writing_board_prep_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_writing_board_prep ?? ''); ?></td>
+            </tr>
+            <tr>
+                <td><?php echo e($serial++); ?></td>
                 <td>Use of Writing Board & Teacher's Writing</td>
-                <td>6</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->writing_board_use_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_writing_board_use ?? ''); ?></td>
             </tr>
             <tr>
-                <td>6</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Day-wise Division of Syllabus</td>
-                <td>3</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->syllabus_division_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_syllabus_division ?? ''); ?></td>
             </tr>
             <tr>
-                <td>7</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Assessment (at the start)</td>
-                <td>3</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->assessment_start_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_assessment_start ?? ''); ?></td>
             </tr>
             <tr>
-                <td>8</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>P.K. Testing</td>
-                <td>2</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->pk_testing_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_pk_testing ?? ''); ?></td>
             </tr>
             <tr>
-                <td>9</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Use of A.V. Aids/Activities</td>
-                <td>4</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->av_activities_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_av_activities ?? ''); ?></td>
             </tr>
             <tr>
-                <td>10</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Teaching Strategies/Techniques/Methods</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->teaching_methods_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_teaching_methods ?? ''); ?></td>
             </tr>
             <tr>
-                <td>11</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Command on Subject</td>
-                <td>10</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->subject_command_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_subject_command ?? ''); ?></td>
             </tr>
             <tr>
-                <td>12</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Concept Clarity of Students</td>
-                <td>10</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->student_clarity_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_student_clarity ?? ''); ?></td>
             </tr>
             <tr>
-                <td>13</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Involvement of Students</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->student_involvement_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_student_involvement ?? ''); ?></td>
             </tr>
             <tr>
-                <td>14</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Individual Attention</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->individual_attention_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_individual_attention ?? ''); ?></td>
             </tr>
             <tr>
-                <td>15</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Copy Work</td>
-                <td>3</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->copy_work_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_copy_work ?? ''); ?></td>
             </tr>
             <tr>
-                <td>16</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Islamization/Moral Training</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->moral_training_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_moral_training ?? ''); ?></td>
             </tr>
             <tr>
-                <td>17</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Reading & Marking of Objective</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->reading_marking_objective_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_reading_marking_objective ?? ''); ?></td>
             </tr>
             <tr>
-                <td>18</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Lecture Delivery and Lecture Planning Relationship</td>
-                <td>2</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->lecture_planning_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_lecture_planning ?? ''); ?></td>
             </tr>
             <tr>
-                <td>19</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Time Management</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->time_management_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_time_management ?? ''); ?></td>
             </tr>
             <tr>
-                <td>20</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Spoken English</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->spoken_english_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_spoken_english ?? ''); ?></td>
             </tr>
             <tr>
-                <td>21</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Evaluation</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->evaluation_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_evaluation ?? ''); ?></td>
             </tr>
             <tr>
-                <td>22</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Home Task/Prayers Checking</td>
-                <td>3</td>
-                <td></td>
-                <td></td>
+                <td>5</td>
+                <td><?php echo e($evaluation->home_task_checking_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_home_task_checking ?? ''); ?></td>
             </tr>
             <tr>
-                <td>23</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>Class Discipline</td>
                 <td>5</td>
-                <td></td>
-                <td></td>
+                <td><?php echo e($evaluation->class_discipline_marks ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_class_discipline ?? ''); ?></td>
             </tr>
         </tbody>
     </table>
+    
+    
 
-    <p style="margin-top: 20px;"><strong>Observer Name:</strong> ___________________</p>
-    <p style="margin-top: 10px;"><strong>Signature:</strong> ___________________</p>
-
+    <p style="margin-top: 20px;"><strong>Observer Name:</strong> <?php echo e($evaluation->observer_name ?? '___________________'); ?></p>
+    <p style="margin-top: 10px;">
+        <strong>Signature:</strong> 
+        <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
+    </p>
+    
     <p style="margin-top: 10px;"><strong>Guidance by Observer:</strong></p>
-    <p>__________________________________________________________________________</p>
-    <p>__________________________________________________________________________</p>
-
+    <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;"><?php echo e($evaluation->observer_guidance ?? '__________________________________________________________________________'); ?></p>
+    
     <p style="margin-top: 10px;"><strong>Teacher Views:</strong></p>
-    <p>__________________________________________________________________________</p>
-    <p>__________________________________________________________________________</p>
-
-    <p style="margin-top: 20px;"><strong>Signature:</strong> ___________________</p>
+    <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;"><?php echo e($evaluation->teacher_views ?? '__________________________________________________________________________'); ?></p>
+    
+    <p style="margin-top: 20px;">
+        <strong>Signature:</strong> 
+        <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
+    </p>
+    
+    
 
 </body>
 

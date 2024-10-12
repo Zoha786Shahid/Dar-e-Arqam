@@ -14,8 +14,9 @@ class EvaluationController extends Controller
     public function showEvaluationForm($id)
 {
     // Fetch evaluation data
-    $evaluation = Evaluation::find($id);
-
+  
+        // Fetch evaluation data
+        $evaluation = EvaluationForm::findOrFail($id);
     // Pass the evaluation data to the view
     return view('evaluation.evaluation_pdf', compact('evaluation'));
 }

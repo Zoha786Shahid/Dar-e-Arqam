@@ -37,7 +37,7 @@
                         <tbody>
                             @foreach ($evaluations as $evaluation)
                                 <tr>
-                                    <td>{{ $evaluation->teacher->first_name }} {{ $evaluation->teacher->last_name }}</td>
+                                    <td>{{ $evaluation->teacher->first_name  ?? 'N/A' }} {{ $evaluation->teacher->last_name  ?? 'N/A' }}</td>
                                     <!-- Concatenate first_name and last_name --><!-- Display the teacher's name from the relationship -->
                                     <td>{{ $evaluation->campus->name ?? 'N/A' }}</td> <!-- Display campus name -->
                                     <td>{{ $evaluation->percentage }}%</td>

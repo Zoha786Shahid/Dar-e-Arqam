@@ -37,7 +37,7 @@
                         <tbody>
                             <?php $__currentLoopData = $evaluations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $evaluation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><?php echo e($evaluation->teacher->first_name); ?> <?php echo e($evaluation->teacher->last_name); ?></td>
+                                    <td><?php echo e($evaluation->teacher->first_name  ?? 'N/A'); ?> <?php echo e($evaluation->teacher->last_name  ?? 'N/A'); ?></td>
                                     <!-- Concatenate first_name and last_name --><!-- Display the teacher's name from the relationship -->
                                     <td><?php echo e($evaluation->campus->name ?? 'N/A'); ?></td> <!-- Display campus name -->
                                     <td><?php echo e($evaluation->percentage); ?>%</td>
