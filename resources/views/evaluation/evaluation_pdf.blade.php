@@ -232,14 +232,14 @@
                 <td>{{ $evaluation->remarks_skill_gain_spoken ?? '' }}</td>
             </tr>
             <tr>
-                <td>5</td>
+                <td>20</td>
                 <td>Personality trait/Confidence</td>
                 <td>5</td>
                 <td>{{ $evaluation->personality_trait_confidence ?? '' }}</td>
                 <td>{{ $evaluation->remarks_personality_trait_confidence ?? '' }}</td>
             </tr>
             <tr>
-                <td>5</td>
+                <td>21</td>
                 <td>Response of previous knowledge</td>
                 <td>5</td>
                 <td>{{ $evaluation->response_of_previous_knowledge ?? '' }}</td>
