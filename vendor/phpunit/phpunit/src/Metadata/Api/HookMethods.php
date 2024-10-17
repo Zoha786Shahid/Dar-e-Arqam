@@ -15,9 +15,10 @@ use function class_exists;
 use PHPUnit\Metadata\Parser\Registry;
 use PHPUnit\Util\Reflection;
 use ReflectionClass;
-use ReflectionException;
 
 /**
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class HookMethods
@@ -34,7 +35,7 @@ final class HookMethods
      */
     public function hookMethods(string $className): array
     {
-        if (!class_exists($className, false)) {
+        if (!class_exists($className)) {
             return self::emptyHookMethodsArray();
         }
 
@@ -44,50 +45,47 @@ final class HookMethods
 
         self::$hookMethods[$className] = self::emptyHookMethodsArray();
 
-        try {
-            foreach ((new Reflection)->methodsInTestClass(new ReflectionClass($className)) as $method) {
-                $methodName = $method->getName();
+        foreach (Reflection::methodsInTestClass(new ReflectionClass($className)) as $method) {
+            $methodName = $method->getName();
 
-                assert(!empty($methodName));
+            assert(!empty($methodName));
 
-                $metadata = Registry::parser()->forMethod($className, $methodName);
+            $metadata = Registry::parser()->forMethod($className, $methodName);
 
-                if ($method->isStatic()) {
-                    if ($metadata->isBeforeClass()->isNotEmpty()) {
-                        array_unshift(
-                            self::$hookMethods[$className]['beforeClass'],
-                            $methodName
-                        );
-                    }
-
-                    if ($metadata->isAfterClass()->isNotEmpty()) {
-                        self::$hookMethods[$className]['afterClass'][] = $methodName;
-                    }
-                }
-
-                if ($metadata->isBefore()->isNotEmpty()) {
+            if ($method->isStatic()) {
+                if ($metadata->isBeforeClass()->isNotEmpty()) {
                     array_unshift(
-                        self::$hookMethods[$className]['before'],
-                        $methodName
+                        self::$hookMethods[$className]['beforeClass'],
+                        $methodName,
                     );
                 }
 
-                if ($metadata->isPreCondition()->isNotEmpty()) {
-                    array_unshift(
-                        self::$hookMethods[$className]['preCondition'],
-                        $methodName
-                    );
-                }
-
-                if ($metadata->isPostCondition()->isNotEmpty()) {
-                    self::$hookMethods[$className]['postCondition'][] = $methodName;
-                }
-
-                if ($metadata->isAfter()->isNotEmpty()) {
-                    self::$hookMethods[$className]['after'][] = $methodName;
+                if ($metadata->isAfterClass()->isNotEmpty()) {
+                    self::$hookMethods[$className]['afterClass'][] = $methodName;
                 }
             }
-        } catch (ReflectionException) {
+
+            if ($metadata->isBefore()->isNotEmpty()) {
+                array_unshift(
+                    self::$hookMethods[$className]['before'],
+                    $methodName,
+                );
+            }
+
+            if ($metadata->isPreCondition()->isNotEmpty()) {
+                array_unshift(
+                    self::$hookMethods[$className]['preCondition'],
+                    $methodName,
+                );
+            }
+
+            if ($metadata->isPostCondition()->isNotEmpty()) {
+                self::$hookMethods[$className]['postCondition'][] = $methodName;
+            }
+
+            if ($metadata->isAfter()->isNotEmpty()) {
+                self::$hookMethods[$className]['after'][] = $methodName;
+            }
         }
 
         return self::$hookMethods[$className];
@@ -96,7 +94,7 @@ final class HookMethods
     /**
      * @psalm-return array{beforeClass: list<non-empty-string>, before: list<non-empty-string>, preCondition: list<non-empty-string>, postCondition: list<non-empty-string>, after: list<non-empty-string>, afterClass: list<non-empty-string>}
      */
-    private static function emptyHookMethodsArray(): array
+    private function emptyHookMethodsArray(): array
     {
         return [
             'beforeClass'   => ['setUpBeforeClass'],

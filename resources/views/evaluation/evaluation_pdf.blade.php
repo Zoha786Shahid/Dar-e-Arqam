@@ -12,7 +12,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         th,
@@ -32,13 +32,13 @@
 
         h3 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         p {
             margin: 5px 0;
             width: 32%;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .header {
@@ -48,7 +48,7 @@
         }
 
         .header img {
-            width: 100px;
+            width: 80px;
             height: auto;
         }
     </style>
@@ -57,9 +57,8 @@
 <body>
     <div class="header">
         <img src="{{ public_path('images/school.jpeg') }}" alt="School Image">
-        <h2>Dare Arqam Schools</h2>
-
     </div>
+    <h2>Dare Arqam Schools</h2>
     <h3>CLASS OBSERVATION CHECKLIST (GRADE 1-7)</h3>
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
         <p style=" display: inline-block;"><strong>Teacher's Name:</strong>
@@ -248,7 +247,7 @@
         </tbody>
     </table>
     
-    <p style="margin-top: 20px;"><strong>Observer Name:</strong>
+    <p style="margin-top: 10px;"><strong>Observer Name:</strong>
         {{ $evaluation->observer_name ?? '___________________' }}</p>
     <p style="margin-top: 10px;">
         <strong>Signature:</strong>
@@ -265,7 +264,7 @@
         {{ $evaluation->teacher_views ?? '__________________________________________________________________________' }}
     </p>
 
-    <p style="margin-top: 20px;">
+    <p style="margin-top: 10px;">
         <strong>Signature:</strong>
         <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
     </p>
