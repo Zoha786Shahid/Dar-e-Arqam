@@ -191,6 +191,34 @@
         </ul>
     </div>
 </li>
+<!-- end Evaluation Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#sidebarRoles" data-bs-toggle="collapse" role="button"
+        aria-expanded="false" aria-controls="sidebarRoles">
+        <!-- Roles Icon (certificate icon for roles management) -->
+        <i class="mdi mdi-account-key-outline"></i>
+        <span><?php echo app('translator')->get('Roles Management'); ?></span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarRoles">
+        <ul class="nav nav-sm flex-column">
+            <!-- View All Roles Link -->
+            <li class="nav-item">
+                <a href="<?php echo e(route('roles.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-file-document-outline"></i> <!-- Icon representing listing of roles -->
+                    <?php echo app('translator')->get('View All Roles'); ?>
+                </a>
+            </li>
+            <!-- Add New Role Link -->
+            <li class="nav-item">
+                <a href="<?php echo e(route('roles.create')); ?>" class="nav-link">
+                    <i class="mdi mdi-file-plus-outline"></i> <!-- Icon representing adding a new role -->
+                    <?php echo app('translator')->get('Add New Role'); ?>
+                </a>
+            </li>
+            <!-- Add more links if necessary for additional role-related actions -->
+        </ul>
+    </div>
+</li>
 
             </ul>
 
