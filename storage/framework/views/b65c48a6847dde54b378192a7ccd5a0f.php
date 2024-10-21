@@ -56,7 +56,7 @@
 
 <body>
     <div class="header">
-      
+
         
 
         <img src="<?php echo e(public_path('images/school.jpeg')); ?>" alt="School Image">
@@ -70,11 +70,16 @@
     <h3>CLASS OBSERVATION CHECKLIST (GRADE 8-10)</h3>
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Teacher's Name:</strong> <?php echo e($evaluation->teacher->first_name ?? 'N/A'); ?>
+        <p style=" display: inline-block;"><strong>Teacher's Name:</strong>
+            <?php echo e($evaluation->teacher->first_name ?? 'N/A'); ?>
 
-                <?php echo e($evaluation->teacher->last_name ?? ''); ?> </p>
-        <p style=" display: inline-block;"><strong>Qualification:</strong> <?php echo e($evaluation->teacher->qualification ?? 'N/A'); ?></p>
-        <p style="display: inline-block;"><strong>Joining Date:</strong><?php echo e(\Carbon\Carbon::parse($evaluation->teacher->joining_date)->format('d-m-Y') ?? 'N/A'); ?></p>
+            <?php echo e($evaluation->teacher->last_name ?? ''); ?> </p>
+        <p style=" display: inline-block;"><strong>Qualification:</strong>
+            <?php echo e($evaluation->teacher->qualification ?? 'N/A'); ?></p>
+        <p style="display: inline-block;"><strong>Joining
+                Date:</strong><?php echo e(\Carbon\Carbon::parse($evaluation->teacher->joining_date)->format('d-m-Y') ?? 'N/A'); ?>
+
+        </p>
     </div>
 
 
@@ -87,8 +92,8 @@
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
         <p style=" display: inline-block;"><strong>Campus:</strong> <?php echo e($evaluation->campus->name ?? 'N/A'); ?></p>
         <p style=" display: inline-block;"><strong>Total Students:</strong> 80</p>
-        <p style="display: inline-block;"><strong>Date:</strong>  <?php echo e(\Carbon\Carbon::now()->format('d-m-Y')); ?></p>
-        
+        <p style="display: inline-block;"><strong>Date:</strong> <?php echo e(\Carbon\Carbon::now()->format('d-m-Y')); ?></p>
+
     </div>
 
 
@@ -267,27 +272,34 @@
             </tr>
         </tbody>
     </table>
-    
-    
 
-    <p style="margin-top: 20px;"><strong>Observer Name:</strong> <?php echo e($evaluation->observer_name ?? '___________________'); ?></p>
+
+
+    <p style="margin-top: 20px;"><strong>Observer Name:</strong>
+        <?php echo e($evaluation->observer_name ?? '___________________'); ?></p>
     <p style="margin-top: 10px;">
-        <strong>Signature:</strong> 
+        <strong>Signature:</strong>
         <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
     </p>
-    
+
     <p style="margin-top: 10px;"><strong>Guidance by Observer:</strong></p>
-    <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;"><?php echo e($evaluation->observer_guidance ?? '__________________________________________________________________________'); ?></p>
-    
+    <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;">
+        <?php echo e($evaluation->observer_guidance ?? '__________________________________________________________________________'); ?>
+
+    </p>
+
     <p style="margin-top: 10px;"><strong>Teacher Views:</strong></p>
-    <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;"><?php echo e($evaluation->teacher_views ?? '__________________________________________________________________________'); ?></p>
-    
+    <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;">
+        <?php echo e($evaluation->teacher_views ?? '__________________________________________________________________________'); ?>
+
+    </p>
+
     <p style="margin-top: 20px;">
-        <strong>Signature:</strong> 
+        <strong>Signature:</strong>
         <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
     </p>
-    
-    
+
+
 
 </body>
 
