@@ -84,7 +84,6 @@
         <p style="display: inline-block;"><strong>Date:</strong> {{ \Carbon\Carbon::now()->format('d-m-Y') }}</p>
     </div>
 
-
     <table>
         <thead>
             <tr>
@@ -238,7 +237,7 @@
                 <td>{{ $evaluation->remarks_personality_trait_confidence ?? '' }}</td>
             </tr>
             <tr>
-                <td>21</td>
+                <td>5</td>
                 <td>Response of previous knowledge</td>
                 <td>5</td>
                 <td>{{ $evaluation->response_of_previous_knowledge ?? '' }}</td>

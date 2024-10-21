@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
-
+use App\Models\Teacher;
+use App\Models\Campus;
 class HomeController extends Controller
 {
     /**
@@ -36,7 +37,12 @@ class HomeController extends Controller
 
     public function root()
     {
-        return view('index');
+        
+        $totalTeacher = Teacher::count(); // Count total number of teachers
+        $totalCampus = Campus::count();   // Count total number of campuses
+        $totalUsers = User::count();   // Count total number of users
+        return view('index', compact('totalTeacher', 'totalCampus', 'totalUsers'));
+      
     }
 
     /*Language Translation*/

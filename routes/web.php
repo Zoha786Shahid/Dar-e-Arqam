@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportCardController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\SeniorEvaluationReportController;
 
@@ -22,6 +23,8 @@ use App\Http\Controllers\SeniorEvaluationReportController;
 // Route::resource('campus', CampusController::class);
 Route::resource('campus', CampusController::class)->middleware('permission:view campus');
 Route::resource('evaluation', EvaluationController::class);
+Route::resource('report', ReportCardController::class);
+
 Route::resource('seniorevaluation', SeniorEvaluationReportController::class);
 Route::get('seniorevaluation/{id}/download', [SeniorEvaluationReportController::class, 'downloadEvaluationPDF'])->name('seniorevaluation.download');
 Route::post('/seniorevaluation/save', [SeniorEvaluationReportController::class, 'save'])->name('seniorevaluation.save');
@@ -30,7 +33,10 @@ Route::resource('user', UserController::class);
 Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPDF'])->name('evaluation.download');
 Route::post('/evaluation/save', [EvaluationController::class, 'save'])->name('evaluation.save');
 Route::get('/get-teachers/{campusId}', [EvaluationController::class, 'getTeachers']);
-
+// download
+Route::get('reportcard/{id}/download', [ReportCardController::class, 'downloadReportCard'])->name('reportcard.download');
+Route::post('/reportcard/saveas', [ReportCardController::class, 'saveAs'])->name('reportcard.saveas');
+// Route::get('allrecords', [ReportCardController::class, 'allRecords']);
 Auth::routes();
 //Language Translation
 Route::get('index/{locale}', [App\Http\Controllers\HomeController::class, 'lang']);

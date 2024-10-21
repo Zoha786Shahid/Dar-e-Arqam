@@ -164,6 +164,33 @@
     </div>
 </li>
 <!-- end Evaluation Menu -->
+<li class="nav-item"> 
+    <a class="nav-link menu-link" href="#sidebarReportCard" data-bs-toggle="collapse" role="button"
+        aria-expanded="false" aria-controls="sidebarReportCard">
+        <!-- Report Card Icon (certificate icon for report cards) -->
+        <i class="mdi mdi-file-certificate-outline"></i>
+        <span>@lang('Report Cards')</span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarReportCard">
+        <ul class="nav nav-sm flex-column">
+            <!-- View All Report Cards Link -->
+            <li class="nav-item">
+                <a href="{{ route('report.index') }}" class="nav-link">
+                    <i class="mdi mdi-file-document-outline"></i> <!-- Icon representing listing of documents -->
+                    @lang('View All Report Cards')
+                </a>
+            </li>
+            <!-- Add New Report Card Link -->
+            <li class="nav-item">
+                <a href="{{ route('report.create') }}" class="nav-link">
+                    <i class="mdi mdi-file-plus-outline"></i> <!-- Icon representing adding a new document -->
+                    @lang('Add New Report Card')
+                </a>
+            </li>
+            <!-- Add more links if necessary for additional report-related actions -->
+        </ul>
+    </div>
+</li>
 
             </ul>
 
