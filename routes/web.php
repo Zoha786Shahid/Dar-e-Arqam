@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportCardController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SeniorEvaluationReportController;
 
 
@@ -25,7 +26,16 @@ use App\Http\Controllers\SeniorEvaluationReportController;
 Route::resource('campus', CampusController::class)->middleware('permission:view campus');
 Route::resource('evaluation', EvaluationController::class);
 Route::resource('report', ReportCardController::class);
+// Place this custom route before the resource route
+Route::get('/roles/assign-permissions-form', [RoleController::class, 'assignPermissionsForm'])->name('roles.assignPermissionsForm');
+Route::post('/roles/assign-permissions', [RoleController::class, 'assignPermissions'])->name('roles.assignPermissions');
+Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.revokePermission');
+
 Route::resource('roles', RoleController::class);
+Route::resource('permissions', PermissionController::class);
+// Route::get('/roles/assign-permissions-form', [RoleController::class, 'assignPermissionsForm'])->name('roles.assignPermissionsForm');
+// Route for assigning roles to users
+
 Route::resource('seniorevaluation', SeniorEvaluationReportController::class);
 Route::get('seniorevaluation/{id}/download', [SeniorEvaluationReportController::class, 'downloadEvaluationPDF'])->name('seniorevaluation.download');
 Route::post('/seniorevaluation/save', [SeniorEvaluationReportController::class, 'save'])->name('seniorevaluation.save');
@@ -48,6 +58,3 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('roo
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
 Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-
-
-

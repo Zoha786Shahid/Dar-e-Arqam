@@ -14,19 +14,20 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             // Drop foreign key constraint if it exists
             if (Schema::hasColumn('users', 'role_id')) {
-                $table->dropForeign(['role_id']); // Drops foreign key
-                $table->dropColumn('role_id'); // Drops the column itself
+                $table->dropForeign(['role_id']);
+                $table->dropColumn('role_id'); // Drop the role_id column
             }
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Recreate the 'role_id' column and foreign key constraint if you need to rollback
-            $table->foreignId('role_id')->nullable()->constrained('roles')->after('id');
+            // Re-add the role_id column if you rollback the migration
+            $table->foreignId('role_id')->nullable()->constrained('roles');
         });
     }
 };

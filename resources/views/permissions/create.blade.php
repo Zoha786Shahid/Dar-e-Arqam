@@ -10,7 +10,7 @@
             Forms
         @endslot
         @slot('title')
-            Roles
+        Permissions
         @endslot
     @endcomponent
 
@@ -18,49 +18,47 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">Role Form</h4>
-                    <a href="{{ route('roles.index') }}" class="btn btn-primary ms-auto">Back</a>
+                    <h4 class="card-title mb-0 flex-grow-1">Permissions Form</h4>
+                    <a href="{{ route('permissions.index') }}" class="btn btn-primary ms-auto">Back</a>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form method="POST" action="{{ route('roles.store') }}">
+                    <form method="POST" action="{{ route('permissions.store') }}">
                         @csrf
                         <div class="row gy-4">
-                            <!-- Role Name -->
+                            <!-- Permission Name -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
-                                    <label for="name" class="form-label">Role Name</label>
+                                    <label for="name" class="form-label">Permission Name</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         id="name" name="name" value="{{ old('name') }}"
-                                        placeholder="Enter Role Name" required>
+                                        placeholder="Enter Permission Name" required>
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
 
-                            <!-- Guard Name -->
+                            <!-- Guard Name (optional: default to 'web') -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="guard_name" class="form-label">Guard Name</label>
                                     <input type="text" class="form-control @error('guard_name') is-invalid @enderror"
-                                        id="guard_name" name="guard_name" value="{{ old('guard_name') }}"
+                                        id="guard_name" name="guard_name" value="{{ old('guard_name', 'web') }}"
                                         placeholder="Enter Guard Name" required>
                                     @error('guard_name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-
-
-
                         </div>
 
                         <!-- Submit Button -->
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="{{ route('roles.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('permissions.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
+
 
 
                 </div>
@@ -70,7 +68,6 @@
     </div>
     <!-- end row -->
 @endsection
-
 @section('script')
     <!-- Load jQuery before your script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

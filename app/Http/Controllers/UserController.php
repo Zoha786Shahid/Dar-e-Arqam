@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Role;
@@ -39,38 +40,45 @@ class UserController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'role_id' => 'nullable|exists:roles,id',
         ]);
-    
+
         // Handle the avatar upload if provided
         $avatarName = null; // Initialize the avatar name variable
         if ($request->hasFile('avatar')) {
             $avatarName = time() . '.' . $request->file('avatar')->extension(); // Generate a unique filename
             $request->file('avatar')->move(public_path('images'), $avatarName); // Move file to public/images
         }
-    
+
         // Create and store the new user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'avatar' => $avatarName, // Store the avatar filename in the database
-            'role_id' => $request->role_id,
         ]);
-    
+
+        // Assign the role to the user if role_id is provided
+  // Assign the role after the user is created
+if ($request->role_id) {
+    $role = Role::find($request->role_id);
+    $user->assignRole($role->name); // Assign role to the user
+}
+
+
         // Redirect to user list after successful creation
         return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
-    
+
 
     /**
      * Show the form for editing the specified user.
      */
     public function edit(User $user)
-{
-    $roles = Role::all();
-    $permissions = $user->role ? $user->role->permissions : []; // Assuming you have a relationship set up for permissions
+    {
+        $roles = Role::all();
+        $permissions = $user->role ? $user->role->permissions : []; // Assuming you have a relationship set up for permissions
 
-    return view('user.edit', compact('user', 'roles', 'permissions'));
-}
+        return view('user.edit', compact('user', 'roles', 'permissions'));
+    }
 
     /**
      * Update the specified user in storage.
@@ -85,7 +93,7 @@ class UserController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // allowing image files
             'role_id' => 'nullable|exists:roles,id',
         ]);
-    
+
         // Handle the avatar upload if a new file is provided
         if ($request->hasFile('avatar')) {
             // Delete the old avatar if it exists
@@ -95,14 +103,14 @@ class UserController extends Controller
                     unlink($oldAvatarPath); // Remove the old file
                 }
             }
-    
+
             // Generate a new unique filename
             $avatarName = time() . '.' . $request->file('avatar')->extension();
             $request->file('avatar')->move(public_path('images'), $avatarName); // Move file to public/images
         } else {
             $avatarName = $user->avatar; // Retain the old avatar if no new file is provided
         }
-    
+
         // Update user fields
         $user->update([
             'name' => $request->name,
@@ -111,11 +119,16 @@ class UserController extends Controller
             'avatar' => $avatarName, // Store the updated or old avatar filename
             'role_id' => $request->role_id,
         ]);
-    
+  // Sync role to user
+  if ($request->role_id) {
+    $role = Role::find($request->role_id);
+    $user->syncRoles($role->name); // Sync roles using the role name
+}
+
         // Redirect to user list after successful update
         return redirect()->route('user.index')->with('success', 'User updated successfully.');
     }
-    
+
 
     /**
      * Remove the specified user from storage.

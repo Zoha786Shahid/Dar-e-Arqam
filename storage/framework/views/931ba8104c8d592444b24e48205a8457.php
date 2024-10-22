@@ -16,12 +16,13 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">Role Form</h4>
+                    <h4 class="card-title mb-0 flex-grow-1">Roles Form</h4>
                     <a href="<?php echo e(route('roles.index')); ?>" class="btn btn-primary ms-auto">Back</a>
-                </div><!-- end card header -->
+                </div>
                 <div class="card-body">
-                    <form method="POST" action="<?php echo e(route('roles.store')); ?>">
+                    <form method="POST" action="<?php echo e(route('roles.update', $role->id)); ?>">
                         <?php echo csrf_field(); ?>
+                        <?php echo method_field('PUT'); ?>
                         <div class="row gy-4">
                             <!-- Role Name -->
                             <div class="col-xxl-4 col-md-6">
@@ -35,7 +36,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                        id="name" name="name" value="<?php echo e(old('name')); ?>"
+                                        id="name" name="name" value="<?php echo e(old('name', $role->name)); ?>"
                                         placeholder="Enter Role Name" required>
                                     <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -62,7 +63,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                        id="guard_name" name="guard_name" value="<?php echo e(old('guard_name')); ?>"
+                                        id="guard_name" name="guard_name" value="<?php echo e(old('guard_name', $role->guard_name)); ?>"
                                         placeholder="Enter Guard Name" required>
                                     <?php $__errorArgs = ['guard_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -77,8 +78,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
 
-                            <!-- Permissions (Optional, if using a many-to-many relationship with permissions) -->
-                            <!-- Permissions (Optional, if using a many-to-many relationship with permissions) -->
+                            <!-- Permissions -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="permissions" class="form-label">Assign Permissions</label>
@@ -90,11 +90,17 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                        id="permissions" name="permissions[]" multiple>
-                                        <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($permission->id); ?>"><?php echo e($permission->name); ?></option>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </select>
+    id="permissions" name="permissions[]" multiple>
+    <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <option value="<?php echo e($permission->id); ?>" 
+            <?php echo e(in_array($permission->id, $role->permissions->pluck('id')->toArray()) ? 'selected' : ''); ?>>
+
+            <?php echo e($permission->name); ?>
+
+        </option>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</select>
+
                                     <?php $__errorArgs = ['permissions'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -107,19 +113,18 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-
                         </div>
 
                         <!-- Submit Button -->
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                             <a href="<?php echo e(route('roles.index')); ?>" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
 
 
+
                 </div>
-                <!-- end card body -->
             </div>
         </div>
     </div>
@@ -142,10 +147,10 @@ unset($__errorArgs, $__bag); ?>
             });
         });
     </script>
-    
+
     <!-- Your other script files -->
     <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/roles/create.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/roles/edit.blade.php ENDPATH**/ ?>
