@@ -37,16 +37,17 @@ class RoleController extends Controller
      }
  
      // Display the specified role
-     public function show(Role $role)
-     {
-         return view('roles.show', compact('role'));
-     }
+ 
  
      // Show the form for editing the specified role
-     public function edit(Role $role)
+     public function edit($id)
      {
-         return view('roles.edit', compact('role'));
+         $role = Role::findOrFail($id);
+         $permissions = Permission::all(); // Or any logic you use to fetch permissions
+     
+         return view('roles.edit', compact('role', 'permissions'));
      }
+     
  
      // Update the specified role in the database
      public function update(Request $request, Role $role)
@@ -65,7 +66,6 @@ class RoleController extends Controller
      public function destroy(Role $role)
      {
          $role->delete();
- 
          return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
      }
 }
