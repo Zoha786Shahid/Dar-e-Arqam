@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+
 class RoleController extends Controller
 {
     // Display a listing of the roles
@@ -71,39 +72,80 @@ class RoleController extends Controller
         $role->delete();
         return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
     }
-     // Other Role-related methods...
+    // Other Role-related methods...
 
-     public function assignPermissionsForm()
-     {
-         // Fetch all roles and permissions
-         $roles = Role::all();
-         $permissions = Permission::all();
- 
-         // Return the view with roles and permissions
-         return view('roles.assign_permissions', compact('roles', 'permissions'));
-     }
-     public function assignPermissions(Request $request)
-     {
-         $request->validate([
-             'role_name' => 'required|exists:roles,name',
-             'permissions' => 'required|array',
-             'permissions.*' => 'exists:permissions,name',
-         ]);
- 
-         // Find the role by name
-         $role = Role::findByName($request->role_name);
- 
-         // Sync the selected permissions with the role
-         $role->syncPermissions($request->permissions);
- 
-         return redirect()->back()->with('success', 'Permissions assigned successfully.');
-     }
-     public function revokePermission(Role $role, Permission $permission)
-     {
-         // Revoke the permission from the role
-         $role->revokePermissionTo($permission);
- 
-         // Redirect back with a success message
-         return redirect()->back()->with('success', 'Permission revoked from role successfully.');
-     }
+    public function assignPermissionsForm()
+    {
+        // Fetch all roles and permissions
+        $roles = Role::all();
+        $permissions = Permission::all();
+
+        // Return the view with roles and permissions
+        return view('roles.assign_permissions', compact('roles', 'permissions'));
+    }
+    //  public function assignPermissions(Request $request)
+    //  {
+    //      $request->validate([
+    //          'role_name' => 'required|exists:roles,name',
+    //          'permissions' => 'required|array',
+    //          'permissions.*' => 'exists:permissions,name',
+    //      ]);
+
+    //      // Find the role by name
+    //      $role = Role::findByName($request->role_name);
+
+    //      // Sync the selected permissions with the role
+    //      $role->syncPermissions($request->permissions);
+    //      return redirect()->route('roles.index')->with('success', 'Permissions assigned successfully');
+
+    //  }
+
+    public function assignPermissions(Request $request)
+    {
+        // Fetch the role by name
+        $role = Role::where('name', $request->input('role_name'))->firstOrFail();
+    
+        // Check if the selected role is "Owner"
+        if ($role->name == 'Owner') {
+            // Assign all permissions to the "Owner" role
+            $allPermissions = Permission::all(); // Get all permissions
+            $role->syncPermissions($allPermissions); // Sync all permissions to the "Owner" role
+        } else {
+            // For other roles, assign the selected permissions
+            $selectedPermissions = $request->input('permissions', []);
+            $role->syncPermissions($selectedPermissions); // Sync selected permissions for the role
+        }
+    
+        return back()->with('success', 'Permissions assigned successfully!');
+    }
+    public function getRolePermissions($roleName)
+    {
+        // Fetch the role by name
+        $role = Role::where('name', $roleName)->first();
+
+        if ($role) {
+            // Get permissions already assigned to the role
+            $assignedPermissions = $role->permissions->pluck('name');
+
+            // Get all available permissions
+            $allPermissions = Permission::pluck('name');
+
+            // Return both arrays
+            return response()->json([
+                'assigned' => $assignedPermissions,
+                'all' => $allPermissions
+            ]);
+        }
+
+        return response()->json(['error' => 'Role not found'], 404);
+    }
+
+    public function revokePermission(Role $role, Permission $permission)
+    {
+        // Revoke the permission from the role
+        $role->revokePermissionTo($permission);
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Permission revoked from role successfully.');
+    }
 }

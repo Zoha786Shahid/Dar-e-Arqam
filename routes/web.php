@@ -23,24 +23,30 @@ use App\Http\Controllers\SeniorEvaluationReportController;
 |
 */
 // Route::resource('campus', CampusController::class);
-Route::resource('campus', CampusController::class)->middleware('permission:view campus');
-Route::resource('evaluation', EvaluationController::class);
-Route::resource('report', ReportCardController::class);
-// Place this custom route before the resource route
+
+// Place this custom route before the resource route ->middleware('permission:view campus');
 Route::get('/roles/assign-permissions-form', [RoleController::class, 'assignPermissionsForm'])->name('roles.assignPermissionsForm');
 Route::post('/roles/assign-permissions', [RoleController::class, 'assignPermissions'])->name('roles.assignPermissions');
 Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.revokePermission');
+Route::get('/roles/{roleName}/permissions', [RoleController::class, 'getRolePermissions']);
 
-Route::resource('roles', RoleController::class);
-Route::resource('permissions', PermissionController::class);
+// Applying permission-based middleware to each resource route
+Route::resource('campus', CampusController::class)->middleware('permission:view campus');
+Route::resource('evaluation', EvaluationController::class)->middleware('permission:view evaluation');
+Route::resource('report', ReportCardController::class)->middleware('permission:view report');
+Route::resource('roles', RoleController::class)->middleware('permission:manage roles');
+Route::resource('permissions', PermissionController::class)->middleware('permission:manage permissions');
+Route::resource('teacher', TeacherController::class)->middleware('permission:view teachers');
+Route::resource('user', UserController::class)->middleware('permission:view users');
+Route::resource('seniorevaluation', SeniorEvaluationReportController::class)->middleware('permission:view senior evaluation');
+// end apply middleware
 // Route::get('/roles/assign-permissions-form', [RoleController::class, 'assignPermissionsForm'])->name('roles.assignPermissionsForm');
 // Route for assigning roles to users
 
-Route::resource('seniorevaluation', SeniorEvaluationReportController::class);
+
 Route::get('seniorevaluation/{id}/download', [SeniorEvaluationReportController::class, 'downloadEvaluationPDF'])->name('seniorevaluation.download');
 Route::post('/seniorevaluation/save', [SeniorEvaluationReportController::class, 'save'])->name('seniorevaluation.save');
-Route::resource('teacher', TeacherController::class);
-Route::resource('user', UserController::class);
+
 Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPDF'])->name('evaluation.download');
 Route::post('/evaluation/save', [EvaluationController::class, 'save'])->name('evaluation.save');
 Route::get('/get-teachers/{campusId}', [EvaluationController::class, 'getTeachers']);
