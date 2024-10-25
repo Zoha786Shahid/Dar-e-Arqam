@@ -107,11 +107,31 @@
                                     @enderror
                                 </div>
                             </div>
-
-
-                            <!-- Display Permissions -->
-                            <!-- Display Permissions -->
+                            <!-- Campus -->
                             <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="campus_id" class="form-label">Campus</label>
+                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                        name="campus_id" required>
+                                        <option value="">Select a campus</option> <!-- Default option -->
+                                        @foreach ($campuses as $campus)
+                                            <option value="{{ $campus->id }}"
+                                                {{ old('campus_id', $user->campus_id) == $campus->id ? 'selected' : '' }}>
+                                                {{ $campus->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('campus_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!--end col-->
+
+
+
+                            <!-- Display Permissions -->
+                            {{-- <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="permissions" class="form-label">Permissions</label>
                                     @if ($permissions && $permissions->isNotEmpty())
@@ -122,7 +142,7 @@
                                         <p>No permissions assigned to this role.</p>
                                     @endif
                                 </div>
-                            </div>
+                            </div> --}}
 
 
                             <!--end col-->

@@ -27,18 +27,16 @@
                     <table class="table table-bordered table-nowrap">
                         <thead>
                             <tr>
-
                                 <th scope="col">Name</th>
                                 <th scope="col">City</th>
                                 <th scope="col">Capacity</th>
                                 <th scope="col">Status</th>
-                                <th scope="col"></th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($campuses as $campus)
                                 <tr>
-
                                     <td>{{ $campus->name }}</td>
                                     <td>{{ $campus->city }}</td>
                                     <td>{{ $campus->capacity }}</td>
@@ -53,28 +51,20 @@
                                     </td>
                                     <td>
                                         <div class="dropdown">
-                                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
+                                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="ri-more-2-fill"></i>
                                             </a>
-
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                {{-- <li><a class="dropdown-item" href="{{ route('campus.show', $campus->id) }}">View</a></li> --}}
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('campus.edit', $campus->id) }}">Edit</a></li>
+                                                <li><a class="dropdown-item" href="{{ route('campus.edit', $campus->id) }}">Edit</a></li>
                                                 <li>
-                                                    <a class="dropdown-item" href="#"
-                                                        onclick="confirmDelete(event, 'delete-form-{{ $campus->id }}')">
+                                                    <a class="dropdown-item" href="#" onclick="confirmDelete(event, 'delete-form-{{ $campus->id }}')">
                                                         Delete
                                                     </a>
                                                 </li>
-                                                <form id="delete-form-{{ $campus->id }}"
-                                                    action="{{ route('campus.destroy', $campus->id) }}" method="POST"
-                                                    style="display: none;">
+                                                <form id="delete-form-{{ $campus->id }}" action="{{ route('campus.destroy', $campus->id) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
-
                                             </ul>
                                         </div>
                                     </td>
@@ -82,6 +72,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    
                 </div>
                 <!-- end card body -->
             </div>

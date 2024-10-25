@@ -11,10 +11,30 @@ class TeacherController extends Controller
        // Display a listing of the teachers
        public function index()
        {
-           // Fetch all teachers
-           $teachers = Teacher::all();
-           return view('teachers.index', compact('teachers'));
+           try {
+               // Authorize if the user can view any teachers
+               $this->authorize('viewAny', Teacher::class);
+       
+               $user = auth()->user();
+       
+               // Show only teachers in the principal's campus
+               if ($user->hasRole('Principal')) {
+                   $teachers = Teacher::where('campus_id', $user->campus_id)->get();
+               } else {
+                   // Admins or other roles see all teachers
+                   $teachers = Teacher::all();
+               }
+       
+               return view('teachers.index', compact('teachers'));
+           } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+               // Redirect back with an error message if unauthorized
+               return redirect()->route('user.index')->with('error', 'Unauthorized access attempt.');
+           }
        }
+       
+       
+
+       
    
        // Show the form for creating a new teacher
        public function create()
@@ -135,7 +155,12 @@ class TeacherController extends Controller
                    ->withInput(); // Retain input values
            }
        }
-       
+       public function show(Teacher $teacher)
+{
+    // Pass the selected teacher to the 'show' view
+    return view('teachers.show', compact('teacher'));
+}
+
        // Remove the specified teacher from storage
        public function destroy($id)
        {

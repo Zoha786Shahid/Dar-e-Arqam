@@ -14,19 +14,34 @@ class CampusController extends Controller
         $this->middleware('permission:delete campus')->only(['destroy']);
     }
         // Display a listing of the resource
+        // public function index()
+        // {
+        //     $campuses = Campus::all();
+        //     $user = User::find(1); // Use auth()->id() to get the logged-in user dynamically
+            
+        //     // Fetch all permissions the user has
+        //     $permissions = $user->getAllPermissions(); // Correct method to get user permissions
+            
+        //     // dd('User ID: ' . $user->id . ', Permissions: ', $permissions->toArray());
+        
+        //     return view('campus.index', compact('campuses'));
+        // }
         public function index()
-        {
-            $campuses = Campus::all();
-            $user = User::find(1); // Use auth()->id() to get the logged-in user dynamically
-            
-            // Fetch all permissions the user has
-            $permissions = $user->getAllPermissions(); // Correct method to get user permissions
-            
-            // dd('User ID: ' . $user->id . ', Permissions: ', $permissions->toArray());
-        
-            return view('campus.index', compact('campuses'));
-        }
-        
+{
+    $user = auth()->user(); // Get the currently authenticated user
+
+    // If the user is a Principal, show only the assigned campus
+    if ($user->hasRole('Principal')) {
+        $campuses = Campus::where('id', $user->campus_id)->get(); // Show only the Principal's assigned campus
+    } else {
+        // Admins and other roles can see all campuses
+        $campuses = Campus::all();
+    }
+
+    // Pass the filtered campuses to the view
+    return view('campus.index', compact('campuses'));
+}
+
         // Show the form for creating a new resource
         public function create()
         {

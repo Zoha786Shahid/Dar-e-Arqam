@@ -10,7 +10,7 @@
             Forms
         @endslot
         @slot('title')
-        Users
+            Users
         @endslot
     @endcomponent
     @include('partials.alerts')
@@ -24,21 +24,34 @@
                 </div><!-- end card header -->
                 <div class="card-body">
                     <!-- Bordered Tables -->
-                    <table class="table table-bordered table-nowrap"> 
+                    <table class="table table-bordered table-nowrap">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Role</th>
+                                <th scope="col">Campus</th> <!-- Added Campus column -->
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
-                        {{-- <tbody>
+
+                        <tbody>
                             @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->role ? $user->role->name : 'No Role' }}</td> <!-- Display the role name -->
+                                    <td>
+                                        @if ($user->roles->isEmpty())
+                                            No Role
+                                        @else
+                                            {{ $user->roles->pluck('name')->join(', ') }}
+                                            <!-- Display all roles as a comma-separated list -->
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $user->campus ? $user->campus->name : 'No Campus' }}
+                                        <!-- Display the campus name -->
+                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
@@ -65,44 +78,10 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody> --}}
-                        <tbody>
-                            @foreach ($users as $user)
-                                <tr>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>
-                                        @if($user->roles->isEmpty())
-                                            No Role
-                                        @else
-                                            {{ $user->roles->pluck('name')->join(', ') }} <!-- Display all roles as a comma-separated list -->
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-2-fill"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <li><a class="dropdown-item" href="{{ route('user.edit', $user->id) }}">Edit</a></li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#" onclick="confirmDelete(event, 'delete-form-{{ $user->id }}')">
-                                                        Delete
-                                                    </a>
-                                                </li>
-                                                <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
                         </tbody>
-                        
                     </table>
-                    
+
+
 
                 </div>
                 <!-- end card body -->

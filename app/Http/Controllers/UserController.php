@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campus;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Role;
@@ -13,8 +14,10 @@ class UserController extends Controller
     public function index()
     {
         // Fetch all users and eager load their roles
+
+        $campus = Campus::all();
         $users = User::with('roles')->get(); // Eager load roles (note it's 'roles', not 'role')
-        return view('user.index', compact('users'));
+        return view('user.index', compact('users', 'campus'));
     }
 
     /**
@@ -22,9 +25,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        // Return the create user view
+        // Return the create u
+        $campuses = Campus::all();
         $roles = Role::all();
-        return view('user.create', compact('roles'));
+        return view('user.create', compact('roles', 'campuses'));
     }
 
     /**
@@ -40,6 +44,8 @@ class UserController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'role_id' => 'nullable|exists:roles,id',
+            'campus_id' => 'required|exists:campuses,id',
+
         ]);
 
         // Handle the avatar upload if provided
@@ -55,6 +61,8 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'avatar' => $avatarName, // Store the avatar filename in the database
+
+            'campus_id' => $request->campus_id,
         ]);
 
         // Assign the role to the user if role_id is provided
@@ -83,10 +91,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
+        $campuses = Campus::all();
         $userRoles = $user->roles->pluck('id')->toArray(); // Get the user's assigned roles
         $permissions = $user->roles->flatMap->permissions; // Get all permissions from the roles
 
-        return view('user.edit', compact('user', 'roles', 'userRoles', 'permissions'));
+        return view('user.edit', compact('user', 'roles', 'userRoles', 'permissions', 'campuses'));
     }
 
     /**
@@ -101,6 +110,7 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8|confirmed',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // allowing image files
             'role_id' => 'nullable|exists:roles,id',
+            'campus_id' => 'required|exists:campuses,id',
         ]);
 
         // Handle the avatar upload if a new file is provided
@@ -127,6 +137,7 @@ class UserController extends Controller
             'password' => $request->password ? Hash::make($request->password) : $user->password,
             'avatar' => $avatarName, // Store the updated or old avatar filename
             'role_id' => $request->role_id,
+            'campus_id' => $request->campus_id,
         ]);
         // Sync role to user
         if ($request->role_id) {

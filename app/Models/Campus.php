@@ -32,4 +32,9 @@ class Campus extends Model
  {
      return $this->hasMany(Teacher::class);
  }
+ public function users()
+{
+    return $this->hasMany(User::class);
+}
+
 }

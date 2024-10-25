@@ -20,6 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'campus_id',
         'email',
         'password',
         'avatar',
@@ -29,7 +30,6 @@ class User extends Authenticatable
 
     // app/Models/User.php
 
-// app/Models/User.php
 
 public function role()
 {
@@ -41,6 +41,10 @@ public function hasPermission($permissionName)
     return $this->hasPermissionTo($permissionName); // Use the Spatie method
 }
 
+public function campus()
+{
+    return $this->belongsTo(Campus::class);
+}
 
 
     /**

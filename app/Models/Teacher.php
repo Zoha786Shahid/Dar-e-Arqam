@@ -29,4 +29,5 @@ class Teacher extends Model
  {
      return $this->belongsTo(Campus::class);
  }
+
 }
