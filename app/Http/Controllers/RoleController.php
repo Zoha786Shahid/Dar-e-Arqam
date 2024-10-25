@@ -9,12 +9,28 @@ use Spatie\Permission\Models\Permission;
 class RoleController extends Controller
 {
     // Display a listing of the roles
+    // public function index()
+    // {
+    //     // Eager load permissions for roles
+    //     $roles = Role::with('permissions')->get();
+    //     return view('roles.index', compact('roles'));
+    // }
     public function index()
-    {
-        // Eager load permissions for roles
-        $roles = Role::with('permissions')->get();
-        return view('roles.index', compact('roles'));
+{
+    $roles = Role::with('permissions')->get();
+
+    // Loop through roles and auto-assign all permissions to Owner
+    foreach ($roles as $role) {
+        if ($role->name === 'Owner') {
+            // Automatically assign all available permissions to the Owner role if not already assigned
+            $allPermissions = Permission::all();
+            $role->syncPermissions($allPermissions);
+        }
     }
+
+    return view('roles.index', compact('roles'));
+}
+
 
     // Show the form for creating a new role
     // Make sure to import the Permission model

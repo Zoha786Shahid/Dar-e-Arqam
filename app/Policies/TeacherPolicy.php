@@ -13,13 +13,18 @@ class TeacherPolicy
      */
     public function viewAny(User $user)
     {
-        // Allow Admins to view all teachers
-        if ($user->hasRole('Admin')) {
+        // Owners can view any data without restrictions
+        if ($user->hasRole('Owner')) {
             return true;
         }
     
-        // Allow Principals to view the teachers list
+        // Allow Principals to view teachers in their own campus
         if ($user->hasRole('Principal')) {
+            return true;
+        }
+    
+        // Allow Admins to view all teachers
+        if ($user->hasRole('Admin')) {
             return true;
         }
     
@@ -28,36 +33,41 @@ class TeacherPolicy
     /**
      * Determine whether the user can view the model.
      */
-    // public function view(User $user, Teacher $teacher): bool
+   
+    // public function view(User $user, Teacher $teacher)
     // {
-    //     // Allow administrators to view all teachers
+    //     // Allow Admins to view all teachers
     //     if ($user->hasRole('Admin')) {
     //         return true;
     //     }
-
-    //     // Allow principals to view only teachers from their own campus
+    
+    //     // Allow Principals to view teachers in their own campus
     //     if ($user->hasRole('Principal') && $user->campus_id === $teacher->campus_id) {
     //         return true;
     //     }
-
-    //     return false; // Deny access if none of the above conditions are met
+    
+    //     // Redirect with an error message instead of logging
+    //     return redirect()->route('user.index')->with('error', 'Unauthorized access attempt.');
     // }
     public function view(User $user, Teacher $teacher)
-    {
-        // Allow Admins to view all teachers
-        if ($user->hasRole('Admin')) {
-            return true;
-        }
-    
-        // Allow Principals to view teachers in their own campus
-        if ($user->hasRole('Principal') && $user->campus_id === $teacher->campus_id) {
-            return true;
-        }
-    
-        // Redirect with an error message instead of logging
-        return redirect()->route('user.index')->with('error', 'Unauthorized access attempt.');
+{
+    // Owners can view all data
+    if ($user->hasRole('Owner')) {
+        return true;
     }
-    
+
+    // Allow Principals to view teachers in their own campus
+    if ($user->hasRole('Principal') && $user->campus_id === $teacher->campus_id) {
+        return true;
+    }
+
+    // Allow Admins to view all teachers
+    if ($user->hasRole('Admin')) {
+        return true;
+    }
+
+    return redirect()->route('user.index')->with('error', 'Unauthorized access attempt.');
+}
     /**
      * Determine whether the user can create models.
      */
@@ -70,21 +80,37 @@ class TeacherPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Teacher $teacher): bool
+    // public function update(User $user, Teacher $teacher): bool
+    // {
+    //     // Allow administrators to update all teachers
+    //     if ($user->hasRole('Admin')) {
+    //         return true;
+    //     }
+
+    //     // Allow principals to update only teachers from their own campus
+    //     if ($user->hasRole('Principal') && $user->campus_id === $teacher->campus_id) {
+    //         return true;
+    //     }
+
+    //     return false; // Deny access otherwise
+    // }
+    public function update(User $user, Teacher $teacher)
     {
-        // Allow administrators to update all teachers
-        if ($user->hasRole('Admin')) {
+        // Allow Owners to edit any teacher
+        if ($user->hasRole('Owner')) {
             return true;
         }
-
-        // Allow principals to update only teachers from their own campus
+    
+        // Add additional conditions for other roles (if any)
+        // For example, only allow Principals to update teachers from their own campus
         if ($user->hasRole('Principal') && $user->campus_id === $teacher->campus_id) {
             return true;
         }
-
-        return false; // Deny access otherwise
+    
+        // Deny access by default
+        return false;
     }
-
+    
     /**
      * Determine whether the user can delete the model.
      */

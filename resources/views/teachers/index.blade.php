@@ -49,10 +49,11 @@
 
                                         <!-- Check if the user has permission to edit the teacher -->
                                         @can('update', $teacher)
-                                            <a href="{{ route('teacher.edit', $teacher->id) }}" class="btn btn-sm btn-warning">
-                                                <i class="ri-edit-line"></i> Edit
-                                            </a>
-                                        @endcan
+                                        <a href="{{ route('teacher.edit', $teacher->id) }}" class="btn btn-sm btn-warning">
+                                            <i class="ri-edit-line"></i> Edit
+                                        </a>
+                                    @endcan
+                                    
 
                                         <!-- Check if the user has permission to delete the teacher -->
                                         {{-- @can('delete', $teacher) --}}

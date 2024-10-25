@@ -9,31 +9,53 @@ class TeacherController extends Controller
 {
 
        // Display a listing of the teachers
-       public function index()
-       {
-           try {
-               // Authorize if the user can view any teachers
-               $this->authorize('viewAny', Teacher::class);
+    //    public function index()
+    //    {
+    //        try {
+    //            // Authorize if the user can view any teachers
+    //            $this->authorize('viewAny', Teacher::class);
        
-               $user = auth()->user();
+    //            $user = auth()->user();
        
-               // Show only teachers in the principal's campus
-               if ($user->hasRole('Principal')) {
-                   $teachers = Teacher::where('campus_id', $user->campus_id)->get();
-               } else {
-                   // Admins or other roles see all teachers
-                   $teachers = Teacher::all();
-               }
+    //            // Show only teachers in the principal's campus
+    //            if ($user->hasRole('Principal')) {
+    //                $teachers = Teacher::where('campus_id', $user->campus_id)->get();
+    //            } else {
+    //                // Admins or other roles see all teachers
+    //                $teachers = Teacher::all();
+    //            }
        
-               return view('teachers.index', compact('teachers'));
-           } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-               // Redirect back with an error message if unauthorized
-               return redirect()->route('user.index')->with('error', 'Unauthorized access attempt.');
-           }
-       }
+    //            return view('teachers.index', compact('teachers'));
+    //        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+    //            // Redirect back with an error message if unauthorized
+    //            return redirect()->route('user.index')->with('error', 'Unauthorized access attempt.');
+    //        }
+    //    }
        
        
-
+    public function index()
+    {
+        try {
+            $user = auth()->user();
+    
+            // If the user has the Owner role, they can see all data
+            if ($user->hasRole('Owner')) {
+                $teachers = Teacher::all(); // Load all teachers for the Owner role
+            } elseif ($user->hasRole('Principal')) {
+                // Show only teachers in the principal's campus
+                $teachers = Teacher::where('campus_id', $user->campus_id)->get();
+            } else {
+                // Admins or other roles can also see all teachers
+                $teachers = Teacher::all();
+            }
+    
+            return view('teachers.index', compact('teachers'));
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            // Redirect back with an error message if unauthorized
+            return redirect()->route('user.index')->with('error', 'Unauthorized access attempt.');
+        }
+    }
+    
        
    
        // Show the form for creating a new teacher

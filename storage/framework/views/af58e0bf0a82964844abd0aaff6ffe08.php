@@ -47,10 +47,11 @@
 
                                         <!-- Check if the user has permission to edit the teacher -->
                                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('update', $teacher)): ?>
-                                            <a href="<?php echo e(route('teacher.edit', $teacher->id)); ?>" class="btn btn-sm btn-warning">
-                                                <i class="ri-edit-line"></i> Edit
-                                            </a>
-                                        <?php endif; ?>
+                                        <a href="<?php echo e(route('teacher.edit', $teacher->id)); ?>" class="btn btn-sm btn-warning">
+                                            <i class="ri-edit-line"></i> Edit
+                                        </a>
+                                    <?php endif; ?>
+                                    
 
                                         <!-- Check if the user has permission to delete the teacher -->
                                         
