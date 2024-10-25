@@ -204,7 +204,7 @@ public function store(Request $request)
         $evaluation = EvaluationForm::findOrFail($id);
         $evaluation->delete();
 
-        return redirect()->route('teacher.evaluation.index')->with('success', 'Evaluation deleted successfully!');
+        return redirect()->route('evaluation.index')->with('success', 'Evaluation deleted successfully!');
     }
     public function getTeachers($campusId)
     {

@@ -75,33 +75,29 @@
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="avatar" class="form-label">Avatar</label>
-                                    <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar" name="avatar">
-                                    
+                                    <input type="file" class="form-control @error('avatar') is-invalid @enderror"
+                                        id="avatar" name="avatar">
+
                                     @if ($user->avatar)
-                                        <img src="{{ asset('images/' . $user->avatar) }}" alt="Avatar" width="50" height="50" class="mt-2">
+                                        <img src="{{ asset('images/' . $user->avatar) }}" alt="Avatar" width="50"
+                                            height="50" class="mt-2">
                                     @else
                                         <p>No avatar uploaded</p> <!-- Message when no avatar is present -->
                                     @endif
-                                    
+
                                     @error('avatar')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            
-                            <!--end col-->
-
-
-
-
-                            <!-- Role (optional if roles exist) -->
-                            {{-- <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="role" class="form-label">Role</label>
                                     <select class="form-select" id="role" name="role_id" required>
                                         <option value="">Select a role</option> <!-- Placeholder option -->
                                         @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}" {{ (old('role_id', $user->role_id) == $role->id) ? 'selected' : '' }}>
+                                            <option value="{{ $role->id }}"
+                                                {{ in_array($role->id, $userRoles) ? 'selected' : '' }}>
                                                 {{ $role->name }}
                                             </option>
                                         @endforeach
@@ -110,39 +106,23 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div> --}}
-                            <!-- Role (optional if roles exist) -->
-<div class="col-xxl-4 col-md-6">
-    <div>
-        <label for="role" class="form-label">Role</label>
-        <select class="form-select" id="role" name="role_id" required>
-            <option value="">Select a role</option> <!-- Placeholder option -->
-            @foreach ($roles as $role)
-                <option value="{{ $role->id }}" {{ (old('role_id', $user->role_id) == $role->id) ? 'selected' : '' }}>
-                    {{ $role->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('role_id')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-    </div>
-</div>
+                            </div>
 
-<!-- Display Permissions -->
-<!-- Display Permissions -->
-<div class="col-xxl-4 col-md-6">
-    <div>
-        <label for="permissions" class="form-label">Permissions</label>
-        @if ($permissions && $permissions->isNotEmpty())
-            @foreach ($permissions as $permission)
-                <p>{{ $permission->name }}</p>
-            @endforeach
-        @else
-            <p>No permissions assigned to this role.</p>
-        @endif
-    </div>
-</div>
+
+                            <!-- Display Permissions -->
+                            <!-- Display Permissions -->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="permissions" class="form-label">Permissions</label>
+                                    @if ($permissions && $permissions->isNotEmpty())
+                                        @foreach ($permissions as $permission)
+                                            <p>{{ $permission->name }}</p>
+                                        @endforeach
+                                    @else
+                                        <p>No permissions assigned to this role.</p>
+                                    @endif
+                                </div>
+                            </div>
 
 
                             <!--end col-->

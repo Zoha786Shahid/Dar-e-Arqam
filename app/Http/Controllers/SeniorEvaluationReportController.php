@@ -223,11 +223,13 @@ public function update(Request $request, $id)
     
 
     // Remove the specified report from storage
-    public function destroy(SeniorEvaluationReport $seniorEvaluationReport)
-    {
-        $seniorEvaluationReport->delete();
 
-        return redirect()->route('seniorEvaluation.index')
-            ->with('success', 'Evaluation report deleted successfully.');
+    public function destroy($id)
+    {
+        // Find the evaluation by ID
+        $evaluation = SeniorEvaluationReport::findOrFail($id);
+        $evaluation->delete();
+
+        return redirect()->route('seniorevaluation.index')->with('success', 'Evaluation deleted successfully!');
     }
 }

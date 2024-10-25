@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
     public function index()
     {
-        // Fetch all users and pass them to the index view
-        // $users = User::all();
-        $users = User::with('role')->get(); // Eager load roles
+        // Fetch all users and eager load their roles
+        $users = User::with('roles')->get(); // Eager load roles (note it's 'roles', not 'role')
         return view('user.index', compact('users'));
     }
 
@@ -30,6 +30,7 @@ class UserController extends Controller
     /**
      * Store a newly created user in storage.
      */
+
     public function store(Request $request)
     {
         // Validate the incoming request data
@@ -57,16 +58,23 @@ class UserController extends Controller
         ]);
 
         // Assign the role to the user if role_id is provided
-  // Assign the role after the user is created
-if ($request->role_id) {
-    $role = Role::find($request->role_id);
-    $user->assignRole($role->name); // Assign role to the user
-}
+        if ($request->role_id) {
+            // Check if the role exists
+            $role = Role::find($request->role_id);
+
+            if (!$role) {
+                return redirect()->back()->with('error', 'Invalid role selected.');
+            }
 
 
+            // Assign the role to the user
+            $user->assignRole($role->name);
+        }
+        // dd($role->name);
         // Redirect to user list after successful creation
         return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
+
 
 
     /**
@@ -75,9 +83,10 @@ if ($request->role_id) {
     public function edit(User $user)
     {
         $roles = Role::all();
-        $permissions = $user->role ? $user->role->permissions : []; // Assuming you have a relationship set up for permissions
+        $userRoles = $user->roles->pluck('id')->toArray(); // Get the user's assigned roles
+        $permissions = $user->roles->flatMap->permissions; // Get all permissions from the roles
 
-        return view('user.edit', compact('user', 'roles', 'permissions'));
+        return view('user.edit', compact('user', 'roles', 'userRoles', 'permissions'));
     }
 
     /**
@@ -119,11 +128,11 @@ if ($request->role_id) {
             'avatar' => $avatarName, // Store the updated or old avatar filename
             'role_id' => $request->role_id,
         ]);
-  // Sync role to user
-  if ($request->role_id) {
-    $role = Role::find($request->role_id);
-    $user->syncRoles($role->name); // Sync roles using the role name
-}
+        // Sync role to user
+        if ($request->role_id) {
+            $role = Role::find($request->role_id);
+            $user->syncRoles($role->name); // Sync roles using the role name
+        }
 
         // Redirect to user list after successful update
         return redirect()->route('user.index')->with('success', 'User updated successfully.');

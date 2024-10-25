@@ -33,7 +33,7 @@
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        {{-- <tbody>
                             @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $user->name }}</td>
@@ -65,7 +65,42 @@
                                     </td>
                                 </tr>
                             @endforeach
+                        </tbody> --}}
+                        <tbody>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>
+                                        @if($user->roles->isEmpty())
+                                            No Role
+                                        @else
+                                            {{ $user->roles->pluck('name')->join(', ') }} <!-- Display all roles as a comma-separated list -->
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ri-more-2-fill"></i>
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <li><a class="dropdown-item" href="{{ route('user.edit', $user->id) }}">Edit</a></li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#" onclick="confirmDelete(event, 'delete-form-{{ $user->id }}')">
+                                                        Delete
+                                                    </a>
+                                                </li>
+                                                <form id="delete-form-{{ $user->id }}" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
+                        
                     </table>
                     
 
