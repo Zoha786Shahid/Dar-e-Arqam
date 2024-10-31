@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->string('employee_id')->unique();
             $table->date('hire_date');
-            $table->text('subjects'); // Can be a JSON array or string with subject names
+            // $table->text('subjects'); // Can be a JSON array or string with subject names
             $table->text('qualification');
             $table->text('experience');
             $table->foreignId('campus_id')->constrained()->onDelete('cascade');

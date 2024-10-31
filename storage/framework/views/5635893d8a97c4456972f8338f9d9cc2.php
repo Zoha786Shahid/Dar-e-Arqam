@@ -128,13 +128,7 @@
                             <!--end col-->
 
                             <!-- Subjects -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="subjects" class="form-label">Subjects</label>
-                                    <input type="text" class="form-control" id="subjects" name="subjects"
-                                        value="<?php echo e(old('subjects', $teacher->subjects)); ?>" required>
-                                </div>
-                            </div>
+                            
                             <!--end col-->
 
                             <!-- Qualification -->
@@ -156,7 +150,104 @@
                                 </div>
                             </div>
                             <!--end col-->
+                            
+                            <!-- Subjects Dropdown (allow multiple selection) -->
 
+
+                            <!--end col-->
+
+                            <!-- Sections Dropdown (allow multiple selection) -->
+                            <!-- Class Dropdown -->
+                            <!-- Class Dropdown -->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="classes" class="form-label">Class</label>
+                                    <select class="form-select <?php $__errorArgs = ['class_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="classDropdown"
+                                        name="class_id" required>
+                                        <option value="">Select Class</option>
+                                        <?php $__currentLoopData = $classes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $class): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($class->id); ?>"
+                                                <?php echo e((int) old('class_id', $classId) === (int) $class->id ? 'selected' : ''); ?>>
+                                                <?php echo e($class->name); ?>
+
+                                            </option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                    <?php $__errorArgs = ['class_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+
+
+                            <!-- Section Dropdown -->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="sections" class="form-label">Section</label>
+                                    <select class="form-select <?php $__errorArgs = ['section_ids'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                        id="sectionDropdown" name="section_ids[]" required>
+                                        <option value="">Select Section</option>
+                                        <?php $__currentLoopData = $sections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($section->id); ?>"
+                                                <?php echo e(in_array($section->id, $teacher->sections->pluck('id')->toArray()) ? 'selected' : ''); ?>>
+                                                <?php echo e($section->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                    <?php $__errorArgs = ['section_ids'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+                            <!--end col-->
+
+                            <!--end col-->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="subjects" class="form-label">Subjects</label>
+                                    <select class="form-select" id="subjects" name="subject_ids[]" required>
+                                        <?php $__currentLoopData = $subjects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subject): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($subject->id); ?>"
+                                                <?php echo e(is_a($teacher->subjects, 'Illuminate\Support\Collection') && $teacher->subjects->pluck('id')->contains($subject->id) ? 'selected' : ''); ?>>
+                                                <?php echo e($subject->name); ?>
+
+                                            </option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            
+
+                            
                             <!-- Campus -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
@@ -189,10 +280,45 @@
     </div>
     <!-- end row -->
 <?php $__env->stopSection(); ?>
-
 <?php $__env->startSection('script'); ?>
-    <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Get the currently selected section IDs
+        var selectedSections = <?php echo json_encode($teacher->sections->pluck('id')->toArray(), 15, 512) ?>;
+
+        // Event listener for class selection
+        $('#classDropdown').on('change', function() {
+            var classId = $(this).val();
+
+            if (classId) {
+                // Make an AJAX request to fetch sections based on selected class
+                $.ajax({
+                    url: '<?php echo e(route("get.sections.by.class")); ?>', // Define this route in web.php
+                    type: 'GET',
+                    data: { class_id: classId },
+                    success: function(data) {
+                        $('#sectionDropdown').empty(); // Clear the existing options
+                        $('#sectionDropdown').append('<option value="">Select Section</option>'); // Default option
+
+                        // Populate the dropdown with sections of the selected class
+                        $.each(data.sections, function(key, section) {
+                            // Check if this section should be selected
+                            var selected = selectedSections.includes(section.id) ? 'selected' : '';
+                            $('#sectionDropdown').append('<option value="' + section.id + '" ' + selected + '>' + section.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#sectionDropdown').empty();
+                $('#sectionDropdown').append('<option value="">Select Section</option>'); // Reset if no class is selected
+            }
+        });
+
+        // Trigger change event on page load if there is a selected class to load relevant sections
+        $('#classDropdown').trigger('change');
+    });
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/teachers/edit.blade.php ENDPATH**/ ?>

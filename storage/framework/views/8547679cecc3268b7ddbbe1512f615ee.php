@@ -87,6 +87,40 @@
                 </li>
 
                 <!-- end Campus Menu -->
+                <!-- Sections Menu -->
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarSections" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarSections">
+                        <i class="mdi mdi-view-grid-outline"></i> <span><?php echo app('translator')->get('Sections'); ?></span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarSections">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('sections.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Sections'); ?></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <!-- end Sections Menu -->
+
+                <!-- Subjects Menu -->
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarSubjects" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarSubjects">
+                        <i class="mdi mdi-book-open-variant"></i> <span><?php echo app('translator')->get('Subjects'); ?></span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarSubjects">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('subjects.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Subjects'); ?></a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <!-- end Subjects Menu -->
+
                 <!-- Teacher Menu -->
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarTeacher" data-bs-toggle="collapse" role="button"
@@ -159,7 +193,7 @@
                                     <?php echo app('translator')->get('View Evaluation 8-10'); ?>
                                 </a>
                             </li>
-                             <li class="nav-item">
+                            <li class="nav-item">
                                 <a href="<?php echo e(route('report.index')); ?>" class="nav-link">
                                     <i class="mdi mdi-clipboard-plus-outline"></i> <!-- Add Icon for evaluations -->
                                     <?php echo app('translator')->get('View Nazra Report'); ?>
@@ -169,7 +203,7 @@
                         </ul>
                     </div>
                 </li>
-          
+
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarRoles" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarRoles">
@@ -190,12 +224,13 @@
                             <!-- Add New Role Link -->
                             <li class="nav-item">
                                 <a href="<?php echo e(route('roles.assignPermissionsForm')); ?>" class="nav-link">
-                                    <i class="mdi mdi-file-key-outline"></i> <!-- Icon representing assigning permissions -->
+                                    <i class="mdi mdi-file-key-outline"></i>
+                                    <!-- Icon representing assigning permissions -->
                                     <?php echo app('translator')->get('Assign Permissions to Role'); ?>
                                 </a>
                             </li>
-                            
-                            
+
+
                             <!-- Add more links if necessary for additional role-related actions -->
                         </ul>
                     </div>
@@ -219,7 +254,7 @@
                                 </a>
                             </li>
                             <!-- Add New Permission Link -->
-                           
+
                             <!-- Add more links if necessary for additional permission-related actions -->
                         </ul>
                     </div>

@@ -128,13 +128,13 @@
                             <!--end col-->
 
                             <!-- Subjects -->
-                            <div class="col-xxl-4 col-md-6">
+                            {{-- <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="subjects" class="form-label">Subjects</label>
                                     <input type="text" class="form-control" id="subjects" name="subjects"
                                         value="{{ old('subjects', $teacher->subjects) }}" required>
                                 </div>
-                            </div>
+                            </div> --}}
                             <!--end col-->
 
                             <!-- Qualification -->
@@ -156,7 +156,74 @@
                                 </div>
                             </div>
                             <!--end col-->
+                            {{-- subjects --}}
+                            <!-- Subjects Dropdown (allow multiple selection) -->
 
+
+                            <!--end col-->
+
+                            <!-- Sections Dropdown (allow multiple selection) -->
+                            <!-- Class Dropdown -->
+                            <!-- Class Dropdown -->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="classes" class="form-label">Class</label>
+                                    <select class="form-select @error('class_id') is-invalid @enderror" id="classDropdown"
+                                        name="class_id" required>
+                                        <option value="">Select Class</option>
+                                        @foreach ($classes as $class)
+                                            <option value="{{ $class->id }}"
+                                                {{ (int) old('class_id', $classId) === (int) $class->id ? 'selected' : '' }}>
+                                                {{ $class->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('class_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <!-- Section Dropdown -->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="sections" class="form-label">Section</label>
+                                    <select class="form-select @error('section_ids') is-invalid @enderror"
+                                        id="sectionDropdown" name="section_ids[]" required>
+                                        <option value="">Select Section</option>
+                                        @foreach ($sections as $section)
+                                            <option value="{{ $section->id }}"
+                                                {{ in_array($section->id, $teacher->sections->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                {{ $section->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('section_ids')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!--end col-->
+
+                            <!--end col-->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="subjects" class="form-label">Subjects</label>
+                                    <select class="form-select" id="subjects" name="subject_ids[]" required>
+                                        @foreach ($subjects as $subject)
+                                            <option value="{{ $subject->id }}"
+                                                {{ is_a($teacher->subjects, 'Illuminate\Support\Collection') && $teacher->subjects->pluck('id')->contains($subject->id) ? 'selected' : '' }}>
+                                                {{ $subject->name }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            {{-- end zoha --}}
+
+                            {{-- end --}}
                             <!-- Campus -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
@@ -188,8 +255,43 @@
     </div>
     <!-- end row -->
 @endsection
-
 @section('script')
-    <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Get the currently selected section IDs
+        var selectedSections = @json($teacher->sections->pluck('id')->toArray());
+
+        // Event listener for class selection
+        $('#classDropdown').on('change', function() {
+            var classId = $(this).val();
+
+            if (classId) {
+                // Make an AJAX request to fetch sections based on selected class
+                $.ajax({
+                    url: '{{ route("get.sections.by.class") }}', // Define this route in web.php
+                    type: 'GET',
+                    data: { class_id: classId },
+                    success: function(data) {
+                        $('#sectionDropdown').empty(); // Clear the existing options
+                        $('#sectionDropdown').append('<option value="">Select Section</option>'); // Default option
+
+                        // Populate the dropdown with sections of the selected class
+                        $.each(data.sections, function(key, section) {
+                            // Check if this section should be selected
+                            var selected = selectedSections.includes(section.id) ? 'selected' : '';
+                            $('#sectionDropdown').append('<option value="' + section.id + '" ' + selected + '>' + section.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#sectionDropdown').empty();
+                $('#sectionDropdown').append('<option value="">Select Section</option>'); // Reset if no class is selected
+            }
+        });
+
+        // Trigger change event on page load if there is a selected class to load relevant sections
+        $('#classDropdown').trigger('change');
+    });
+</script>
 @endsection

@@ -19,7 +19,8 @@ class Teacher extends Model
         // 'profile_picture',
         'employee_id',
         'hire_date',
-        'subjects',
+        'class_id',
+        // 'subjects',
         'qualification',
         'experience',
         'campus_id',
@@ -29,5 +30,32 @@ class Teacher extends Model
  {
      return $this->belongsTo(Campus::class);
  }
+
+ // In Teacher.php model
+
+
+public function sections()
+{
+    return $this->belongsToMany(Section::class, 'teacher_section_subject')->withPivot('subject_id');
+}
+// In Teacher.php
+public function subjects()
+{
+    return $this->belongsToMany(Subject::class, 'teacher_section_subject', 'teacher_id', 'subject_id')->withPivot('section_id');
+}
+
+ // In App\Models\Teacher.php
+public function class()
+{
+    return $this->belongsTo(SchoolClass::class, 'class_id'); // assuming 'class_id' is the foreign key in the teachers table
+}
+
+
+public function sectionsSubjectsClasses()
+{
+    return $this->belongsToMany(Subject::class, 'teacher_section_subject')
+                ->withPivot('class_id', 'section_id')
+                ->withTimestamps();
+}
 
 }

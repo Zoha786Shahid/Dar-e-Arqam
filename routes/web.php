@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportCardController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SeniorEvaluationReportController;
 
@@ -29,7 +31,6 @@ Route::get('/roles/assign-permissions-form', [RoleController::class, 'assignPerm
 Route::post('/roles/assign-permissions', [RoleController::class, 'assignPermissions'])->name('roles.assignPermissions');
 Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.revokePermission');
 Route::get('/roles/{roleName}/permissions', [RoleController::class, 'getRolePermissions']);
-
 // Applying permission-based middleware to each resource route
 Route::resource('campus', CampusController::class)->middleware('permission:view campus');
 Route::resource('evaluation', EvaluationController::class)->middleware('permission:view evaluation');
@@ -39,6 +40,10 @@ Route::resource('permissions', PermissionController::class)->middleware('permiss
 Route::resource('teacher', TeacherController::class)->middleware('permission:view teachers');
 Route::resource('user', UserController::class)->middleware('permission:view users');
 Route::resource('seniorevaluation', SeniorEvaluationReportController::class)->middleware('permission:view senior evaluation');
+Route::resource('subjects', SubjectController::class);
+Route::resource('sections', SectionController::class);
+
+
 // end apply middleware
 // Route::get('/roles/assign-permissions-form', [RoleController::class, 'assignPermissionsForm'])->name('roles.assignPermissionsForm');
 // Route for assigning roles to users
@@ -49,7 +54,8 @@ Route::post('/seniorevaluation/save', [SeniorEvaluationReportController::class, 
 
 Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPDF'])->name('evaluation.download');
 Route::post('/evaluation/save', [EvaluationController::class, 'save'])->name('evaluation.save');
-Route::get('/get-teachers/{campusId}', [EvaluationController::class, 'getTeachers']);
+Route::get('/get-sections-by-class', [SectionController::class, 'getSectionsByClass'])
+    ->name('get.sections.by.class');
 // download
 Route::get('reportcard/{id}/download', [ReportCardController::class, 'downloadReportCard'])->name('reportcard.download');
 Route::post('/reportcard/saveas', [ReportCardController::class, 'saveAs'])->name('reportcard.saveas');

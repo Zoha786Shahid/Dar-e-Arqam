@@ -35,7 +35,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="first_name" name="first_name" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="first_name" name="first_name" required>
                                     <?php $__errorArgs = ['first_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -49,7 +50,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="last_name" class="form-label">Last Name</label>
@@ -60,7 +61,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="last_name" name="last_name" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="last_name" name="last_name" required>
                                     <?php $__errorArgs = ['last_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -74,7 +76,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="date_of_birth" class="form-label">Date of Birth</label>
@@ -85,7 +87,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="date_of_birth" name="date_of_birth" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="date_of_birth" name="date_of_birth" required>
                                     <?php $__errorArgs = ['date_of_birth'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -99,7 +102,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="gender" class="form-label">Gender</label>
@@ -110,7 +113,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="gender" name="gender" required>
+unset($__errorArgs, $__bag); ?>" id="gender"
+                                        name="gender" required>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                         <option value="other">Other</option>
@@ -128,7 +132,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="phone_number" class="form-label">Phone Number</label>
@@ -139,7 +143,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="phone_number" name="phone_number" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="phone_number" name="phone_number" required>
                                     <?php $__errorArgs = ['phone_number'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -153,7 +158,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="email" class="form-label">Email</label>
@@ -164,7 +169,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="email" name="email" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="email" name="email" required>
                                     <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -178,7 +184,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="address" class="form-label">Address</label>
@@ -189,7 +195,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="address" name="address" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="address" name="address" required>
                                     <?php $__errorArgs = ['address'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -203,7 +210,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="employee_id" class="form-label">Employee ID</label>
@@ -214,7 +221,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="employee_id" name="employee_id" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="employee_id" name="employee_id" required>
                                     <?php $__errorArgs = ['employee_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -228,7 +236,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="hire_date" class="form-label">Hire Date</label>
@@ -239,7 +247,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="hire_date" name="hire_date" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="hire_date" name="hire_date" required>
                                     <?php $__errorArgs = ['hire_date'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -252,33 +261,8 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-                            <!--end col-->
-                    
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="subjects" class="form-label">Subjects</label>
-                                    <input type="text" class="form-control <?php $__errorArgs = ['subjects'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" id="subjects" name="subjects" required>
-                                    <?php $__errorArgs = ['subjects'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
-                                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                </div>
-                            </div>
-                            <!--end col-->
-                    
+
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="qualification" class="form-label">Qualification</label>
@@ -289,7 +273,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="qualification" name="qualification" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="qualification" name="qualification" required>
                                     <?php $__errorArgs = ['qualification'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -303,7 +288,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
-                    
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="experience" class="form-label">Experience (Years)</label>
@@ -314,7 +299,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="experience" name="experience" required>
+unset($__errorArgs, $__bag); ?>"
+                                        id="experience" name="experience" required>
                                     <?php $__errorArgs = ['experience'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -327,8 +313,102 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
+
+                            
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="Subjects" class="form-label">Subjects</label>
+                                    <select class="form-select <?php $__errorArgs = ['campus_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="sections"
+                                            name="subject_ids[]" multiple required>
+                                        <?php $__currentLoopData = $subjects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subject): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($subject->id); ?>"><?php echo e($subject->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                    <?php $__errorArgs = ['subject_ids'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+                            
+
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="classes" class="form-label">Class</label>
+                                    <select class="form-select <?php $__errorArgs = ['class_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                        id="classDropdown" name="class_id" required>
+                                        <option value="">Select Class</option>
+                                        <?php $__currentLoopData = $classes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $class): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($class->id); ?>"><?php echo e($class->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                    <?php $__errorArgs = ['class_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+
+                            <!-- Section Dropdown -->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="sections" class="form-label">Section</label>
+                                    <select class="form-select <?php $__errorArgs = ['section_ids'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                        id="sectionDropdown" name="section_ids[]" required>
+                                        <option value="">Select Section</option>
+                                    </select>
+
+                                    <?php $__errorArgs = ['section_ids'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+
+
+
                             <!--end col-->
-                    
+
+
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">Campus</label>
@@ -339,7 +419,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="campus_id" name="campus_id" required>
+unset($__errorArgs, $__bag); ?>" id="campus_id"
+                                        name="campus_id" required>
                                         <?php $__currentLoopData = $campuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <option value="<?php echo e($campus->id); ?>"><?php echo e($campus->name); ?></option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -357,26 +438,60 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
+
                         </div>
                         <!--end row-->
-                    
+
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <a href="<?php echo e(route('teacher.index')); ?>" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
-                    
+
                 </div>
                 <!-- end card body -->
             </div>
         </div>
     </div>
     <!-- end row -->
+    
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
-    <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#classDropdown').on('change', function() {
+                var classId = $(this).val();
+                if (classId) {
+                    $.ajax({
+                        url: '<?php echo e(route('get.sections.by.class')); ?>', // Fetch sections route
+                        type: 'GET',
+                        data: {
+                            class_id: classId
+                        },
+                        success: function(data) {
+                            $('#sectionDropdown').empty();
+                            $('#sectionDropdown').append(
+                                '<option value="">Select Section</option>');
+                            $.each(data.sections, function(key, section) {
+                                $('#sectionDropdown').append('<option value="' + section
+                                    .id + '">' + section.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#sectionDropdown').empty();
+                    $('#sectionDropdown').append('<option value="">Select Section</option>');
+                }
+            });
+        });
+    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/teachers/create.blade.php ENDPATH**/ ?>
