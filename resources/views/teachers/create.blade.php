@@ -100,7 +100,67 @@
                                 </div>
                             </div>
                             <!--end col-->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="campus_id" class="form-label">Campus</label>
+                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                        name="campus_id" required>
+                                        @foreach ($campuses as $campus)
+                                            <option value="{{ $campus->id }}">{{ $campus->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('campus_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
 
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="classes" class="form-label">Class</label>
+                                    <select class="form-select @error('class_id') is-invalid @enderror" id="classDropdown"
+                                        name="class_id" required>
+                                        <option value="">Select Class</option>
+                                        @foreach ($classes as $class)
+                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('class_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <!-- Section Dropdown -->
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="sections" class="form-label">Section</label>
+                                    <select class="form-select @error('section_ids') is-invalid @enderror"
+                                        id="sectionDropdown" name="section_ids[]" required>
+                                        <option value="">Select Section</option>
+                                    </select>
+
+                                    @error('section_ids')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="subjects" class="form-label">Assign Subjects </label>
+                                    <select class="selectpicker @error('campus_id') is-invalid @enderror" id="sections"
+                                        name="subject_ids[]" multiple required data-live-search="true"
+                                        data-style="btn-white" title="Nothing selected">
+                                        @foreach ($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('subject_ids')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!--end col-->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="address" class="form-label">Address</label>
@@ -140,7 +200,8 @@
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="qualification" class="form-label">Qualification</label>
-                                    <input type="text" class="form-control @error('qualification') is-invalid @enderror"
+                                    <input type="text"
+                                        class="form-control @error('qualification') is-invalid @enderror"
                                         id="qualification" name="qualification" required>
                                     @error('qualification')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -160,86 +221,7 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="Subjects" class="form-label">Subjects</label>
-                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="sections"
-                                        name="subject_ids[]" required>
-                                        @foreach ($subjects as $subject)
-                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('section_ids')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div> --}}
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="Subjects" class="form-label">Subjects</label>
-                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="sections"
-                                        name="subject_ids[]" multiple required>
-                                        @foreach ($subjects as $subject)
-                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('subject_ids')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="classes" class="form-label">Class</label>
-                                    <select class="form-select @error('class_id') is-invalid @enderror"
-                                        id="classDropdown" name="class_id" required>
-                                        <option value="">Select Class</option>
-                                        @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('class_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- Section Dropdown -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="sections" class="form-label">Section</label>
-                                    <select class="form-select @error('section_ids') is-invalid @enderror"
-                                        id="sectionDropdown" name="section_ids[]" required>
-                                        <option value="">Select Section</option>
-                                    </select>
-
-                                    @error('section_ids')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-
-
-                            <!--end col-->
-
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="campus_id" class="form-label">Campus</label>
-                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
-                                        name="campus_id" required>
-                                        @foreach ($campuses as $campus)
-                                            <option value="{{ $campus->id }}">{{ $campus->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('campus_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
                             <!--end col-->
 
                         </div>
@@ -260,10 +242,13 @@
 @endsection
 
 @section('script')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
-    {{-- <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.selectpicker').selectpicker();
+        });
+    </script>
+
+    <!-- Additional Scripts for other Dropdowns -->
     <script>
         $(document).ready(function() {
             $('#classDropdown').on('change', function() {
