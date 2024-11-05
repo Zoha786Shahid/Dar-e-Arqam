@@ -13,7 +13,12 @@
             Teachers Form
         @endslot
     @endcomponent
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            color: black;
+        }
+    </style>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -148,13 +153,22 @@
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="subjects" class="form-label">Assign Subjects </label>
-                                    <select class="selectpicker @error('campus_id') is-invalid @enderror" id="sections"
+                                    <!-- <select class="selectpicker @error('campus_id') is-invalid @enderror" id="sections"
                                         name="subject_ids[]" multiple required data-live-search="true"
                                         data-style="btn-white" title="Nothing selected">
                                         @foreach ($subjects as $subject)
                                             <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                                         @endforeach
-                                    </select>
+                                    </select> -->
+                                    
+                                        <div class="vstack gap-3">
+                                        <select class="form-control js-example-disabled-multi"  name="subject_ids[]" multiple="multiple">
+                                            <option value="" selected>Select subject</option>
+                                        @foreach ($subjects as $subject)
+                                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                    @endforeach
+                                        </select>
+                                        </div>
                                     @error('subject_ids')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -227,6 +241,12 @@
                         </div>
                         <!--end row-->
 
+
+                      
+
+
+
+
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">Submit</button>
                             <a href="{{ route('teacher.index') }}" class="btn btn-secondary">Cancel</a>
@@ -239,9 +259,14 @@
         </div>
     </div>
     <!-- end row -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="assets/js/pages/select2.init.js"></script>
 @endsection
 
 @section('script')
+
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('.selectpicker').selectpicker();
