@@ -14,10 +14,16 @@ return new class extends Migration
         Schema::create('teacher_section_subject', function (Blueprint $table) {
             $table->id();
             $table->foreignId('teacher_id')->constrained()->onDelete('cascade');
+            $table->foreignId('class_id')->constrained()->onDelete('cascade');
             $table->foreignId('section_id')->constrained()->onDelete('cascade');
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+        
+            // Specify a shorter name for the unique index
+            $table->unique(['teacher_id', 'class_id', 'section_id', 'subject_id'], 'teacher_section_unique');
         });
+        
+        
     }
 
     /**

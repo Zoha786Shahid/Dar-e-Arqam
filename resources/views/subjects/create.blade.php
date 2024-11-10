@@ -10,7 +10,7 @@
             Forms
         @endslot
         @slot('title')
-        Subjects Form
+            Subjects Form
         @endslot
     @endcomponent
 

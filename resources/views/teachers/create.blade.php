@@ -13,12 +13,13 @@
             Teachers Form
         @endslot
     @endcomponent
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+    {{-- <style>
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
             color: black;
-        }
+        } --}}
     </style>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -30,7 +31,7 @@
                     <form method="POST" action="{{ route('teacher.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="row gy-4">
-                            <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="first_name" class="form-label">First Name</label>
                                     <input type="text" class="form-control @error('first_name') is-invalid @enderror"
@@ -42,7 +43,7 @@
                             </div>
                             <!--end col-->
 
-                            <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="last_name" class="form-label">Last Name</label>
                                     <input type="text" class="form-control @error('last_name') is-invalid @enderror"
@@ -54,7 +55,7 @@
                             </div>
                             <!--end col-->
 
-                            <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="date_of_birth" class="form-label">Date of Birth</label>
                                     <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror"
@@ -66,7 +67,7 @@
                             </div>
                             <!--end col-->
 
-                            <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="gender" class="form-label">Gender</label>
                                     <select class="form-select @error('gender') is-invalid @enderror" id="gender"
@@ -82,7 +83,7 @@
                             </div>
                             <!--end col-->
 
-                            <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="phone_number" class="form-label">Phone Number</label>
                                     <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
@@ -94,7 +95,7 @@
                             </div>
                             <!--end col-->
 
-                            <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
@@ -105,7 +106,64 @@
                                 </div>
                             </div>
                             <!--end col-->
-                            <div class="col-xxl-4 col-md-6">
+
+                            <div class="col-xxl-3 col-md-6">
+                                <div>
+                                    <label for="employee_id" class="form-label">Employee ID</label>
+                                    <input type="text" class="form-control @error('employee_id') is-invalid @enderror"
+                                        id="employee_id" name="employee_id" required>
+                                    @error('employee_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-xxl-3 col-md-6">
+                                <div>
+                                    <label for="qualification" class="form-label">Qualification</label>
+                                    <input type="text" class="form-control @error('qualification') is-invalid @enderror"
+                                        id="qualification" name="qualification" required>
+                                    @error('qualification')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-xxl-3 col-md-6">
+                                <div>
+                                    <label for="experience" class="form-label">Experience (Years)</label>
+                                    <input type="number" class="form-control @error('experience') is-invalid @enderror"
+                                        id="experience" name="experience" required>
+                                    @error('experience')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <!--end col-->
+                            <div class="col-xxl-3 col-md-6">
+                                <div>
+                                    <label for="hire_date" class="form-label">Hire Date</label>
+                                    <input type="date" class="form-control @error('hire_date') is-invalid @enderror"
+                                        id="hire_date" name="hire_date" required>
+                                    @error('hire_date')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-6">
+                                <div>
+                                    <label for="address" class="form-label">Address</label>
+                                    <input type="text" class="form-control @error('address') is-invalid @enderror"
+                                        id="address" name="address" required>
+                                    @error('address')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!--end col-->
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">Campus</label>
                                     <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
@@ -119,130 +177,61 @@
                                     @enderror
                                 </div>
                             </div>
+                            <!-- Dynamic Subject-Class-Section Assignment -->
+                            <div class="col-xxl-12">
 
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="classes" class="form-label">Class</label>
-                                    <select class="form-select @error('class_id') is-invalid @enderror" id="classDropdown"
-                                        name="class_id" required>
-                                        <option value="">Select Class</option>
-                                        @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('class_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- Section Dropdown -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="sections" class="form-label">Section</label>
-                                    <select class="form-select @error('section_ids') is-invalid @enderror"
-                                        id="sectionDropdown" name="section_ids[]" required>
-                                        <option value="">Select Section</option>
-                                    </select>
-
-                                    @error('section_ids')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="subjects" class="form-label">Assign Subjects </label>
-                                    <!-- <select class="selectpicker @error('campus_id') is-invalid @enderror" id="sections"
-                                        name="subject_ids[]" multiple required data-live-search="true"
-                                        data-style="btn-white" title="Nothing selected">
-                                        @foreach ($subjects as $subject)
-                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                                        @endforeach
-                                    </select> -->
-                                    
-                                        <div class="vstack gap-3">
-                                        <select class="form-control js-example-disabled-multi"  name="subject_ids[]" multiple="multiple">
-                                            <option value="" selected>Select subject</option>
-                                        @foreach ($subjects as $subject)
-                                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                                    @endforeach
-                                        </select>
+                                <div id="subjectClassSectionContainer">
+                                    <div class="row gy-3 subject-class-section-group">
+                                        <div class="col-xxl-3 col-md-6">
+                                            <label class="form-label">Assign Subjects</label>
+                                            <select class="form-control js-example-disabled-multi" name="subject_ids[]"
+                                                multiple="multiple" required>
+                                                <option value="" disabled>Select subject</option>
+                                                @foreach ($subjects as $subject)
+                                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                    @error('subject_ids')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                        <div class="col-xxl-3 col-md-6">
+                                            <label class="form-label">Class</label>
+                                            <select class="form-select classDropdown" name="class_ids[]" required>
+                                                <option value="">Select Class</option>
+                                                @foreach ($classes as $class)
+                                                    <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-xxl-3 col-md-">
+                                            <label class="form-label">Section</label>
+                                            <select class="form-select sectionDropdown" name="section_ids[]" required>
+                                                <option value="">Select Section</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xxl-3 col-md-2">
+                                            <!-- Add More Button -->
+                                            <button type="button" class="btn btn-secondary mt-4 add-more-btn">Add
+                                                More</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <!--end col-->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                        id="address" name="address" required>
-                                    @error('address')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="employee_id" class="form-label">Employee ID</label>
-                                    <input type="text" class="form-control @error('employee_id') is-invalid @enderror"
-                                        id="employee_id" name="employee_id" required>
-                                    @error('employee_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="hire_date" class="form-label">Hire Date</label>
-                                    <input type="date" class="form-control @error('hire_date') is-invalid @enderror"
-                                        id="hire_date" name="hire_date" required>
-                                    @error('hire_date')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                            {{-- end --}}
 
 
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="qualification" class="form-label">Qualification</label>
-                                    <input type="text"
-                                        class="form-control @error('qualification') is-invalid @enderror"
-                                        id="qualification" name="qualification" required>
-                                    @error('qualification')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="experience" class="form-label">Experience (Years)</label>
-                                    <input type="number" class="form-control @error('experience') is-invalid @enderror"
-                                        id="experience" name="experience" required>
-                                    @error('experience')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
 
-                            <!--end col-->
+
+
+
+
+
+
 
                         </div>
                         <!--end row-->
 
 
-                      
+
 
 
 
@@ -258,48 +247,74 @@
             </div>
         </div>
     </div>
-    <!-- end row -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="assets/js/pages/select2.init.js"></script>
 @endsection
 
 @section('script')
-
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.selectpicker').selectpicker();
-        });
-    </script>
-
-    <!-- Additional Scripts for other Dropdowns -->
     <script>
-        $(document).ready(function() {
-            $('#classDropdown').on('change', function() {
-                var classId = $(this).val();
-                if (classId) {
-                    $.ajax({
-                        url: '{{ route('get.sections.by.class') }}', // Fetch sections route
-                        type: 'GET',
-                        data: {
-                            class_id: classId
-                        },
-                        success: function(data) {
-                            $('#sectionDropdown').empty();
-                            $('#sectionDropdown').append(
-                                '<option value="">Select Section</option>');
-                            $.each(data.sections, function(key, section) {
-                                $('#sectionDropdown').append('<option value="' + section
-                                    .id + '">' + section.name + '</option>');
-                            });
-                        }
-                    });
-                } else {
-                    $('#sectionDropdown').empty();
-                    $('#sectionDropdown').append('<option value="">Select Section</option>');
-                }
+        $(document).on('click', '.add-more-btn', function() {
+            let newGroup = $('.subject-class-section-group:first').clone();
+
+            // Reset all values in the cloned group
+            newGroup.find('select').each(function() {
+                $(this).val(null).trigger('change'); // Reset select values
+                $(this).removeAttr('data-select2-id'); // Remove Select2 ID
             });
+
+            // Remove existing Select2 containers in the cloned group
+            newGroup.find('.select2-container').remove();
+
+            // Reinitialize Select2 for the new group
+            newGroup.find('.js-example-disabled-multi').select2({
+                placeholder: "Select Subject",
+                allowClear: true
+            });
+
+            // Clear input values in the cloned group
+            newGroup.find('input').val('');
+
+            // Replace "Add More" button with "Remove" button in the cloned group
+            newGroup.find('.add-more-btn').replaceWith(
+                '<button type="button" class="btn btn-danger remove-btn mt-4">Remove</button>'
+            );
+
+            // Append the new group to the container
+            $('#subjectClassSectionContainer').append(newGroup);
+
+            // Reinitialize Select2 for the container to ensure all rows are initialized
+            $('#subjectClassSectionContainer .js-example-disabled-multi').select2({
+                placeholder: "Select Subject",
+                allowClear: true
+            });
+        });
+
+        // Remove Button Functionality
+        $(document).on('click', '.remove-btn', function() {
+            $(this).closest('.subject-class-section-group').remove(); // Removes the closest group
+        });
+
+
+        $(document).on('change', '.classDropdown', function() {
+            var classId = $(this).val();
+            var sectionDropdown = $(this).closest('.subject-class-section-group').find('.sectionDropdown');
+
+            if (classId) {
+                $.ajax({
+                    url: '{{ route('get.sections.by.class') }}',
+                    type: 'GET',
+                    data: {
+                        class_id: classId
+                    },
+                    success: function(data) {
+                        sectionDropdown.empty().append('<option value="">Select Section</option>');
+                        $.each(data.sections, function(key, section) {
+                            sectionDropdown.append('<option value="' + section.id + '">' +
+                                section.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                sectionDropdown.empty().append('<option value="">Select Section</option>');
+            }
         });
     </script>
 @endsection

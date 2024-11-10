@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    @lang('translation.campus-form')
+    @lang('translation.edit-teacher')
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
             Forms
         @endslot
         @slot('title')
-            Edit Teacher
+            Edit Teacher Form
         @endslot
     @endcomponent
 
@@ -18,280 +18,222 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">Edit Teacher</h4>
+                    <h4 class="card-title mb-0 flex-grow-1"> Edit Teacher Form </h4>
+                    @foreach ($errors->all() as $erros)
+                        <li>{{ $erros }}</li>
+                    @endforeach
                     <a href="{{ route('teacher.index') }}" class="btn btn-primary ms-auto">Back</a>
-                </div><!-- end card header -->
+                </div>
                 <div class="card-body">
-                    <!-- Form for editing Teacher -->
-
-                    <form action="{{ route('teacher.update', $teacher->id) }}" method="POST" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('teacher.update', $teacher->id) }}" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT') <!-- or @method('PATCH') for partial updates -->
-
+                        @method('PUT')
                         <div class="row gy-4">
-                            <!-- First Name -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="first_name" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name"
-                                        value="{{ old('first_name', $teacher->first_name) }}" required>
+                            @php
+                                $fields = [
+                                    'first_name' => 'First Name',
+                                    'last_name' => 'Last Name',
+                                    'date_of_birth' => 'Date of Birth',
+                                    'phone_number' => 'Phone Number',
+                                    'email' => 'Email',
+                                    'employee_id' => 'Employee ID',
+                                    'qualification' => 'Qualification',
+                                    'experience' => 'Experience (Years)',
+                                    'hire_date' => 'Hire Date',
+                                    'address' => 'Address',
+                                ];
+                            @endphp
+                            @foreach ($fields as $field => $label)
+                                <div class="col-xxl-3 col-md-6">
+                                    <div>
+                                        <label for="{{ $field }}" class="form-label">{{ $label }}</label>
+                                        <input
+                                            type="{{ in_array($field, ['date_of_birth', 'hire_date']) ? 'date' : 'text' }}"
+                                            class="form-control @error($field) is-invalid @enderror"
+                                            id="{{ $field }}" name="{{ $field }}"
+                                            value="{{ old($field, $teacher->$field) }}" required>
+                                        @error($field)
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                            <!--end col-->
+                            @endforeach
 
-                            <!-- Last Name -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="last_name" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name"
-                                        value="{{ old('last_name', $teacher->last_name) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Date of Birth -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="date_of_birth" class="form-label">Date of Birth</label>
-                                    <input type="date" class="form-control" id="date_of_birth" name="date_of_birth"
-                                        value="{{ old('date_of_birth', $teacher->date_of_birth) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Gender -->
-                            <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="gender" class="form-label">Gender</label>
-                                    <select class="form-select" id="gender" name="gender" required>
-                                        <option value="male"
-                                            {{ old('gender', $teacher->gender) == 'male' ? 'selected' : '' }}>Male</option>
-                                        <option value="female"
-                                            {{ old('gender', $teacher->gender) == 'female' ? 'selected' : '' }}>Female
+                                    <select class="form-select @error('gender') is-invalid @enderror" id="gender"
+                                        name="gender" required>
+                                        <option value="male" {{ $teacher->gender === 'male' ? 'selected' : '' }}>Male
                                         </option>
-                                        <option value="other"
-                                            {{ old('gender', $teacher->gender) == 'other' ? 'selected' : '' }}>Other
+                                        <option value="female" {{ $teacher->gender === 'female' ? 'selected' : '' }}>Female
+                                        </option>
+                                        <option value="other" {{ $teacher->gender === 'other' ? 'selected' : '' }}>Other
                                         </option>
                                     </select>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Phone Number -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="phone_number" class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control" id="phone_number" name="phone_number"
-                                        value="{{ old('phone_number', $teacher->phone_number) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Email -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        value="{{ old('email', $teacher->email) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Address -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="address" class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address"
-                                        value="{{ old('address', $teacher->address) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Employee ID -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="employee_id" class="form-label">Employee ID</label>
-                                    <input type="text" class="form-control" id="employee_id" name="employee_id"
-                                        value="{{ old('employee_id', $teacher->employee_id) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Hire Date -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="hire_date" class="form-label">Hire Date</label>
-                                    <input type="date" class="form-control" id="hire_date" name="hire_date"
-                                        value="{{ old('hire_date', $teacher->hire_date) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Subjects -->
-                            {{-- <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="subjects" class="form-label">Subjects</label>
-                                    <input type="text" class="form-control" id="subjects" name="subjects"
-                                        value="{{ old('subjects', $teacher->subjects) }}" required>
-                                </div>
-                            </div> --}}
-                            <!--end col-->
-
-                            <!-- Qualification -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="qualification" class="form-label">Qualification</label>
-                                    <input type="text" class="form-control" id="qualification" name="qualification"
-                                        value="{{ old('qualification', $teacher->qualification) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!-- Experience -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="experience" class="form-label">Experience</label>
-                                    <input type="text" class="form-control" id="experience" name="experience"
-                                        value="{{ old('experience', $teacher->experience) }}" required>
-                                </div>
-                            </div>
-                            <!--end col-->
-                            {{-- subjects --}}
-                            <!-- Subjects Dropdown (allow multiple selection) -->
-
-
-                            <!--end col-->
-
-                            <!-- Sections Dropdown (allow multiple selection) -->
-                            <!-- Class Dropdown -->
-                            <!-- Class Dropdown -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="classes" class="form-label">Class</label>
-                                    <select class="form-select @error('class_id') is-invalid @enderror" id="classDropdown"
-                                        name="class_id" required>
-                                        <option value="">Select Class</option>
-                                        @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}"
-                                                {{ (int) old('class_id', $classId) === (int) $class->id ? 'selected' : '' }}>
-                                                {{ $class->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('class_id')
+                                    @error('gender')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
 
-
-                            <!-- Section Dropdown -->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="sections" class="form-label">Section</label>
-                                    <select class="form-select @error('section_ids') is-invalid @enderror"
-                                        id="sectionDropdown" name="section_ids[]" required>
-                                        <option value="">Select Section</option>
-                                        @foreach ($sections as $section)
-                                            <option value="{{ $section->id }}"
-                                                {{ in_array($section->id, $teacher->sections->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                {{ $section->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('section_ids')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!--end col-->
-
-                            <!--end col-->
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="subjects" class="form-label">Subjects</label>
-                                    <select class="form-select" id="subjects" name="subject_ids[]" required>
-                                        @foreach ($subjects as $subject)
-                                            <option value="{{ $subject->id }}"
-                                                {{ is_a($teacher->subjects, 'Illuminate\Support\Collection') && $teacher->subjects->pluck('id')->contains($subject->id) ? 'selected' : '' }}>
-                                                {{ $subject->name }}
-                                            </option>
-                                        @endforeach
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            {{-- end zoha --}}
-
-                            {{-- end --}}
-                            <!-- Campus -->
-                            <div class="col-xxl-4 col-md-6">
+                            <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">Campus</label>
-                                    <select class="form-select" id="campus_id" name="campus_id" required>
+                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                        name="campus_id" required>
                                         @foreach ($campuses as $campus)
                                             <option value="{{ $campus->id }}"
-                                                {{ old('campus_id', $teacher->campus_id) == $campus->id ? 'selected' : '' }}>
+                                                {{ $teacher->campus_id == $campus->id ? 'selected' : '' }}>
                                                 {{ $campus->name }}
                                             </option>
                                         @endforeach
                                     </select>
+                                    @error('campus_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
-                            <!--end col-->
+                            <div class="col-xxl-12">
+                                <div id="subjectClassSectionContainer">
+                                    @foreach ($teacher->teacherSectionSubjects ?? [] as $index => $assignment)
+                                        <div class="row gy-3 subject-class-section-group">
+                                            <!-- Hidden field for existing assignment ID -->
+                                            <input type="hidden" name="assignment_ids[]" value="{{ $assignment->id }}">
+
+                                            <!-- Assign Subjects -->
+                                            <div class="col-xxl-3 col-md-6">
+                                                <label class="form-label">Assign Subjects</label>
+                                                <select class="form-control js-example-disabled-multi" name="subject_ids[]"
+                                                    multiple="multiple" required>
+                                                    @foreach ($subjects as $subject)
+                                                        <option value="{{ $subject->id }}"
+                                                            {{ in_array($subject->id, [$assignment->subject_id]) ? 'selected' : '' }}>
+                                                            {{ $subject->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <!-- Class Dropdown -->
+                                            <div class="col-xxl-3 col-md-6">
+                                                <label class="form-label">Class</label>
+                                                <select class="form-select classDropdown" name="class_ids[]" required>
+                                                    @foreach ($classes as $class)
+                                                        <option value="{{ $class->id }}"
+                                                            {{ $assignment->class_id == $class->id ? 'selected' : '' }}>
+                                                            {{ $class->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <!-- Section Dropdown -->
+                                            <div class="col-xxl-3 col-md-6">
+                                                <label class="form-label">Section</label>
+                                                <select class="form-select sectionDropdown" name="section_ids[]" required>
+                                                    @foreach ($sections as $section)
+                                                        <option value="{{ $section->id }}"
+                                                            {{ $assignment->section_id == $section->id ? 'selected' : '' }}>
+                                                            {{ $section->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-xxl-3 col-md-2">
+                                                <!-- Add More Button -->
+                                                <button type="button" class="btn btn-secondary mt-4 add-more-btn">Add
+                                                    More</button>
+                                            </div>
+                                            <!-- Remove Button -->
+
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                            </div>
+
                         </div>
-                        <!--end row-->
 
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">Update</button>
                             <a href="{{ route('teacher.index') }}" class="btn btn-secondary">Cancel</a>
                         </div>
-                    </form>
 
+
+                    </form>
                 </div>
-                <!-- end card body -->
             </div>
         </div>
     </div>
-    <!-- end row -->
 @endsection
-@section('script')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // Get the currently selected section IDs
-        var selectedSections = @json($teacher->sections->pluck('id')->toArray());
 
-        // Event listener for class selection
-        $('#classDropdown').on('change', function() {
+@section('script')
+    <script>
+        $(document).on('click', '.add-more-btn', function() {
+            let newGroup = $('.subject-class-section-group:first').clone();
+
+            // Reset all values in the cloned group
+            newGroup.find('select').each(function() {
+                $(this).val(null).trigger('change'); // Reset select values
+                $(this).removeAttr('data-select2-id'); // Remove Select2 ID
+            });
+
+            // Remove existing Select2 containers in the cloned group
+            newGroup.find('.select2-container').remove();
+
+            // Reinitialize Select2 for the new group
+            newGroup.find('.js-example-disabled-multi').select2({
+                placeholder: "Select Subject",
+                allowClear: true
+            });
+
+            // Clear input values in the cloned group
+            newGroup.find('input').val('');
+
+            // Replace "Add More" button with "Remove" button in the cloned group
+            newGroup.find('.add-more-btn').replaceWith(
+                '<button type="button" class="btn btn-danger remove-btn mt-4">Remove</button>'
+            );
+
+            // Append the new group to the container
+            $('#subjectClassSectionContainer').append(newGroup);
+
+            // Reinitialize Select2 for the container to ensure all rows are initialized
+            $('#subjectClassSectionContainer .js-example-disabled-multi').select2({
+                placeholder: "Select Subject",
+                allowClear: true
+            });
+        });
+
+        // Remove Button Functionality
+        $(document).on('click', '.remove-btn', function() {
+            $(this).closest('.subject-class-section-group').remove(); // Removes the closest group
+        });
+
+
+        $(document).on('change', '.classDropdown', function() {
             var classId = $(this).val();
+            var sectionDropdown = $(this).closest('.subject-class-section-group').find('.sectionDropdown');
 
             if (classId) {
-                // Make an AJAX request to fetch sections based on selected class
                 $.ajax({
-                    url: '{{ route("get.sections.by.class") }}', // Define this route in web.php
+                    url: '{{ route('get.sections.by.class') }}',
                     type: 'GET',
-                    data: { class_id: classId },
+                    data: {
+                        class_id: classId
+                    },
                     success: function(data) {
-                        $('#sectionDropdown').empty(); // Clear the existing options
-                        $('#sectionDropdown').append('<option value="">Select Section</option>'); // Default option
-
-                        // Populate the dropdown with sections of the selected class
+                        sectionDropdown.empty().append('<option value="">Select Section</option>');
                         $.each(data.sections, function(key, section) {
-                            // Check if this section should be selected
-                            var selected = selectedSections.includes(section.id) ? 'selected' : '';
-                            $('#sectionDropdown').append('<option value="' + section.id + '" ' + selected + '>' + section.name + '</option>');
+                            sectionDropdown.append('<option value="' + section.id + '">' +
+                                section.name + '</option>');
                         });
                     }
                 });
             } else {
-                $('#sectionDropdown').empty();
-                $('#sectionDropdown').append('<option value="">Select Section</option>'); // Reset if no class is selected
+                sectionDropdown.empty().append('<option value="">Select Section</option>');
             }
         });
-
-        // Trigger change event on page load if there is a selected class to load relevant sections
-        $('#classDropdown').trigger('change');
-    });
-</script>
+    </script>
 @endsection

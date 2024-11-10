@@ -9,6 +9,7 @@ use App\Models\Section;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Log;
 use App\Models\SchoolClass;
+use App\Models\TeacherSectionSubject;
 use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
@@ -36,11 +37,6 @@ class TeacherController extends Controller
             return redirect()->route('user.index')->with('error', 'Unauthorized access attempt.');
         }
     }
-
-
-
-
-
     public function create()
     {
         $campuses = Campus::all();
@@ -77,10 +73,12 @@ class TeacherController extends Controller
                 'campus_id' => 'required|exists:campuses,id',
                 'subject_ids' => 'required|array',
                 'subject_ids.*' => 'exists:subjects,id',
-                'section_ids' => 'required|array',
+                'class_ids' => 'required|array|size:' . count($request->subject_ids),
+                'class_ids.*' => 'exists:classes,id',
+                'section_ids' => 'required|array|size:' . count($request->subject_ids),
                 'section_ids.*' => 'exists:sections,id',
             ]);
-    
+
             // Create the new teacher
             $teacher = Teacher::create([
                 'first_name' => $request->first_name,
@@ -96,22 +94,18 @@ class TeacherController extends Controller
                 'experience' => $request->experience,
                 'campus_id' => $request->campus_id,
             ]);
-    
-            // Attach subjects and sections with class_id to the teacher in the pivot table
-            foreach ($request->section_ids as $sectionId) {
-                // Retrieve the class_id associated with this section
-                $section = Section::findOrFail($sectionId);
-                $classId = $section->class_id;
-    
-                // Attach each subject with this section and class
-                foreach ($request->subject_ids as $subjectId) {
-                    $teacher->subjects()->attach($subjectId, [
-                        'section_id' => $sectionId,
-                        'class_id' => $classId
-                    ]);
-                }
+
+            // Attach subjects, classes, and sections to the teacher
+            foreach ($request->subject_ids as $key => $subjectId) {
+                $classId = $request->class_ids[$key];
+                $sectionId = $request->section_ids[$key];
+
+                $teacher->subjects()->attach($subjectId, [
+                    'class_id' => $classId,
+                    'section_id' => $sectionId,
+                ]);
             }
-    
+
             // Redirect to the index page with a success message
             return redirect()->route('teacher.index')->with('success', 'Teacher created successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -119,37 +113,33 @@ class TeacherController extends Controller
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput();
+        } catch (\Exception $e) {
+            // Handle other exceptions
+            return redirect()->back()
+                ->with('error', 'An error occurred while processing the request.')
+                ->withInput();
         }
     }
-    
-    // Show the form for editing the specified teacher
-    // Controller - Edit Method
-    // public function edit($id)
-    // {
-    //     $teacher = Teacher::with(['subjects', 'sections'])->findOrFail($id);
-    //     $campuses = Campus::all();
-    //     $subjects = Subject::all();
-    //     $sections = Section::all();
-    //     $classes = SchoolClass::all();
 
-    //     return view('teachers.edit', compact('teacher', 'campuses', 'subjects', 'sections', 'classes'));
-    // }
+
     public function edit($id)
     {
-        $teacher = Teacher::with(['subjects', 'sections', 'class'])->findOrFail($id);
+        $teacher = Teacher::with(['teacherSectionSubjects'])->findOrFail($id);
+        // dd($teacher);
         $campuses = Campus::all();
         $subjects = Subject::all();
         $sections = Section::all();
         $classes = SchoolClass::all();
-    
-        // Get the class_id from the first related section, if it exists
-        $classId = optional($teacher->sections->first())->class_id;
-    
-        return view('teachers.edit', compact('teacher', 'campuses', 'subjects', 'sections', 'classes', 'classId'));
+
+        return view('teachers.edit', compact('teacher', 'campuses', 'subjects', 'sections', 'classes'));
     }
-    
+
+
     public function update(Request $request, $id)
     {
+        // return $request;
+
+        // return $request;
         try {
             // Validate the request
             $request->validate([
@@ -165,16 +155,14 @@ class TeacherController extends Controller
                 'qualification' => 'required|string|max:255',
                 'experience' => 'required|string|max:255',
                 'campus_id' => 'required|exists:campuses,id',
-                'subject_ids' => 'required|array',
-                'subject_ids.*' => 'exists:subjects,id',
-                'section_ids' => 'required|array',
-                'section_ids.*' => 'exists:sections,id',
+
             ]);
-    
-            // Find the existing teacher
+
+            // Debug to ensure correct data structure
+            // dd($request->all());
+
+            // Update teacher's basic data
             $teacher = Teacher::findOrFail($id);
-    
-            // Update the teacher data
             $teacher->update([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
@@ -189,103 +177,60 @@ class TeacherController extends Controller
                 'experience' => $request->experience,
                 'campus_id' => $request->campus_id,
             ]);
-    
-            // Prepare the pivot data for syncing with class_id included
-            $pivotData = [];
-            foreach ($request->section_ids as $sectionId) {
-                $section = Section::findOrFail($sectionId); // Get the section with its class_id
-                $classId = $section->class_id; // Get class_id related to this section
-    
-                foreach ($request->subject_ids as $subjectId) {
-                    $pivotData[] = [
-                        'teacher_id' => $teacher->id,
+            // Handle deletions if any
+            if ($request->has('deleted_ids')) {
+                DB::table('teacher_section_subject')->whereIn('id', $request->deleted_ids)->delete();
+            }
+
+            // return $request;
+            foreach ($request->class_ids as $key => $classId) {
+                $sectionId = $request->section_ids[$key] ?? null;
+                $subjectId = $request->subject_ids[$key] ?? null; // Directly access the subject ID
+                $assignmentId = $request->assignment_ids[$key] ?? null; // Directly access the assignment ID
+
+                if (empty($subjectId)) {
+                    continue; // Skip if the subject ID is missing
+                }
+
+                if (empty($assignmentId)) {
+                    // Insert a new record if $assignmentId is null
+                    Log::info("Inserting new record for class_id: {$classId}, section_id: {$sectionId}, subject_id: {$subjectId}");
+                    DB::table('teacher_section_subject')->insert([
+                        'teacher_id' => $id,
                         'class_id' => $classId,
                         'section_id' => $sectionId,
                         'subject_id' => $subjectId,
-                    ];
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                } else {
+                    // Update the record with the given ID if $assignmentId is not null
+                    Log::info("Updating record with ID: {$assignmentId} for class_id: {$classId}, section_id: {$sectionId}, subject_id: {$subjectId}");
+                    DB::table('teacher_section_subject')
+                        ->where('id', (int) $assignmentId) // Cast to integer for safety
+                        ->update([
+                            'teacher_id' => $id,
+                            'class_id' => $classId,
+                            'section_id' => $sectionId,
+                            'subject_id' => $subjectId,
+                            'updated_at' => now(),
+                        ]);
                 }
             }
-    
-            // Delete existing records for this teacher in the pivot table to avoid duplication
-            DB::table('teacher_section_subject')->where('teacher_id', $teacher->id)->delete();
-    
-            // Insert the updated data into the pivot table
-            DB::table('teacher_section_subject')->insert($pivotData);
-    
-            // Redirect with success message
+
             return redirect()->route('teacher.index')->with('success', 'Teacher updated successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Handle validation errors
             return redirect()->back()
                 ->withErrors($e->errors())
                 ->withInput();
+        } catch (\Exception $e) {
+            // Catch general exceptions and log for debugging
+            Log::error($e->getMessage());
+            return redirect()->back()
+                ->with('error', 'An unexpected error occurred. Please try again.')
+                ->withInput();
         }
     }
-    
-
-    
-    // public function update(Request $request, $id)
-    // {
-    //     try {
-    //         // Validate the request
-    //         $request->validate([
-    //             'first_name' => 'required|string|max:255',
-    //             'last_name' => 'required|string|max:255',
-    //             'date_of_birth' => 'required|date',
-    //             'gender' => 'required|string|in:male,female,other',
-    //             'phone_number' => 'required|string|max:15',
-    //             'email' => 'required|email|unique:teachers,email,' . $id, // Ignore current teacher's email
-    //             'address' => 'required|string|max:255',
-    //             'employee_id' => 'required|string|unique:teachers,employee_id,' . $id, // Ignore current teacher's employee_id
-    //             'hire_date' => 'required|date',
-    //             // 'subjects' => 'required|string|max:255',
-    //             'qualification' => 'required|string|max:255',
-    //             'experience' => 'required|string|max:255',
-    //             'campus_id' => 'required|exists:campuses,id',
-    //             'subject_ids' => 'required|array',
-    //             'subject_ids.*' => 'exists:subjects,id',
-    //             'section_ids' => 'required|array',
-    //             'section_ids.*' => 'exists:sections,id',
-    //         ]);
-
-    //         // Find the existing teacher
-    //         $teacher = Teacher::findOrFail($id);
-
-    //         // Update the teacher
-    //         $teacher->update([
-    //             'first_name' => $request->first_name,
-    //             'last_name' => $request->last_name,
-    //             'date_of_birth' => $request->date_of_birth,
-    //             'gender' => $request->gender,
-    //             'phone_number' => $request->phone_number,
-    //             'email' => $request->email,
-    //             'address' => $request->address,
-    //             'employee_id' => $request->employee_id,
-    //             'hire_date' => $request->hire_date,
-    //             // 'subjects' => $request->subjects,
-    //             'qualification' => $request->qualification,
-    //             'experience' => $request->experience,
-    //             'campus_id' => $request->campus_id,
-    //         ]);
-
-    //         // Update the subjects and sections in the pivot table
-    //         $pivotData = [];
-    //         foreach ($request->subject_ids as $subjectId) {
-    //             foreach ($request->section_ids as $sectionId) {
-    //                 $pivotData[$subjectId] = ['section_id' => $sectionId];
-    //             }
-    //         }
-    //         $teacher->subjects()->sync($pivotData);
-
-    //         // Redirect to the index page with a success message
-    //         return redirect()->route('teacher.index')->with('success', 'Teacher updated successfully.');
-    //     } catch (\Illuminate\Validation\ValidationException $e) {
-    //         // Handle validation errors
-    //         return redirect()->back()
-    //             ->withErrors($e->errors()) // Pass validation errors to the view
-    //             ->withInput(); // Retain input values
-    //     }
-    // }
 
     public function show(Teacher $teacher)
     {
@@ -296,7 +241,6 @@ class TeacherController extends Controller
     // Remove the specified teacher from storage
     public function destroy($id)
     {
-        // Find the teacher by ID
         $teacher = Teacher::findOrFail($id);
         $teacher->delete();
 

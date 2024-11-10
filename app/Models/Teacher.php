@@ -25,37 +25,48 @@ class Teacher extends Model
         'experience',
         'campus_id',
     ];
- // Define relationship: Teacher belongs to a Campus
- public function campus()
- {
-     return $this->belongsTo(Campus::class);
- }
+    // Define relationship: Teacher belongs to a Campus
+    public function campus()
+    {
+        return $this->belongsTo(Campus::class);
+    }
 
- // In Teacher.php model
-
-
-public function sections()
-{
-    return $this->belongsToMany(Section::class, 'teacher_section_subject')->withPivot('subject_id');
-}
-// In Teacher.php
-public function subjects()
-{
-    return $this->belongsToMany(Subject::class, 'teacher_section_subject', 'teacher_id', 'subject_id')->withPivot('section_id');
-}
-
- // In App\Models\Teacher.php
-public function class()
-{
-    return $this->belongsTo(SchoolClass::class, 'class_id'); // assuming 'class_id' is the foreign key in the teachers table
-}
+    // In Teacher.php model
 
 
-public function sectionsSubjectsClasses()
-{
-    return $this->belongsToMany(Subject::class, 'teacher_section_subject')
-                ->withPivot('class_id', 'section_id')
-                ->withTimestamps();
-}
+    public function sections()
+    {
+        return $this->belongsToMany(Section::class, 'teacher_section_subject')->withPivot('subject_id');
+    }
+    // In Teacher.php
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'teacher_section_subject', 'teacher_id', 'subject_id')->withPivot('section_id');
+    }
 
+    // In App\Models\Teacher.php
+    public function class()
+    {
+        return $this->belongsTo(SchoolClass::class, 'class_id'); // assuming 'class_id' is the foreign key in the teachers table
+    }
+
+
+    public function sectionsSubjectsClasses()
+    {
+        return $this->belongsToMany(Subject::class, 'teacher_section_subject')
+            ->withPivot('class_id', 'section_id')
+            ->withTimestamps();
+    }
+    public function teacherSectionSubjects()
+    {
+        return $this->hasMany(TeacherSectionSubject::class, 'teacher_id');
+    }
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($teacher) {
+            $teacher->teacherSectionSubjects()->delete();
+        });
+    }
 }
