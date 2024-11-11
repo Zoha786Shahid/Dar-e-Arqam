@@ -49,30 +49,34 @@
                                             <span class="badge badge-soft-danger">Unknown</span>
                                         @endif
                                     </td>
+
                                     <td>
-                                        <div class="dropdown">
-                                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-2-fill"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <li><a class="dropdown-item" href="{{ route('campus.edit', $campus->id) }}">Edit</a></li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#" onclick="confirmDelete(event, 'delete-form-{{ $campus->id }}')">
-                                                        Delete
-                                                    </a>
-                                                </li>
-                                                <form id="delete-form-{{ $campus->id }}" action="{{ route('campus.destroy', $campus->id) }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </ul>
-                                        </div>
+                                        <!-- Check if the user has permission to edit the section -->
+                                        {{-- @can('update', $section) --}}
+                                        <a href="{{ route('campus.edit', $campus->id) }}" class="btn btn-sm btn-warning">
+                                            <i class="ri-edit-line"></i> Edit
+                                        </a>
+                                        {{-- @endcan --}}
+
+                                        <!-- Check if the user has permission to delete the section -->
+                                        {{-- @can('delete', $section) --}}
+                                        <form id="delete-form-{{ $campus->id }}"
+                                            action="{{ route('campus.destroy', $campus->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure?')">
+                                                <i class="ri-delete-bin-line"></i> Delete
+                                            </button>
+                                        </form>
+                                        {{-- @endcan --}}
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    
+
                 </div>
                 <!-- end card body -->
             </div>

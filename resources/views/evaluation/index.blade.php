@@ -37,12 +37,13 @@
                         <tbody>
                             @foreach ($evaluations as $evaluation)
                                 <tr>
-                                    <td>{{ $evaluation->teacher->first_name  ?? 'N/A' }} {{ $evaluation->teacher->last_name  ?? 'N/A' }}</td>
+                                    <td>{{ $evaluation->teacher->first_name ?? 'N/A' }}
+                                        {{ $evaluation->teacher->last_name ?? 'N/A' }}</td>
                                     <!-- Concatenate first_name and last_name --><!-- Display the teacher's name from the relationship -->
                                     <td>{{ $evaluation->campus->name ?? 'N/A' }}</td> <!-- Display campus name -->
                                     <td>{{ $evaluation->percentage }}%</td>
                                     <td>{{ $evaluation->created_at->format('Y-m-d') }}</td>
-                                    <td>
+                                    {{-- <td>
                                         <div class="dropdown">
                                             <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
                                                 aria-expanded="false">
@@ -70,6 +71,33 @@
                                                 </form>
                                             </ul>
                                         </div>
+                                    </td> --}}
+                                    <td>
+                                        <!-- Check if the user has permission to edit the section -->
+                                        {{-- @can('update', $section) --}}
+                                        <a href="{{ route('evaluation.edit', $evaluation->id) }}"
+                                            class="btn btn-sm btn-warning">
+                                            <i class="ri-edit-line"></i> Edit
+                                        </a>
+                                        {{-- @endcan --}}
+                                        <a href="{{ route('evaluation.download', $evaluation->id) }}"
+                                            class="btn btn-sm btn-success">
+                                            <i class="ri-download-line"></i> Download
+                                        </a>
+
+                                        <!-- Check if the user has permission to delete the section -->
+                                        {{-- @can('delete', $section) --}}
+                                        <form id="delete-form-{{ $evaluation->id }}"
+                                            action="{{ route('evaluation.destroy', $evaluation->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure?')">
+                                                <i class="ri-delete-bin-line"></i> Delete
+                                            </button>
+                                        </form>
+                                        {{-- @endcan --}}
                                     </td>
                                 </tr>
                             @endforeach
