@@ -185,7 +185,7 @@
                                         <div class="col-xxl-3 col-md-6">
                                             <label class="form-label">Assign Subjects</label>
                                             <select class="form-control js-example-disabled-multi" name="subject_ids[]"
-                                                multiple="multiple" required>
+                                                 required>
                                                 <option value="" disabled>Select subject</option>
                                                 @foreach ($subjects as $subject)
                                                     <option value="{{ $subject->id }}">{{ $subject->name }}</option>

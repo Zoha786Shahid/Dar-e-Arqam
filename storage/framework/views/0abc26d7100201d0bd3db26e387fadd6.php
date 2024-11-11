@@ -348,7 +348,7 @@ unset($__errorArgs, $__bag); ?>
                                         <div class="col-xxl-3 col-md-6">
                                             <label class="form-label">Assign Subjects</label>
                                             <select class="form-control js-example-disabled-multi" name="subject_ids[]"
-                                                multiple="multiple" required>
+                                                 required>
                                                 <option value="" disabled>Select subject</option>
                                                 <?php $__currentLoopData = $subjects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subject): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option value="<?php echo e($subject->id); ?>"><?php echo e($subject->name); ?></option>

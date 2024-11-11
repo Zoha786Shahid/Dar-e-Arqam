@@ -37,43 +37,12 @@
                 <li class="menu-title"><span>@lang('translation.menu')</span></li>
 
                 <!-- Dashboard Menu -->
-                <!-- <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarDashboards">
-                        <i class="mdi mdi-speedometer"></i> <span>@lang('translation.dashboards')</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarDashboards">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="dashboard-analytics" class="nav-link">@lang('translation.analytics')</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="dashboard-crm" class="nav-link">@lang('translation.crm')</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="index" class="nav-link">@lang('translation.ecommerce')</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="dashboard-crypto" class="nav-link">@lang('translation.crypto')</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="dashboard-projects" class="nav-link">@lang('translation.projects')</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="dashboard-nft" class="nav-link">@lang('translation.nft')</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="dashboard-job" class="nav-link"><span>@lang('translation.job')</span>
-                                    <span class="badge badge-pill bg-success">@lang('translation.new')</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li> end Dashboard Menu -->
+
 
                 <!-- Campus Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCampus" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarCampus">
+                    <a class="nav-link menu-link" href="{{ route('campus.index') }}" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarCampus">
                         <i class="mdi mdi-school"></i> <span>@lang('Campus')</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCampus">
@@ -89,8 +58,8 @@
                 <!-- end Campus Menu -->
                 <!-- Sections Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarSections" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarSections">
+                    <a class="nav-link menu-link" href="{{ route('sections.index') }}" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarSections">
                         <i class="mdi mdi-view-grid-outline"></i> <span>@lang('Sections')</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarSections">
@@ -106,8 +75,8 @@
 
                 <!-- Subjects Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarSubjects" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarSubjects">
+                    <a class="nav-link menu-link" href="{{ route('subjects.index') }}" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarSubjects">
                         <i class="mdi mdi-book-open-variant"></i> <span>@lang('Subjects')</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarSubjects">
@@ -123,10 +92,9 @@
 
                 <!-- Teacher Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarTeacher" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarTeacher">
+                    <a class="nav-link menu-link" href="{{ route('teacher.index') }}" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarTeacher">
                         <!-- Teacher Icon -->
-
                         <i class="mdi mdi-account-plus-outline"></i>
                         <span>@lang('Teachers')</span>
                     </a>
@@ -139,15 +107,15 @@
                                     @lang('Show Teachers')
                                 </a>
                             </li>
-
                         </ul>
                     </div>
                 </li>
+
                 <!-- end Teacher Menu -->
                 <!-- Users Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarUser" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarUser">
+                    <a class="nav-link menu-link" href="{{ route('user.index') }}" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarUser">
                         <!-- User Icon -->
                         <i class="mdi mdi-account-outline"></i>
                         <span>@lang('Users')</span>
@@ -171,8 +139,8 @@
 
                 <!-- Evaluation Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarEvaluation" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarEvaluation">
+                    <a class="nav-link menu-link" href="{{ route('evaluation.index') }}" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarEvaluation">
                         <!-- Evaluation Icon (e.g., clipboard outline) -->
                         <i class="mdi mdi-clipboard-outline"></i>
                         <span>@lang('Teacher Evaluations')</span>
@@ -205,8 +173,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarRoles" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarRoles">
+                    <a class="nav-link menu-link" href="{{ route('roles.index') }}" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarRoles">
                         <!-- Roles Icon (certificate icon for roles management) -->
                         <i class="mdi mdi-account-key-outline"></i>
                         <span>@lang('Roles Management')</span>
@@ -237,7 +205,7 @@
                 </li>
                 {{-- for permissions --}}
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarPermissions" data-bs-toggle="collapse"
+                    <a class="nav-link menu-link" href="{{ route('permissions.index') }}" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarPermissions">
                         <!-- Permissions Icon -->
                         <i class="mdi mdi-file-certificate-outline"></i>
