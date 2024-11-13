@@ -1,57 +1,83 @@
-@extends('layouts.master')
+<?php $__env->startSection('title'); ?>
+    <?php echo app('translator')->get('translation.seniorevaluation-form'); ?>
+<?php $__env->stopSection(); ?>
 
-@section('title')
-    @lang('translation.seniorevaluation-form')
-@endsection
-
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Forms
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             Teacher Report
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">ناظرہ رپورٹ</h4>
-                    <a href="{{ route('report.index') }}" class="btn btn-primary ms-auto">Back</a>
+                    <a href="<?php echo e(route('report.index')); ?>" class="btn btn-primary ms-auto">Back</a>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form method="POST" action="{{ route('report.store') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('report.store')); ?>">
+                        <?php echo csrf_field(); ?>
                         <div class="row gy-4">
                             <div class="col-xxl-6 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">کیمپس</label>
-                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                    <select class="form-select <?php $__errorArgs = ['campus_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="campus_id"
                                         name="campus_id" required>
                                         <option value="">کیمپس منتخب کریں</option>
-                                        @foreach ($campuses as $campus)
-                                            <option value="{{ $campus->id }}">{{ $campus->name }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $campuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($campus->id); ?>"><?php echo e($campus->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
-                                    @error('campus_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['campus_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
 
-
+                            
                             <div class="col-xxl-6 col-md-6">
                                 <div>
-                                    <label for="teacher_id" class="form-label">استاد کا نام<< /label>
-                                            <select class="form-select @error('teacher_id') is-invalid @enderror"
-                                                id="teacher_id" name="teacher_id" required>
-                                                <option value="">استاد منتخب کریں</option>
-                                            </select>
-                                            @error('teacher_id')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                    <label for="teacher_id" class="form-label">استاد کا نام<</label>
+                                    <select class="form-select <?php $__errorArgs = ['teacher_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="teacher_id"
+                                        name="teacher_id" required>
+                                        <option value="">استاد منتخب کریں</option>
+                                    </select>
+                                    <?php $__errorArgs = ['teacher_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                         </div>
@@ -255,7 +281,7 @@
 
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">جمع کرائیں</button>
-                            <a href="{{ route('report.index') }}" class="btn btn-secondary">منسوخ کریں</a>
+                            <a href="<?php echo e(route('report.index')); ?>" class="btn btn-secondary">منسوخ کریں</a>
                         </div>
                     </form>
 
@@ -269,56 +295,56 @@
         </div>
     </div>
     <!-- end row -->
-@endsection
-@section('script')
-    <!-- Load jQuery before your script -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+   <!-- Load jQuery before your script -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Your other script files -->
-    <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+   <!-- Your other script files -->
+   <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
+   <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#campus_id').on('change', function() {
-                var campusId = $(this).val(); // Get the selected campus ID
-                if (campusId) {
-                    $.ajax({
-                        url: '/get-teachers/' + campusId, // Correct route for fetching teachers
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#teacher_id').empty(); // Clear the dropdown
-                            $('#teacher_id').append(
-                                '<option value="">Select Teacher</option>'); // Default option
+   <script>
+       $(document).ready(function() {
+           $('#campus_id').on('change', function() {
+               var campusId = $(this).val(); // Get the selected campus ID
+               if (campusId) {
+                   $.ajax({
+                       url: '/get-teachers/' + campusId, // Correct route for fetching teachers
+                       type: 'GET',
+                       dataType: 'json',
+                       success: function(data) {
+                           $('#teacher_id').empty(); // Clear the dropdown
+                           $('#teacher_id').append(
+                               '<option value="">Select Teacher</option>'); // Default option
 
-                            if (Array.isArray(data) && data.length > 0) {
-                                $.each(data, function(index, teacher) {
-                                    // Combine only the teacher's first and last name
-                                    const teacherName =
-                                        `${teacher.first_name} ${teacher.last_name}`;
-                                    $('#teacher_id').append(
-                                        `<option value="${teacher.id}">${teacherName}</option>`
-                                    );
-                                });
-                            } else {
-                                $('#teacher_id').append(
-                                    '<option value="">No Teachers Available</option>');
-                            }
-                        },
-                        error: function() {
-                            $('#teacher_id').empty();
-                            $('#teacher_id').append(
-                                '<option value="">Error loading teachers</option>');
-                        }
-                    });
-                } else {
-                    $('#teacher_id').empty();
-                    $('#teacher_id').append('<option value="">Select Teacher</option>');
-                }
-            });
-        });
-    </script>
+                           if (Array.isArray(data) && data.length > 0) {
+                               $.each(data, function(index, teacher) {
+                                   // Combine only the teacher's first and last name
+                                   const teacherName =
+                                       `${teacher.first_name} ${teacher.last_name}`;
+                                   $('#teacher_id').append(
+                                       `<option value="${teacher.id}">${teacherName}</option>`
+                                   );
+                               });
+                           } else {
+                               $('#teacher_id').append(
+                                   '<option value="">No Teachers Available</option>');
+                           }
+                       },
+                       error: function() {
+                           $('#teacher_id').empty();
+                           $('#teacher_id').append(
+                               '<option value="">Error loading teachers</option>');
+                       }
+                   });
+               } else {
+                   $('#teacher_id').empty();
+                   $('#teacher_id').append('<option value="">Select Teacher</option>');
+               }
+           });
+       });
+   </script>
 
 
     <script>
@@ -357,4 +383,6 @@
             document.getElementById('total_marks').value = total;
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/report/create.blade.php ENDPATH**/ ?>

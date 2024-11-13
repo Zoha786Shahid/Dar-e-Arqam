@@ -246,4 +246,14 @@ class TeacherController extends Controller
 
         return redirect()->route('teacher.index')->with('success', 'Teacher deleted successfully!');
     }
+public function getTeachersByCampus($campusId)
+{
+    // dd("hyyyyyyy");
+    // Fetch teachers related to the selected campus
+    $teachers = Teacher::where('campus_id', $campusId)->get();
+    // dd($teachers);
+    // Return as JSON for the AJAX request
+    return response()->json($teachers);
+}
+
 }

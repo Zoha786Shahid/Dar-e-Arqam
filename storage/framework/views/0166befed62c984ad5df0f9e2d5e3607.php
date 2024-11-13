@@ -1,57 +1,85 @@
-@extends('layouts.master')
 
-@section('title')
-    @lang('translation.seniorevaluation-form')
-@endsection
 
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->startSection('title'); ?>
+    <?php echo app('translator')->get('translation.seniorevaluation-form'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Forms
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             Teacher Performance Report
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">SeniorEvaluation Form</h4>
-                    <a href="{{ route('seniorevaluation.index') }}" class="btn btn-primary ms-auto">Back</a>
+                    <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="btn btn-primary ms-auto">Back</a>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form method="POST" action="{{ route('seniorevaluation.store') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('seniorevaluation.store')); ?>">
+                        <?php echo csrf_field(); ?>
                         <div class="row gy-4">
 
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">Campus</label>
-                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                    <select class="form-select <?php $__errorArgs = ['campus_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="campus_id"
                                         name="campus_id" required>
                                         <option value="">Select Campus</option>
-                                        @foreach ($campuses as $campus)
-                                            <option value="{{ $campus->id }}">{{ $campus->name }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $campuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($campus->id); ?>"><?php echo e($campus->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
-                                    @error('campus_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['campus_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
 
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="teacher_id" class="form-label">Teacher’s name</label>
-                                    <select class="form-select @error('teacher_id') is-invalid @enderror" id="teacher_id"
+                                    <select class="form-select <?php $__errorArgs = ['teacher_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="teacher_id"
                                         name="teacher_id" required>
                                         <option value="">Select Teacher</option>
                                     </select>
-                                    @error('teacher_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['teacher_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
 
@@ -305,7 +333,7 @@
 
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="{{ route('seniorevaluation.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
 
@@ -316,15 +344,15 @@
         </div>
     </div>
     <!-- end row -->
-@endsection
-@section('script')
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
+<?php $__env->startSection('script'); ?>
 <!-- Load jQuery before your script -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Your other script files -->
-<script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
-<script src="{{ URL::asset('build/js/app.js') }}"></script>
+<script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 
 <script>
     $(document).ready(function() {
@@ -370,8 +398,8 @@
 
 
 
-@section('script')
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<?php $__env->startSection('script'); ?>
+    
 
     <script>
         function calculateTotal() {
@@ -416,4 +444,6 @@
     </script>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/seniorEvaluation/create.blade.php ENDPATH**/ ?>

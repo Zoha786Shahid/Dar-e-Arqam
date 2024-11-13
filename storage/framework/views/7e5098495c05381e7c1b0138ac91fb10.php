@@ -1,59 +1,86 @@
-@extends('layouts.master')
 
-@section('title')
-    @lang('translation.evaluation-form')
-@endsection
 
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->startSection('title'); ?>
+    <?php echo app('translator')->get('translation.evaluation-form'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             Forms
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             Teacher Performance Report
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
 
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Campus Form</h4>
-                    <a href="{{ route('evaluation.index') }}" class="btn btn-primary ms-auto">Back</a>
+                    <a href="<?php echo e(route('evaluation.index')); ?>" class="btn btn-primary ms-auto">Back</a>
                 </div><!-- end card header -->
                 <div class="card-body">
-                    <form method="POST" action="{{ route('evaluation.store') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('evaluation.store')); ?>">
+                        <?php echo csrf_field(); ?>
                         <div class="row gy-4">
 
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">Campus</label>
-                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                    <select class="form-select <?php $__errorArgs = ['campus_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="campus_id"
                                         name="campus_id" required>
                                         <option value="">Select Campus</option>
-                                        @foreach ($campuses as $campus)
-                                            <option value="{{ $campus->id }}">{{ $campus->name }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $campuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($campus->id); ?>"><?php echo e($campus->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
-                                    @error('campus_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['campus_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="teacher_id" class="form-label">Teacher’s name</label>
-                                    <select class="form-select @error('teacher_id') is-invalid @enderror" id="teacher_id"
-                                        name="teacher_id" required>
+                                    <select class="form-select <?php $__errorArgs = ['teacher_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="teacher_id" name="teacher_id" required>
                                         <option value="">Select Teacher</option>
                                     </select>
-                                    @error('teacher_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <?php $__errorArgs = ['teacher_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-
+                            
 
                             <div class="col-xxl-4 col-md-6">
                                 <div>
@@ -100,7 +127,7 @@
                                         name="observer_signature" placeholder="Observer Signature" required>
                                 </div>
                             </div>
-                            {{-- missing fields  --}}
+                            
                             <!-- Add the following fields to your form -->
 
                             <div class="col-xxl-4 col-md-6">
@@ -320,7 +347,7 @@
 
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="{{ route('evaluation.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="<?php echo e(route('evaluation.index')); ?>" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
 
@@ -330,14 +357,14 @@
         </div>
     </div>
     <!-- end row -->
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <!-- Load jQuery before your script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Your other script files -->
-    <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script> 
 
     <script>
         $(document).ready(function() {
@@ -350,27 +377,21 @@
                         dataType: 'json',
                         success: function(data) {
                             $('#teacher_id').empty(); // Clear the dropdown
-                            $('#teacher_id').append(
-                                '<option value="">Select Teacher</option>'); // Default option
-
+                            $('#teacher_id').append('<option value="">Select Teacher</option>'); // Default option
+                            
                             if (Array.isArray(data) && data.length > 0) {
                                 $.each(data, function(index, teacher) {
                                     // Combine only the teacher's first and last name
-                                    const teacherName =
-                                        `${teacher.first_name} ${teacher.last_name}`;
-                                    $('#teacher_id').append(
-                                        `<option value="${teacher.id}">${teacherName}</option>`
-                                    );
+                                    const teacherName = `${teacher.first_name} ${teacher.last_name}`;
+                                    $('#teacher_id').append(`<option value="${teacher.id}">${teacherName}</option>`);
                                 });
                             } else {
-                                $('#teacher_id').append(
-                                    '<option value="">No Teachers Available</option>');
+                                $('#teacher_id').append('<option value="">No Teachers Available</option>');
                             }
                         },
                         error: function() {
                             $('#teacher_id').empty();
-                            $('#teacher_id').append(
-                                '<option value="">Error loading teachers</option>');
+                            $('#teacher_id').append('<option value="">Error loading teachers</option>');
                         }
                     });
                 } else {
@@ -380,11 +401,11 @@
             });
         });
     </script>
+    
+    
 
-
-
-@section('script')
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<?php $__env->startSection('script'); ?>
+    
 
     <script>
         $(document).ready(function() {
@@ -414,28 +435,28 @@
                 'personality_trait_confidence',
                 'response_of_previous_knowledge'
             ];
-
+    
             function calculateTotalAndPercentage() {
                 let total = 0;
                 let count = fields.length; // The total number of fields
-
+    
                 // Iterate through each field and sum up the values
                 fields.forEach(function(field) {
                     const fieldValue = parseInt($(`#${field}`).val()) || 0; // Default to 0 if empty
                     total += fieldValue;
                 });
-
+    
                 // Set the total marks in the total_marks field
                 $('#total_marks').val(total);
-
+    
                 // Calculate percentage (assuming max value for each field is 10)
                 let maxMarks = count * 10; // Maximum marks for all fields (23 fields with max 10 each)
                 let percentage = (total / maxMarks) * 100;
-
+    
                 // Set the calculated percentage in the percentage field
                 $('#percentage').val(percentage.toFixed(2)); // Round to 2 decimal places
             }
-
+    
             // Attach an event listener to all the fields to trigger the calculation when values change
             fields.forEach(function(field) {
                 $(`#${field}`).on('input', function() {
@@ -444,5 +465,7 @@
             });
         });
     </script>
+    
+<?php $__env->stopSection(); ?>
 
-@endsection
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/evaluation/create.blade.php ENDPATH**/ ?>

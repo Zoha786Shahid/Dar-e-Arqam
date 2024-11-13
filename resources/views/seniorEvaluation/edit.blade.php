@@ -374,55 +374,55 @@
     <!-- end row -->
 @endsection
 @section('script')
-    <!-- Load jQuery before your script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Your other script files -->
-    <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
-
     <script>
         $(document).ready(function() {
+            // Store the initially selected teacher ID (for edit view)
+            const selectedTeacherId = "{{ $evaluation->teacher_id }}";
+
             $('#campus_id').on('change', function() {
-                var campusId = $(this).val(); // Get the selected campus ID
+                const campusId = $(this).val();
                 if (campusId) {
                     $.ajax({
-                        url: '/get-teachers/' + campusId, // Call to the controller
+                        url: '/get-teachers/' + campusId, // API endpoint for fetching teachers
                         type: 'GET',
                         dataType: 'json',
                         success: function(data) {
-                            console.log("Data received: ",
-                                data); // Log the data to ensure it's being received
-
                             $('#teacher_id').empty(); // Clear the dropdown
                             $('#teacher_id').append(
-                                '<option value="">Select Teacher</option>'
-                            ); // Add the default option
+                                '<option value="">Select Teacher</option>'); // Default option
 
                             if (Array.isArray(data) && data.length > 0) {
-                                $.each(data, function(key, value) {
-                                    console.log("Adding teacher: ", value
-                                        .name); // Log each teacher being added
-                                    $('#teacher_id').append('<option value="' + value
-                                        .id + '">' + value.name + '</option>');
+                                $.each(data, function(index, teacher) {
+                                    const isSelected = selectedTeacherId == teacher.id ?
+                                        'selected' : ''; // Retain selected teacher
+                                    const teacherName =
+                                        `${teacher.first_name} ${teacher.last_name}`;
+                                    $('#teacher_id').append(
+                                        `<option value="${teacher.id}" ${isSelected}>${teacherName}</option>`
+                                    );
                                 });
                             } else {
                                 $('#teacher_id').append(
                                     '<option value="">No Teachers Available</option>');
                             }
                         },
-
                         error: function() {
                             $('#teacher_id').empty();
                             $('#teacher_id').append(
                                 '<option value="">Error loading teachers</option>');
-                        }
+                        },
                     });
                 } else {
                     $('#teacher_id').empty();
                     $('#teacher_id').append('<option value="">Select Teacher</option>');
                 }
             });
+
+            // Trigger change event on page load if a campus is already selected
+            if ($('#campus_id').val()) {
+                $('#campus_id').trigger('change');
+            }
         });
     </script>
 

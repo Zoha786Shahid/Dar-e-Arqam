@@ -138,39 +138,37 @@
                 <!-- end Users Menu -->
 
                 <!-- Evaluation Menu -->
+                
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('evaluation.index')); ?>" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarEvaluation">
-                        <!-- Evaluation Icon (e.g., clipboard outline) -->
+                    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarEvaluation"
+                       role="button" aria-expanded="false" aria-controls="sidebarEvaluation">
                         <i class="mdi mdi-clipboard-outline"></i>
                         <span><?php echo app('translator')->get('Teacher Evaluations'); ?></span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarEvaluation">
                         <ul class="nav nav-sm flex-column">
-                            <!-- Show Evaluations Link -->
                             <li class="nav-item">
                                 <a href="<?php echo e(route('evaluation.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-text-outline"></i> <!-- List Icon for evaluations -->
+                                    <i class="mdi mdi-clipboard-text-outline"></i> 
                                     <?php echo app('translator')->get('View Evaluations 1-7'); ?>
                                 </a>
                             </li>
-                            <!-- Add New Evaluation Link -->
                             <li class="nav-item">
                                 <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-plus-outline"></i> <!-- Add Icon for evaluations -->
+                                    <i class="mdi mdi-clipboard-plus-outline"></i> 
                                     <?php echo app('translator')->get('View Evaluation 8-10'); ?>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="<?php echo e(route('report.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-plus-outline"></i> <!-- Add Icon for evaluations -->
+                                    <i class="mdi mdi-clipboard-plus-outline"></i> 
                                     <?php echo app('translator')->get('View Nazra Report'); ?>
                                 </a>
                             </li>
-                            <!-- Add more links if necessary for additional evaluation-related actions -->
                         </ul>
                     </div>
                 </li>
+                
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="<?php echo e(route('roles.index')); ?>" data-bs-toggle="collapse"

@@ -45,34 +45,31 @@
                                     <td>{{ $seniorevaluation->campus->name ?? 'N/A' }}</td>
                                     <td>{{ $seniorevaluation->total_marks ?? 'N/A' }}</td>
                                     <td>{{ $seniorevaluation->created_at->format('Y-m-d') }}</td>
+                                   
                                     <td>
-                                        <div class="dropdown">
-                                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="ri-more-2-fill"></i>
-                                            </a>
-
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('seniorevaluation.download', $seniorevaluation->id) }}">Download</a>
-                                                </li>
-
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('seniorevaluation.edit', $seniorevaluation->id) }}">Edit</a></li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#"
-                                                        onclick="confirmDelete(event, 'delete-form-{{ $seniorevaluation->id }}')">
-                                                        Delete
-                                                    </a>
-                                                </li>
-                                                <form id="delete-form-{{ $seniorevaluation->id }}"
-                                                    action="{{ route('seniorevaluation.destroy', $seniorevaluation->id) }}"
-                                                    method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </ul>
-                                        </div>
+                                        <!-- Check if the user has permission to edit the section -->
+                                        {{-- @can('update', $section) --}}
+                                        <a href="{{ route('seniorevaluation.edit',  $seniorevaluation->id) }}" class="btn btn-sm btn-warning">
+                                            <i class="ri-edit-line"></i> Edit
+                                        </a>
+                                        {{-- @endcan --}}
+                                        <a href="{{ route('seniorevaluation.download', $seniorevaluation->id) }}"
+                                            class="btn btn-sm btn-success">
+                                            <i class="ri-download-line"></i> Download
+                                        </a>
+                                        <!-- Check if the user has permission to delete the section -->
+                                        {{-- @can('delete', $section) --}}
+                                        <form id="delete-form-{{  $seniorevaluation->id }}"
+                                            action="{{ route('seniorevaluation.destroy', $seniorevaluation->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure?')">
+                                                <i class="ri-delete-bin-line"></i> Delete
+                                            </button>
+                                        </form>
+                                        {{-- @endcan --}}
                                     </td>
                                 </tr>
                             @endforeach

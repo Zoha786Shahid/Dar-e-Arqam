@@ -51,9 +51,10 @@ class EvaluationController extends Controller
     {
         // Fetch campuses from the database
         $campuses = Campus::all(); // Assuming you have a Campus model
- 
+        $teachers = Teacher::all(); // Assuming you have a
+        // dd($teachers);
         // Pass campuses to the view
-        return view('evaluation.create', compact('campuses'));
+        return view('evaluation.create', compact('campuses', 'teachers'));
     }
 
      // Store a newly created evaluation in storage

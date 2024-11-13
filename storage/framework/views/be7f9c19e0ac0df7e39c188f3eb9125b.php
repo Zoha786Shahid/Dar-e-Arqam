@@ -63,9 +63,9 @@ td, th {
 <body>
     <div class="header">
 
-        {{-- <img src="{{ asset('images/school.jpeg') }}" alt="School Image"> --}}
+        
 
-        <img src="{{ public_path('images/school.jpeg') }}" alt="School Image">
+        <img src="<?php echo e(public_path('images/school.jpeg')); ?>" alt="School Image">
 
 
 
@@ -77,13 +77,12 @@ td, th {
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
         <p style=" display: inline-block;"><strong>Teacher's Name:</strong>
-            {{ $evaluation->teacher->first_name ?? 'N/A' }}
-            {{ $evaluation->teacher->last_name ?? '' }} </p>
+            <?php echo e($evaluation->teacher->first_name ?? 'N/A'); ?>
+
+            <?php echo e($evaluation->teacher->last_name ?? ''); ?> </p>
         <p style=" display: inline-block;"><strong>Qualification:</strong>
-            {{ $evaluation->teacher->qualification ?? 'N/A' }}</p>
-        {{-- <p style="display: inline-block;"><strong>Joining
-                Date:</strong>{{ \Carbon\Carbon::parse($evaluation->teacher->joining_date)->format('d-m-Y') ?? 'N/A' }}
-        </p> --}}
+            <?php echo e($evaluation->teacher->qualification ?? 'N/A'); ?></p>
+        
     </div>
 
 
@@ -94,9 +93,9 @@ td, th {
     </div>
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Campus:</strong> {{ $evaluation->campus->name ?? 'N/A' }}</p>
+        <p style=" display: inline-block;"><strong>Campus:</strong> <?php echo e($evaluation->campus->name ?? 'N/A'); ?></p>
         <p style=" display: inline-block;"><strong>Total Students:</strong> 50</p>
-        <p style="display: inline-block;"><strong>Date:</strong> {{ \Carbon\Carbon::now()->format('d-m-Y') }}</p>
+        <p style="display: inline-block;"><strong>Date:</strong> <?php echo e(\Carbon\Carbon::now()->format('d-m-Y')); ?></p>
 
     </div>
 
@@ -111,157 +110,157 @@ td, th {
             </tr>
         </thead>
          <tbody dir="rtl">
-            @php $serial = 1; @endphp
+            <?php $serial = 1; ?>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>آمد و استقبال (Entrance and Welcome)</td>
                 <td>2</td>
-                <td>{{ $evaluation->entrance_welcome ?? '' }}</td>
-                <td>{{ $evaluation->remarks_entrance_welcome ?? '' }}</td>
+                <td><?php echo e($evaluation->entrance_welcome ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_entrance_welcome ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>شخصی سلیقہ و لباس (Personal Appearance and Dress)</td>
                 <td>3</td>
-                <td>{{ $evaluation->appearance_dress ?? '' }}</td>
-                <td>{{ $evaluation->remarks_appearance_dress ?? '' }}</td>
+                <td><?php echo e($evaluation->appearance_dress ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_appearance_dress ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>درسی انداز (Teaching Style)</td>
                 <td>5</td>
-                <td>{{ $evaluation->teaching_style ?? '' }}</td>
-                <td>{{ $evaluation->remarks_teaching_style ?? '' }}</td>
+                <td><?php echo e($evaluation->teaching_style ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_teaching_style ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>حفاظتی تدابیر و صفائی (Safety Measures and Cleanliness)</td>
                 <td>3</td>
-                <td>{{ $evaluation->safety_cleanliness ?? '' }}</td>
-                <td>{{ $evaluation->remarks_safety_cleanliness ?? '' }}</td>
+                <td><?php echo e($evaluation->safety_cleanliness ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_safety_cleanliness ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>نظم و ضبط (Discipline)</td>
                 <td>5</td>
-                <td>{{ $evaluation->discipline ?? '' }}</td>
-                <td>{{ $evaluation->remarks_discipline ?? '' }}</td>
+                <td><?php echo e($evaluation->discipline ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_discipline ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>کلاس بورڈ (Class Board)</td>
                 <td>2</td>
-                <td>{{ $evaluation->class_board ?? '' }}</td>
-                <td>{{ $evaluation->remarks_class_board ?? '' }}</td>
+                <td><?php echo e($evaluation->class_board ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_class_board ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>تدریسی پلان اور ٹائم ٹیبل (Teaching Plan and Time Table)</td>
                 <td>5</td>
-                <td>{{ $evaluation->teaching_plan ?? '' }}</td>
-                <td>{{ $evaluation->remarks_teaching_plan ?? '' }}</td>
+                <td><?php echo e($evaluation->teaching_plan ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_teaching_plan ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>مشق کروائی / طلبہ کی تیاری (Student Preparation)</td>
                 <td>10</td>
-                <td>{{ $evaluation->student_preparation ?? '' }}</td>
-                <td>{{ $evaluation->remarks_student_preparation ?? '' }}</td>
+                <td><?php echo e($evaluation->student_preparation ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_student_preparation ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>گفتگو کا معیار (Standard of Conversation)</td>
                 <td>10</td>
-                <td>{{ $evaluation->conversation_standard ?? '' }}</td>
-                <td>{{ $evaluation->remarks_conversation_standard ?? '' }}</td>
+                <td><?php echo e($evaluation->conversation_standard ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_conversation_standard ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>حفظ قرآن / دوران تعلیم و تدریس (Hifz-e-Quran / during Teaching)</td>
                 <td>10</td>
-                <td>{{ $evaluation->hifz_during_teaching ?? '' }}</td>
-                <td>{{ $evaluation->remarks_hifz_during_teaching ?? '' }}</td>
+                <td><?php echo e($evaluation->hifz_during_teaching ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_hifz_during_teaching ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>حفظ قرآن / روانی (Hifz-e-Quran / Fluency)</td>
                 <td>10</td>
-                <td>{{ $evaluation->hifz_fluency ?? '' }}</td>
-                <td>{{ $evaluation->remarks_hifz_fluency ?? '' }}</td>
+                <td><?php echo e($evaluation->hifz_fluency ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_hifz_fluency ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>قراءت (Recitation)</td>
                 <td>7</td>
-                <td>{{ $evaluation->recitation ?? '' }}</td>
-                <td>{{ $evaluation->remarks_recitation ?? '' }}</td>
+                <td><?php echo e($evaluation->recitation ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_recitation ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>اخلاقی تربیت (Moral Training)</td>
                 <td>10</td>
-                <td>{{ $evaluation->moral_training ?? '' }}</td>
-                <td>{{ $evaluation->remarks_moral_training ?? '' }}</td>
+                <td><?php echo e($evaluation->moral_training ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_moral_training ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>فکری و اخلاقی تربیت (Intellectual and Moral Training)</td>
                 <td>5</td>
-                <td>{{ $evaluation->intellectual_moral_training ?? '' }}</td>
-                <td>{{ $evaluation->remarks_intellectual_moral_training ?? '' }}</td>
+                <td><?php echo e($evaluation->intellectual_moral_training ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_intellectual_moral_training ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>جسمانی طاقت و صحت (Physical Strength and Health)</td>
                 <td>3</td>
-                <td>{{ $evaluation->physical_strength_health ?? '' }}</td>
-                <td>{{ $evaluation->remarks_physical_strength_health ?? '' }}</td>
+                <td><?php echo e($evaluation->physical_strength_health ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_physical_strength_health ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>استعمال وقت (Time Management)</td>
                 <td>2</td>
-                <td>{{ $evaluation->time_management ?? '' }}</td>
-                <td>{{ $evaluation->remarks_time_management ?? '' }}</td>
+                <td><?php echo e($evaluation->time_management ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_time_management ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>طلبہ کی کارکردگی (Student Performance)</td>
                 <td>5</td>
-                <td>{{ $evaluation->student_performance ?? '' }}</td>
-                <td>{{ $evaluation->remarks_student_performance ?? '' }}</td>
+                <td><?php echo e($evaluation->student_performance ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_student_performance ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td>ڈائری (Diary)</td>
                 <td>3</td>
-                <td>{{ $evaluation->diary ?? '' }}</td>
-                <td>{{ $evaluation->remarks_diary ?? '' }}</td>
+                <td><?php echo e($evaluation->diary ?? ''); ?></td>
+                <td><?php echo e($evaluation->remarks_diary ?? ''); ?></td>
             </tr>
     
             <tr>
-                <td>{{ $serial++ }}</td>
+                <td><?php echo e($serial++); ?></td>
                 <td><strong>کل نمبر</strong></td>
                 <td>100</td>
-                <td>{{ $evaluation->total_marks ?? '' }}</td>
+                <td><?php echo e($evaluation->total_marks ?? ''); ?></td>
                 <td></td>
             </tr>
         </tbody>
@@ -271,7 +270,7 @@ td, th {
 
 
     <p style="margin-top: 20px;"><strong>Observer Name:</strong>
-        {{ $evaluation->observer_name ?? '___________________' }}</p>
+        <?php echo e($evaluation->observer_name ?? '___________________'); ?></p>
     <p style="margin-top: 10px;">
         <strong>Signature:</strong>
         <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
@@ -279,12 +278,14 @@ td, th {
 
     <p style="margin-top: 10px;"><strong>Guidance by Observer:</strong></p>
     <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;">
-        {{ $evaluation->observer_guidance ?? '__________________________________________________________________________' }}
+        <?php echo e($evaluation->observer_guidance ?? '__________________________________________________________________________'); ?>
+
     </p>
 
     <p style="margin-top: 10px;"><strong>Teacher Views:</strong></p>
     <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;">
-        {{ $evaluation->teacher_views ?? '__________________________________________________________________________' }}
+        <?php echo e($evaluation->teacher_views ?? '__________________________________________________________________________'); ?>
+
     </p>
 
     <p style="margin-top: 20px;">
@@ -297,3 +298,4 @@ td, th {
 </body>
 
 </html>
+<?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/report/evaluation_pdf.blade.php ENDPATH**/ ?>

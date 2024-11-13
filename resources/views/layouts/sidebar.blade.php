@@ -138,7 +138,7 @@
                 <!-- end Users Menu -->
 
                 <!-- Evaluation Menu -->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('evaluation.index') }}" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarEvaluation">
                         <!-- Evaluation Icon (e.g., clipboard outline) -->
@@ -170,7 +170,37 @@
                             <!-- Add more links if necessary for additional evaluation-related actions -->
                         </ul>
                     </div>
+                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarEvaluation"
+                       role="button" aria-expanded="false" aria-controls="sidebarEvaluation">
+                        <i class="mdi mdi-clipboard-outline"></i>
+                        <span>@lang('Teacher Evaluations')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarEvaluation">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('evaluation.index') }}" class="nav-link">
+                                    <i class="mdi mdi-clipboard-text-outline"></i> 
+                                    @lang('View Evaluations 1-7')
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('seniorevaluation.index') }}" class="nav-link">
+                                    <i class="mdi mdi-clipboard-plus-outline"></i> 
+                                    @lang('View Evaluation 8-10')
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('report.index') }}" class="nav-link">
+                                    <i class="mdi mdi-clipboard-plus-outline"></i> 
+                                    @lang('View Nazra Report')
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
+                
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('roles.index') }}" data-bs-toggle="collapse"
