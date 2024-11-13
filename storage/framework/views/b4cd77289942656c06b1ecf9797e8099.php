@@ -10,4 +10,4 @@
 <!-- custom Css-->
 <link href="<?php echo e(URL::asset('build/css/custom.min.css')); ?>"  rel="stylesheet" type="text/css" />
 
-<?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/layouts/head-css.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\wamp64\www\Dar-e-Arqam\resources\views/layouts/head-css.blade.php ENDPATH**/ ?>

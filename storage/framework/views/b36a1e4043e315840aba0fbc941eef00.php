@@ -32,4 +32,4 @@
         </div>
     </body>
 </html>
-<?php /**PATH D:\wamp\www\Dar-e-Arqam\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions/views/minimal.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\wamp64\www\Dar-e-Arqam\vendor\laravel\framework\src\Illuminate\Foundation\Exceptions/views/minimal.blade.php ENDPATH**/ ?>

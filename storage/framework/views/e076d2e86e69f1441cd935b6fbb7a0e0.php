@@ -17,4 +17,4 @@
     </div>
 </div>
 <!-- end page title -->
-<?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/components/breadcrumb.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\wamp64\www\Dar-e-Arqam\resources\views/components/breadcrumb.blade.php ENDPATH**/ ?>

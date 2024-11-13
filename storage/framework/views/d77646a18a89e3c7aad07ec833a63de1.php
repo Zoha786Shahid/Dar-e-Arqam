@@ -19,4 +19,4 @@
     <?php echo $__env->make('layouts.vendor-scripts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </body>
 </html>
-<?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/layouts/master-without-nav.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\wamp64\www\Dar-e-Arqam\resources\views/layouts/master-without-nav.blade.php ENDPATH**/ ?>
