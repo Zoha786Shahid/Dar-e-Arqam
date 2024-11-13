@@ -48,13 +48,12 @@
                                         name="teacher_id" required>
                                         <option value="">Select Teacher</option>
                                     </select>
-
-                                    </select>
                                     @error('teacher_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
+
 
                             <div class="col-xxl-4 col-md-6">
                                 <div>
@@ -346,31 +345,28 @@
                 var campusId = $(this).val(); // Get the selected campus ID
                 if (campusId) {
                     $.ajax({
-                        url: '/get-teachers/' + campusId, // Call to the controller
+                        url: '/get-teachers/' + campusId, // Correct route for fetching teachers
                         type: 'GET',
                         dataType: 'json',
                         success: function(data) {
-                            console.log("Data received: ",
-                                data); // Log the data to ensure it's being received
-
                             $('#teacher_id').empty(); // Clear the dropdown
                             $('#teacher_id').append(
-                                '<option value="">Select Teacher</option>'
-                                ); // Add the default option
+                                '<option value="">Select Teacher</option>'); // Default option
 
                             if (Array.isArray(data) && data.length > 0) {
-                                $.each(data, function(key, value) {
-                                    console.log("Adding teacher: ", value
-                                        .name); // Log each teacher being added
-                                    $('#teacher_id').append('<option value="' + value
-                                        .id + '">' + value.name + '</option>');
+                                $.each(data, function(index, teacher) {
+                                    // Combine only the teacher's first and last name
+                                    const teacherName =
+                                        `${teacher.first_name} ${teacher.last_name}`;
+                                    $('#teacher_id').append(
+                                        `<option value="${teacher.id}">${teacherName}</option>`
+                                    );
                                 });
                             } else {
                                 $('#teacher_id').append(
                                     '<option value="">No Teachers Available</option>');
                             }
                         },
-
                         error: function() {
                             $('#teacher_id').empty();
                             $('#teacher_id').append(
@@ -385,8 +381,10 @@
         });
     </script>
 
+
+
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
     <script>
         $(document).ready(function() {
@@ -416,28 +414,28 @@
                 'personality_trait_confidence',
                 'response_of_previous_knowledge'
             ];
-    
+
             function calculateTotalAndPercentage() {
                 let total = 0;
                 let count = fields.length; // The total number of fields
-    
+
                 // Iterate through each field and sum up the values
                 fields.forEach(function(field) {
                     const fieldValue = parseInt($(`#${field}`).val()) || 0; // Default to 0 if empty
                     total += fieldValue;
                 });
-    
+
                 // Set the total marks in the total_marks field
                 $('#total_marks').val(total);
-    
+
                 // Calculate percentage (assuming max value for each field is 10)
                 let maxMarks = count * 10; // Maximum marks for all fields (23 fields with max 10 each)
                 let percentage = (total / maxMarks) * 100;
-    
+
                 // Set the calculated percentage in the percentage field
                 $('#percentage').val(percentage.toFixed(2)); // Round to 2 decimal places
             }
-    
+
             // Attach an event listener to all the fields to trigger the calculation when values change
             fields.forEach(function(field) {
                 $(`#${field}`).on('input', function() {
@@ -446,5 +444,5 @@
             });
         });
     </script>
-    
+
 @endsection

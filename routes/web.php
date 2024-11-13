@@ -27,6 +27,7 @@ use App\Http\Controllers\SeniorEvaluationReportController;
 // Route::resource('campus', CampusController::class);
 
 // Place this custom route before the resource route ->middleware('permission:view campus');
+Route::get('/get-teachers/{campusId}', [TeacherController::class, 'getTeachersByCampus']);
 Route::get('/roles/assign-permissions-form', [RoleController::class, 'assignPermissionsForm'])->name('roles.assignPermissionsForm');
 Route::post('/roles/assign-permissions', [RoleController::class, 'assignPermissions'])->name('roles.assignPermissions');
 Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.revokePermission');
@@ -59,6 +60,8 @@ Route::get('/get-sections-by-class', [SectionController::class, 'getSectionsByCl
 // download
 Route::get('reportcard/{id}/download', [ReportCardController::class, 'downloadReportCard'])->name('reportcard.download');
 Route::post('/reportcard/saveas', [ReportCardController::class, 'saveAs'])->name('reportcard.saveas');
+
+
 // Route::get('allrecords', [ReportCardController::class, 'allRecords']);
 Auth::routes();
 //Language Translation

@@ -35,7 +35,8 @@
                             <?php $__currentLoopData = $sections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td><?php echo e($section->name); ?></td>
-                                    <td><?php echo e($section->class ? $section->class->name : 'N/A'); ?></td> <!-- Display Class Name -->
+                                    <td><?php echo e($section->class ? $section->class->name : 'N/A'); ?></td>
+                                    <!-- Display Class Name -->
                                     <td><?php echo e($section->code); ?></td>
                                     <td>
                                         <!-- Check if the user has permission to edit the section -->

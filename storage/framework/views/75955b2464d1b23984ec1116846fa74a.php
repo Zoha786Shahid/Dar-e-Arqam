@@ -1,7 +1,7 @@
 
 
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('translation.evaluation-form'); ?>
+    <?php echo app('translator')->get('translation.seniorevaluation-form'); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -19,8 +19,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1"> Evaluation Report</h4>
-                    <a href="<?php echo e(route('evaluation.create')); ?>" class="btn btn-primary ms-auto">Create </a>
+                    <h4 class="card-title mb-0 flex-grow-1"> Senior Evaluation Report</h4>
+                    <a href="<?php echo e(route('seniorevaluation.create')); ?>" class="btn btn-primary ms-auto">Create </a>
                 </div><!-- end card header -->
                 <div class="card-body">
                     <!-- Bordered Tables -->
@@ -29,39 +29,39 @@
                             <tr>
                                 <th scope="col">Teacher name</th>
                                 <th scope="col">Campus</th>
-                                <th scope="col">Percentage</th>
+                                <th scope="col">Total Marks</th>
                                 <th scope="col">Created At</th>
-                                <th scope="col"></th>
+                                <th scope="col">Action</th>
+                
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $__currentLoopData = $evaluations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $evaluation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $reports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $seniorevaluation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><?php echo e($evaluation->teacher->first_name ?? 'N/A'); ?>
+                                    <!-- Display the teacher's name from the relationship -->
+                                    <td><?php echo e($seniorevaluation->teacher->first_name ?? 'N/A'); ?>
 
-                                        <?php echo e($evaluation->teacher->last_name ?? 'N/A'); ?></td>
-                                    <!-- Concatenate first_name and last_name --><!-- Display the teacher's name from the relationship -->
-                                    <td><?php echo e($evaluation->campus->name ?? 'N/A'); ?></td> <!-- Display campus name -->
-                                    <td><?php echo e($evaluation->percentage); ?>%</td>
-                                    <td><?php echo e($evaluation->created_at->format('Y-m-d')); ?></td>
-                                    
+                                        <?php echo e($seniorevaluation->teacher->last_name ?? ''); ?></td>
+                                    <!-- Display campus name -->
+                                    <td><?php echo e($seniorevaluation->campus->name ?? 'N/A'); ?></td>
+                                    <td><?php echo e($seniorevaluation->total_marks ?? 'N/A'); ?></td>
+                                    <td><?php echo e($seniorevaluation->created_at->format('Y-m-d')); ?></td>
+                                   
                                     <td>
                                         <!-- Check if the user has permission to edit the section -->
                                         
-                                        <a href="<?php echo e(route('evaluation.edit', $evaluation->id)); ?>"
-                                            class="btn btn-sm btn-warning">
+                                        <a href="<?php echo e(route('seniorevaluation.edit',  $seniorevaluation->id)); ?>" class="btn btn-sm btn-warning">
                                             <i class="ri-edit-line"></i> Edit
                                         </a>
                                         
-                                        <a href="<?php echo e(route('evaluation.download', $evaluation->id)); ?>"
+                                        <a href="<?php echo e(route('seniorevaluation.download', $seniorevaluation->id)); ?>"
                                             class="btn btn-sm btn-success">
                                             <i class="ri-download-line"></i> Download
                                         </a>
-
                                         <!-- Check if the user has permission to delete the section -->
                                         
-                                        <form id="delete-form-<?php echo e($evaluation->id); ?>"
-                                            action="<?php echo e(route('evaluation.destroy', $evaluation->id)); ?>" method="POST"
+                                        <form id="delete-form-<?php echo e($seniorevaluation->id); ?>"
+                                            action="<?php echo e(route('seniorevaluation.destroy', $seniorevaluation->id)); ?>" method="POST"
                                             style="display:inline;">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
@@ -75,6 +75,7 @@
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
+
                     </table>
 
                 </div>
@@ -90,4 +91,4 @@
     <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/evaluation/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/seniorEvaluation/index.blade.php ENDPATH**/ ?>

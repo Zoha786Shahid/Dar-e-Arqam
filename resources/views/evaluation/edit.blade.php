@@ -54,6 +54,7 @@
                                     <select class="form-select @error('teacher_id') is-invalid @enderror" id="teacher_id"
                                         name="teacher_id" required>
                                         <option value="">Select Teacher</option>
+                                        <!-- Populate the dropdown with all teachers if campus is pre-selected -->
                                         @foreach ($teachers as $teacher)
                                             <option value="{{ $teacher->id }}"
                                                 {{ $evaluation->teacher_id == $teacher->id ? 'selected' : '' }}>
@@ -407,20 +408,30 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Store the initially selected teacher ID (for edit view)
+            const selectedTeacherId = "{{ $evaluation->teacher_id }}";
+
             $('#campus_id').on('change', function() {
-                var campusId = $(this).val();
+                const campusId = $(this).val();
                 if (campusId) {
                     $.ajax({
-                        url: '/get-teachers/' + campusId,
+                        url: '/get-teachers/' + campusId, // API endpoint for fetching teachers
                         type: 'GET',
                         dataType: 'json',
                         success: function(data) {
-                            $('#teacher_id').empty();
-                            $('#teacher_id').append('<option value="">Select Teacher</option>');
+                            $('#teacher_id').empty(); // Clear the dropdown
+                            $('#teacher_id').append(
+                                '<option value="">Select Teacher</option>'); // Default option
+
                             if (Array.isArray(data) && data.length > 0) {
-                                $.each(data, function(key, value) {
-                                    $('#teacher_id').append('<option value="' + value
-                                        .id + '">' + value.name + '</option>');
+                                $.each(data, function(index, teacher) {
+                                    const isSelected = selectedTeacherId == teacher.id ?
+                                        'selected' : ''; // Retain selected teacher
+                                    const teacherName =
+                                        `${teacher.first_name} ${teacher.last_name}`;
+                                    $('#teacher_id').append(
+                                        `<option value="${teacher.id}" ${isSelected}>${teacherName}</option>`
+                                    );
                                 });
                             } else {
                                 $('#teacher_id').append(
@@ -431,15 +442,21 @@
                             $('#teacher_id').empty();
                             $('#teacher_id').append(
                                 '<option value="">Error loading teachers</option>');
-                        }
+                        },
                     });
                 } else {
                     $('#teacher_id').empty();
                     $('#teacher_id').append('<option value="">Select Teacher</option>');
                 }
             });
+
+            // Trigger change event on page load if a campus is already selected
+            if ($('#campus_id').val()) {
+                $('#campus_id').trigger('change');
+            }
         });
     </script>
+
     <script>
         $(document).ready(function() {
             // List of all input field IDs

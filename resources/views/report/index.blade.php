@@ -10,7 +10,7 @@
             Forms
         @endslot
         @slot('title')
-        ناظرہ رپورٹ
+            ناظرہ رپورٹ
         @endslot
     @endcomponent
     @include('partials.alerts')
@@ -19,7 +19,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">  ناظرہ رپورٹ</h4>
+                    <h4 class="card-title mb-0 flex-grow-1"> ناظرہ رپورٹ</h4>
                     <a href="{{ route('report.create') }}" class="btn btn-primary ms-auto">Create </a>
                 </div><!-- end card header -->
                 <div class="card-body">
@@ -48,7 +48,7 @@
                                     <td>{{ $report->moral_training }}</td>
                                     <td>{{ $report->created_at->format('Y-m-d') }}</td>
                                     <td>{{ $report->total_marks ?? 'N/A' }}</td>
-                                    <td>
+                                    {{-- <td>
                                         <div class="dropdown">
                                             <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
                                                 aria-expanded="false">
@@ -73,6 +73,33 @@
                                                 </form>
                                             </ul>
                                         </div>
+                                    </td> --}}
+
+                                    <td>
+                                        <!-- Check if the user has permission to edit the section -->
+                                        {{-- @can('update', $section) --}}
+                                        <a href="{{ route('report.edit', $report->id) }}" class="btn btn-sm btn-warning">
+                                            <i class="ri-edit-line"></i> Edit
+                                        </a>
+                                        {{-- @endcan --}}
+                                        <a href="{{ route('reportcard.download', $report->id) }}"
+                                            class="btn btn-sm btn-success">
+                                            <i class="ri-download-line"></i> Download
+                                        </a>
+
+                                        <!-- Check if the user has permission to delete the section -->
+                                        {{-- @can('delete', $section) --}}
+                                        <form id="delete-form-{{ $report->id }}"
+                                            action="{{ route('report.destroy', $report->id) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure?')">
+                                                <i class="ri-delete-bin-line"></i> Delete
+                                            </button>
+                                        </form>
+                                        {{-- @endcan --}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -90,6 +117,6 @@
 @endsection
 
 @section('script')
-    <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    {{-- <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
+    <script src="{{ URL::asset('build/js/app.js') }}"></script> --}}
 @endsection

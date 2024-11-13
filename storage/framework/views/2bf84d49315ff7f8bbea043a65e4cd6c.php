@@ -1,7 +1,5 @@
-
-
 <?php $__env->startSection('title'); ?>
-    <?php echo app('translator')->get('translation.evaluation-form'); ?>
+    <?php echo app('translator')->get('translation.seniorevaluation-form'); ?>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -10,7 +8,7 @@
             Forms
         <?php $__env->endSlot(); ?>
         <?php $__env->slot('title'); ?>
-            Teacher Performance Report
+            ناظرہ رپورٹ
         <?php $__env->endSlot(); ?>
     <?php echo $__env->renderComponent(); ?>
     <?php echo $__env->make('partials.alerts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -19,49 +17,54 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1"> Evaluation Report</h4>
-                    <a href="<?php echo e(route('evaluation.create')); ?>" class="btn btn-primary ms-auto">Create </a>
+                    <h4 class="card-title mb-0 flex-grow-1"> ناظرہ رپورٹ</h4>
+                    <a href="<?php echo e(route('report.create')); ?>" class="btn btn-primary ms-auto">Create </a>
                 </div><!-- end card header -->
                 <div class="card-body">
                     <!-- Bordered Tables -->
                     <table class="table table-bordered table-nowrap">
                         <thead>
                             <tr>
-                                <th scope="col">Teacher name</th>
-                                <th scope="col">Campus</th>
-                                <th scope="col">Percentage</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Time Management</th>
+
+                                <th scope="col">Moral Training</th>
                                 <th scope="col">Created At</th>
-                                <th scope="col"></th>
+                                <th scope="col">Total Marks</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $__currentLoopData = $evaluations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $evaluation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php $__currentLoopData = $reports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $report): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><?php echo e($evaluation->teacher->first_name ?? 'N/A'); ?>
+                                    <td><?php echo e($report->teacher->first_name ?? 'N/A'); ?>
 
-                                        <?php echo e($evaluation->teacher->last_name ?? 'N/A'); ?></td>
-                                    <!-- Concatenate first_name and last_name --><!-- Display the teacher's name from the relationship -->
-                                    <td><?php echo e($evaluation->campus->name ?? 'N/A'); ?></td> <!-- Display campus name -->
-                                    <td><?php echo e($evaluation->percentage); ?>%</td>
-                                    <td><?php echo e($evaluation->created_at->format('Y-m-d')); ?></td>
+                                        <?php echo e($report->teacher->last_name ?? ''); ?></td>
+
+                                    <td><?php echo e($report->time_management); ?></td>
+
+
+                                    <td><?php echo e($report->moral_training); ?></td>
+                                    <td><?php echo e($report->created_at->format('Y-m-d')); ?></td>
+                                    <td><?php echo e($report->total_marks ?? 'N/A'); ?></td>
                                     
+
                                     <td>
                                         <!-- Check if the user has permission to edit the section -->
                                         
-                                        <a href="<?php echo e(route('evaluation.edit', $evaluation->id)); ?>"
-                                            class="btn btn-sm btn-warning">
+                                        <a href="<?php echo e(route('report.edit', $report->id)); ?>" class="btn btn-sm btn-warning">
                                             <i class="ri-edit-line"></i> Edit
                                         </a>
                                         
-                                        <a href="<?php echo e(route('evaluation.download', $evaluation->id)); ?>"
+                                        <a href="<?php echo e(route('reportcard.download', $report->id)); ?>"
                                             class="btn btn-sm btn-success">
                                             <i class="ri-download-line"></i> Download
                                         </a>
 
                                         <!-- Check if the user has permission to delete the section -->
                                         
-                                        <form id="delete-form-<?php echo e($evaluation->id); ?>"
-                                            action="<?php echo e(route('evaluation.destroy', $evaluation->id)); ?>" method="POST"
+                                        <form id="delete-form-<?php echo e($report->id); ?>"
+                                            action="<?php echo e(route('report.destroy', $report->id)); ?>" method="POST"
                                             style="display:inline;">
                                             <?php echo csrf_field(); ?>
                                             <?php echo method_field('DELETE'); ?>
@@ -77,6 +80,8 @@
                         </tbody>
                     </table>
 
+
+
                 </div>
                 <!-- end card body -->
             </div>
@@ -86,8 +91,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('script'); ?>
-    <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+    
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/evaluation/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/report/index.blade.php ENDPATH**/ ?>

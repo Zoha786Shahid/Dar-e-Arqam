@@ -30,7 +30,7 @@
                                 <th scope="col">Permission Name</th>
                                 <th scope="col">Guard Name</th>
                                 <th scope="col">Created At</th>
-                                <th scope="col"></th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,32 +39,29 @@
                                     <td>{{ $permission->name }}</td> <!-- Display permission name -->
                                     <td>{{ $permission->guard_name }}</td> <!-- Display guard name -->
                                     <td>{{ $permission->created_at->format('Y-m-d') }}</td> <!-- Display created at date -->
-                                    <td>
-                                        <div class="dropdown">
-                                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="ri-more-2-fill"></i>
+                                   
+                                        <td>
+                                            <!-- Check if the user has permission to edit the section -->
+                                            {{-- @can('update', $section) --}}
+                                            <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-sm btn-warning">
+                                                <i class="ri-edit-line"></i> Edit
                                             </a>
-
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('permissions.edit', $permission->id) }}">Edit</a>
-                                                </li>
-
-                                                <li>
-                                                    <a class="dropdown-item" href="#"
-                                                        onclick="confirmDelete(event, 'delete-form-{{ $permission->id }}')">Delete</a>
-                                                </li>
-                                                <form id="delete-form-{{ $permission->id }}"
-                                                    action="{{ route('permissions.destroy', $permission->id) }}"
-                                                    method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                                {{-- @endcan --}}
-                                            </ul>
-                                        </div>
+                                            {{-- @endcan --}}
+                                      
+                                            <!-- Check if the user has permission to delete the section -->
+                                            {{-- @can('delete', $section) --}}
+                                            <form id="delete-form-{{ $permission->id }}"
+                                                action="{{ route('permissions.destroy', $permission->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Are you sure?')">
+                                                    <i class="ri-delete-bin-line"></i> Delete
+                                                </button>
+                                            </form>
+                                            {{-- @endcan --}}
+                                        
                                     </td>
                                 </tr>
                             @endforeach

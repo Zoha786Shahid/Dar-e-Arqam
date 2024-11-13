@@ -37,7 +37,8 @@
                             @foreach ($sections as $section)
                                 <tr>
                                     <td>{{ $section->name }}</td>
-                                    <td>{{ $section->class ? $section->class->name : 'N/A' }}</td> <!-- Display Class Name -->
+                                    <td>{{ $section->class ? $section->class->name : 'N/A' }}</td>
+                                    <!-- Display Class Name -->
                                     <td>{{ $section->code }}</td>
                                     <td>
                                         <!-- Check if the user has permission to edit the section -->
