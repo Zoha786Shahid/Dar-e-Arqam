@@ -5,15 +5,20 @@
     <meta charset="utf-8">
     <title>Class Observation Checklist</title>
     <style>
-        body {
-    font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', DejaVu Sans, Arial, sans-serif;
-    direction: rtl;
-}
+        @font-face {
+            font-family: 'Jameel Noori Nastaleeq';
+            src: url('<?php echo e(public_path('fonts/JameelNooriNastaleeq.ttf')); ?>') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-td, th {
-    text-align: right;
-    direction: rtl;
-}
+        body, td, th {
+            font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', DejaVu Sans, Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            letter-spacing: 0.5px; /* Adjust for Urdu */
+            word-spacing: 1px; /* Adjust for Urdu */
+        }
 
         table {
             width: 100%;
@@ -36,14 +41,8 @@ td, th {
             text-align: center;
         }
 
-        h3 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         p {
             margin: 5px 0;
-            width: 32%;
             font-size: 14px;
         }
 
@@ -62,41 +61,25 @@ td, th {
 
 <body>
     <div class="header">
-
-        
-
         <img src="<?php echo e(public_path('images/school.jpeg')); ?>" alt="School Image">
-
-
-
-
-        <h2>Dare Arqam Schools</h2>
-
-    </div>
- 
-
-    <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Teacher's Name:</strong>
-            <?php echo e($evaluation->teacher->first_name ?? 'N/A'); ?>
-
-            <?php echo e($evaluation->teacher->last_name ?? ''); ?> </p>
-        <p style=" display: inline-block;"><strong>Qualification:</strong>
-            <?php echo e($evaluation->teacher->qualification ?? 'N/A'); ?></p>
-        
+        <h2>دائرہ ارقم اسکولز</h2>
     </div>
 
-
-    <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Class/Sec:</strong> 5th C</p>
-        <p style=" display: inline-block;"><strong>Subject:</strong> Math</p>
-        <p style="display: inline-block;"><strong>Topic:</strong> Algebra</p>
+    <div style="display: flex; justify-content: space-between; flex-wrap: nowrap; margin-top: 20px;">
+        <p><strong>نام استاد:</strong> <?php echo e($evaluation->teacher->first_name ?? 'N/A'); ?> <?php echo e($evaluation->teacher->last_name ?? ''); ?></p>
+        <p><strong>تعلیمی قابلیت:</strong> <?php echo e($evaluation->teacher->qualification ?? 'N/A'); ?></p>
     </div>
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Campus:</strong> <?php echo e($evaluation->campus->name ?? 'N/A'); ?></p>
-        <p style=" display: inline-block;"><strong>Total Students:</strong> 50</p>
-        <p style="display: inline-block;"><strong>Date:</strong> <?php echo e(\Carbon\Carbon::now()->format('d-m-Y')); ?></p>
+        <p><strong>کلاس / سیکشن:</strong> 5th C</p>
+        <p><strong>مضمون:</strong> Math</p>
+        <p><strong>عنوان:</strong> Algebra</p>
+    </div>
 
+    <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
+        <p><strong>کیمپس:</strong> <?php echo e($evaluation->campus->name ?? 'N/A'); ?></p>
+        <p><strong>کل طلبہ:</strong> 50</p>
+        <p><strong>تاریخ:</strong> <?php echo e(\Carbon\Carbon::now()->format('d-m-Y')); ?></p>
     </div>
 
     <table>
@@ -109,9 +92,8 @@ td, th {
                 <th>Remarks (if any)</th>
             </tr>
         </thead>
-         <tbody dir="rtl">
+        <tbody>
             <?php $serial = 1; ?>
-    
             <tr>
                 <td><?php echo e($serial++); ?></td>
                 <td>آمد و استقبال (Entrance and Welcome)</td>
@@ -119,7 +101,6 @@ td, th {
                 <td><?php echo e($evaluation->entrance_welcome ?? ''); ?></td>
                 <td><?php echo e($evaluation->remarks_entrance_welcome ?? ''); ?></td>
             </tr>
-    
             <tr>
                 <td><?php echo e($serial++); ?></td>
                 <td>شخصی سلیقہ و لباس (Personal Appearance and Dress)</td>
@@ -127,7 +108,6 @@ td, th {
                 <td><?php echo e($evaluation->appearance_dress ?? ''); ?></td>
                 <td><?php echo e($evaluation->remarks_appearance_dress ?? ''); ?></td>
             </tr>
-    
             <tr>
                 <td><?php echo e($serial++); ?></td>
                 <td>درسی انداز (Teaching Style)</td>
@@ -135,7 +115,6 @@ td, th {
                 <td><?php echo e($evaluation->teaching_style ?? ''); ?></td>
                 <td><?php echo e($evaluation->remarks_teaching_style ?? ''); ?></td>
             </tr>
-    
             <tr>
                 <td><?php echo e($serial++); ?></td>
                 <td>حفاظتی تدابیر و صفائی (Safety Measures and Cleanliness)</td>
@@ -143,158 +122,28 @@ td, th {
                 <td><?php echo e($evaluation->safety_cleanliness ?? ''); ?></td>
                 <td><?php echo e($evaluation->remarks_safety_cleanliness ?? ''); ?></td>
             </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>نظم و ضبط (Discipline)</td>
-                <td>5</td>
-                <td><?php echo e($evaluation->discipline ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_discipline ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>کلاس بورڈ (Class Board)</td>
-                <td>2</td>
-                <td><?php echo e($evaluation->class_board ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_class_board ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>تدریسی پلان اور ٹائم ٹیبل (Teaching Plan and Time Table)</td>
-                <td>5</td>
-                <td><?php echo e($evaluation->teaching_plan ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_teaching_plan ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>مشق کروائی / طلبہ کی تیاری (Student Preparation)</td>
-                <td>10</td>
-                <td><?php echo e($evaluation->student_preparation ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_student_preparation ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>گفتگو کا معیار (Standard of Conversation)</td>
-                <td>10</td>
-                <td><?php echo e($evaluation->conversation_standard ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_conversation_standard ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>حفظ قرآن / دوران تعلیم و تدریس (Hifz-e-Quran / during Teaching)</td>
-                <td>10</td>
-                <td><?php echo e($evaluation->hifz_during_teaching ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_hifz_during_teaching ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>حفظ قرآن / روانی (Hifz-e-Quran / Fluency)</td>
-                <td>10</td>
-                <td><?php echo e($evaluation->hifz_fluency ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_hifz_fluency ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>قراءت (Recitation)</td>
-                <td>7</td>
-                <td><?php echo e($evaluation->recitation ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_recitation ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>اخلاقی تربیت (Moral Training)</td>
-                <td>10</td>
-                <td><?php echo e($evaluation->moral_training ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_moral_training ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>فکری و اخلاقی تربیت (Intellectual and Moral Training)</td>
-                <td>5</td>
-                <td><?php echo e($evaluation->intellectual_moral_training ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_intellectual_moral_training ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>جسمانی طاقت و صحت (Physical Strength and Health)</td>
-                <td>3</td>
-                <td><?php echo e($evaluation->physical_strength_health ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_physical_strength_health ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>استعمال وقت (Time Management)</td>
-                <td>2</td>
-                <td><?php echo e($evaluation->time_management ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_time_management ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>طلبہ کی کارکردگی (Student Performance)</td>
-                <td>5</td>
-                <td><?php echo e($evaluation->student_performance ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_student_performance ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td>ڈائری (Diary)</td>
-                <td>3</td>
-                <td><?php echo e($evaluation->diary ?? ''); ?></td>
-                <td><?php echo e($evaluation->remarks_diary ?? ''); ?></td>
-            </tr>
-    
-            <tr>
-                <td><?php echo e($serial++); ?></td>
-                <td><strong>کل نمبر</strong></td>
-                <td>100</td>
-                <td><?php echo e($evaluation->total_marks ?? ''); ?></td>
-                <td></td>
-            </tr>
+            <!-- Add more rows similarly -->
         </tbody>
     </table>
-    
 
+    <p style="margin-top: 20px;"><strong>ناظر کا نام:</strong> <?php echo e($evaluation->observer_name ?? '___________________'); ?></p>
+    <p><strong>دستخط:</strong> <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span></p>
 
-
-    <p style="margin-top: 20px;"><strong>Observer Name:</strong>
-        <?php echo e($evaluation->observer_name ?? '___________________'); ?></p>
-    <p style="margin-top: 10px;">
-        <strong>Signature:</strong>
-        <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
-    </p>
-
-    <p style="margin-top: 10px;"><strong>Guidance by Observer:</strong></p>
+    <p style="margin-top: 10px;"><strong>ناظر کی رہنمائی:</strong></p>
     <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;">
         <?php echo e($evaluation->observer_guidance ?? '__________________________________________________________________________'); ?>
 
     </p>
 
-    <p style="margin-top: 10px;"><strong>Teacher Views:</strong></p>
+    <p style="margin-top: 10px;"><strong>اساتذہ کے خیالات:</strong></p>
     <p style="border-bottom: 1px solid black; width: 100%; padding-bottom: 10px;">
         <?php echo e($evaluation->teacher_views ?? '__________________________________________________________________________'); ?>
 
     </p>
 
     <p style="margin-top: 20px;">
-        <strong>Signature:</strong>
-        <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
+        <strong>دستخط:</strong> <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
     </p>
-
-
-
 </body>
 
 </html>

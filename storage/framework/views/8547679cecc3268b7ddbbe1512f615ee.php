@@ -138,37 +138,39 @@
                 <!-- end Users Menu -->
 
                 <!-- Evaluation Menu -->
-                
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarEvaluation"
-                       role="button" aria-expanded="false" aria-controls="sidebarEvaluation">
-                        <i class="mdi mdi-clipboard-outline"></i>
-                        <span><?php echo app('translator')->get('Teacher Evaluations'); ?></span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarEvaluation">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('evaluation.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-text-outline"></i> 
-                                    <?php echo app('translator')->get('View Evaluations 1-7'); ?>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-plus-outline"></i> 
-                                    <?php echo app('translator')->get('View Evaluation 8-10'); ?>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('report.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-plus-outline"></i> 
-                                    <?php echo app('translator')->get('View Nazra Report'); ?>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                
+
+             <!-- Evaluation Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="<?php echo e(route('evaluation.index')); ?>">
+        <i class="mdi mdi-clipboard-outline"></i>
+        <span><?php echo app('translator')->get('Teacher Evaluations'); ?></span>
+        <i class="mdi mdi-chevron-down toggle-icon" data-bs-toggle="collapse" data-bs-target="#sidebarEvaluation"></i>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarEvaluation">
+        <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+                <a href="<?php echo e(route('evaluation.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-clipboard-text-outline"></i> 
+                    <?php echo app('translator')->get('View Evaluations 1-7'); ?>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-clipboard-plus-outline"></i> 
+                    <?php echo app('translator')->get('View Evaluation 8-10'); ?>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo e(route('report.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-clipboard-plus-outline"></i> 
+                    <?php echo app('translator')->get('View Nazra Report'); ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
+
+
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="<?php echo e(route('roles.index')); ?>" data-bs-toggle="collapse"
@@ -202,30 +204,22 @@
                     </div>
                 </li>
                 
+                
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('permissions.index')); ?>" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarPermissions">
-                        <!-- Permissions Icon -->
-                        <i class="mdi mdi-file-certificate-outline"></i>
-                        <span><?php echo app('translator')->get('Permissions'); ?></span>
+                    <a class="nav-link menu-link" href="<?php echo e(route('permissions.index')); ?>" role="button">
+                        <i class="mdi mdi-file-certificate-outline"></i> 
+                        <span><?php echo app('translator')->get('permissions'); ?></span>
+                        <i class="mdi mdi-chevron-down toggle-icon" data-bs-toggle="collapse" data-bs-target="#sidebarPermissions"></i>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarPermissions">
                         <ul class="nav nav-sm flex-column">
-                            <!-- View All Permissions Link -->
                             <li class="nav-item">
-                                <a href="<?php echo e(route('permissions.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-file-document-outline"></i>
-                                    <!-- Icon representing listing of permissions -->
-                                    <?php echo app('translator')->get('View All Permissions'); ?>
-                                </a>
+                                <a href="<?php echo e(route('permissions.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Permissions'); ?></a>
                             </li>
-                            <!-- Add New Permission Link -->
-
-                            <!-- Add more links if necessary for additional permission-related actions -->
                         </ul>
                     </div>
                 </li>
-
+                
                 
             </ul>
 
@@ -237,4 +231,21 @@
 <!-- Left Sidebar End -->
 <!-- Vertical Overlay-->
 <div class="vertical-overlay"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.toggle-icon').forEach(function (toggleIcon) {
+        toggleIcon.addEventListener('click', function (event) {
+            event.preventDefault();
+            const targetId = toggleIcon.getAttribute('data-bs-target');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement.classList.contains('show')) {
+                targetElement.classList.remove('show');
+            } else {
+                targetElement.classList.add('show');
+            }
+        });
+    });
+});
+
+</script>
 <?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/layouts/sidebar.blade.php ENDPATH**/ ?>
