@@ -18,10 +18,22 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header align-items-center d-flex">
+                <div class="card-header align-items-center d-flex justify-content-between">
                     <h4 class="card-title mb-0 flex-grow-1">Section Form</h4>
-                    <a href="{{ route('sections.create') }}" class="btn btn-primary ms-auto">Create Sections</a>
-                </div><!-- end card header -->
+                    <div class="d-flex align-items-center justify-content-end">
+                        <form action="{{ route('sections.import') }}" method="POST" enctype="multipart/form-data" class="me-2">
+                            @csrf
+                            <div class="d-inline-block">
+                                <label for="csv_file" class="form-label mb-0">Upload CSV</label>
+                                <input type="file" name="csv_file" id="csv_file" class="form-control d-inline-block" required>
+                            </div>
+                            <button type="submit" class="btn btn-success mt-2">Import CSV</button>
+                            
+                        </form>
+                        <a href="{{ route('sections.create') }}" class="btn btn-primary">Create Sections</a>
+                    </div>
+                </div>
+                
                 <div class="card-body">
                     <!-- Bordered Tables -->
                     <table class="table table-bordered table-nowrap">
@@ -66,10 +78,6 @@
                             @endforeach
                         </tbody>
                     </table>
-
-
-
-
                 </div>
                 <!-- end card body -->
             </div>

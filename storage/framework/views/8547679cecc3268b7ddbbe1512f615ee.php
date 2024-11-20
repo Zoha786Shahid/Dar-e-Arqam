@@ -139,36 +139,37 @@
 
                 <!-- Evaluation Menu -->
 
-             <!-- Evaluation Menu -->
-<li class="nav-item">
-    <a class="nav-link menu-link" href="<?php echo e(route('evaluation.index')); ?>">
-        <i class="mdi mdi-clipboard-outline"></i>
-        <span><?php echo app('translator')->get('Teacher Evaluations'); ?></span>
-        <i class="mdi mdi-chevron-down toggle-icon" data-bs-toggle="collapse" data-bs-target="#sidebarEvaluation"></i>
-    </a>
-    <div class="collapse menu-dropdown" id="sidebarEvaluation">
-        <ul class="nav nav-sm flex-column">
-            <li class="nav-item">
-                <a href="<?php echo e(route('evaluation.index')); ?>" class="nav-link">
-                    <i class="mdi mdi-clipboard-text-outline"></i> 
-                    <?php echo app('translator')->get('View Evaluations 1-7'); ?>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="nav-link">
-                    <i class="mdi mdi-clipboard-plus-outline"></i> 
-                    <?php echo app('translator')->get('View Evaluation 8-10'); ?>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?php echo e(route('report.index')); ?>" class="nav-link">
-                    <i class="mdi mdi-clipboard-plus-outline"></i> 
-                    <?php echo app('translator')->get('View Nazra Report'); ?>
-                </a>
-            </li>
-        </ul>
-    </div>
-</li>
+                <!-- Evaluation Menu -->
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="<?php echo e(route('evaluation.index')); ?>">
+                        <i class="mdi mdi-clipboard-outline"></i>
+                        <span><?php echo app('translator')->get('Teacher Evaluations'); ?></span>
+                        <i class="mdi mdi-chevron-down toggle-icon" data-bs-toggle="collapse"
+                            data-bs-target="#sidebarEvaluation"></i>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarEvaluation">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('evaluation.index')); ?>" class="nav-link">
+                                    <i class="mdi mdi-clipboard-text-outline"></i>
+                                    <?php echo app('translator')->get('View Evaluations 1-7'); ?>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="nav-link">
+                                    <i class="mdi mdi-clipboard-plus-outline"></i>
+                                    <?php echo app('translator')->get('View Evaluation 8-10'); ?>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('report.index')); ?>" class="nav-link">
+                                    <i class="mdi mdi-clipboard-plus-outline"></i>
+                                    <?php echo app('translator')->get('View Nazra Report'); ?>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
 
 
@@ -203,13 +204,13 @@
                         </ul>
                     </div>
                 </li>
-                
-                
+
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="<?php echo e(route('permissions.index')); ?>" role="button">
-                        <i class="mdi mdi-file-certificate-outline"></i> 
+                        <i class="mdi mdi-file-certificate-outline"></i>
                         <span><?php echo app('translator')->get('permissions'); ?></span>
-                        <i class="mdi mdi-chevron-down toggle-icon" data-bs-toggle="collapse" data-bs-target="#sidebarPermissions"></i>
+                        <i class="mdi mdi-chevron-down toggle-icon" data-bs-toggle="collapse"
+                            data-bs-target="#sidebarPermissions"></i>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarPermissions">
                         <ul class="nav nav-sm flex-column">
@@ -219,7 +220,7 @@
                         </ul>
                     </div>
                 </li>
-                
+
                 
             </ul>
 
@@ -232,20 +233,19 @@
 <!-- Vertical Overlay-->
 <div class="vertical-overlay"></div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.toggle-icon').forEach(function (toggleIcon) {
-        toggleIcon.addEventListener('click', function (event) {
-            event.preventDefault();
-            const targetId = toggleIcon.getAttribute('data-bs-target');
-            const targetElement = document.querySelector(targetId);
-            if (targetElement.classList.contains('show')) {
-                targetElement.classList.remove('show');
-            } else {
-                targetElement.classList.add('show');
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.toggle-icon').forEach(function(toggleIcon) {
+            toggleIcon.addEventListener('click', function(event) {
+                event.preventDefault();
+                const targetId = toggleIcon.getAttribute('data-bs-target');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement.classList.contains('show')) {
+                    targetElement.classList.remove('show');
+                } else {
+                    targetElement.classList.add('show');
+                }
+            });
         });
     });
-});
-
 </script>
 <?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/layouts/sidebar.blade.php ENDPATH**/ ?>
