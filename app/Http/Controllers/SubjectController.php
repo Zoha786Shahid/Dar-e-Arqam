@@ -7,6 +7,21 @@ use App\Models\Subject;
 
 class SubjectController extends Controller
 {
+    private function validateSubject(Request $request)
+    {
+        return $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+    }
+
+    private function handleSubjectSave(Request $request, Subject $subject = null)
+    {
+        $data = $this->validateSubject($request);
+
+        $subject ? $subject->update($data) : Subject::create($data);
+    }
+
     public function index()
     {
         $subjects = Subject::all();
@@ -20,11 +35,8 @@ class SubjectController extends Controller
 
     public function store(Request $request)
     {
-        Subject::create($request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]));
-        return redirect()->route('subjects.index')->with('success', 'Subjec created successfully.');
+        $this->handleSubjectSave($request);
+        return redirect()->route('subjects.index')->with('success', 'Subject created successfully.');
     }
 
     public function edit(Subject $subject)
@@ -34,10 +46,7 @@ class SubjectController extends Controller
 
     public function update(Request $request, Subject $subject)
     {
-        $subject->update($request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]));
+        $this->handleSubjectSave($request, $subject);
         return redirect()->route('subjects.index')->with('success', 'Subject updated successfully.');
     }
 
@@ -46,13 +55,13 @@ class SubjectController extends Controller
         $subject->delete();
         return redirect()->route('subjects.index')->with('success', 'Subject deleted successfully!');
     }
+
     public function getSubjects($sectionId)
-{
-    $subjects = Subject::whereHas('sections', function($query) use ($sectionId) {
-        $query->where('id', $sectionId);
-    })->get();
+    {
+        $subjects = Subject::whereHas('sections', function ($query) use ($sectionId) {
+            $query->where('id', $sectionId);
+        })->get();
 
-    return response()->json(['subjects' => $subjects]);
-}
-
+        return response()->json(['subjects' => $subjects]);
+    }
 }
