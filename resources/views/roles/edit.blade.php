@@ -61,17 +61,16 @@
                                         @foreach ($permissions as $permission)
                                             <option value="{{ $permission->id }}"
                                                 {{ in_array($permission->id, $role->permissions->pluck('id')->toArray()) ? 'selected' : '' }}>
-
                                                 {{ $permission->name }}
                                             </option>
                                         @endforeach
                                     </select>
-
                                     @error('permissions')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
+
                         </div>
 
                         <!-- Submit Button -->
