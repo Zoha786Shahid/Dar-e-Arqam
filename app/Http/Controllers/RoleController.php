@@ -9,31 +9,23 @@ use Spatie\Permission\Models\Permission;
 class RoleController extends Controller
 {
     // Display a listing of the roles
-    // public function index()
-    // {
-    //     // Eager load permissions for roles
-    //     $roles = Role::with('permissions')->get();
-    //     return view('roles.index', compact('roles'));
-    // }
-    public function index()
-{
-    $roles = Role::with('permissions')->get();
 
-    // Loop through roles and auto-assign all permissions to Owner
-    foreach ($roles as $role) {
-        if ($role->name === 'Owner') {
-            // Automatically assign all available permissions to the Owner role if not already assigned
-            $allPermissions = Permission::all();
-            $role->syncPermissions($allPermissions);
+    public function index()
+    {
+        $roles = Role::with('permissions')->get();
+
+        // Loop through roles and auto-assign all permissions to Owner
+        foreach ($roles as $role) {
+            if ($role->name === 'Owner') {
+                // Automatically assign all available permissions to the Owner role if not already assigned
+                $allPermissions = Permission::all();
+                $role->syncPermissions($allPermissions);
+            }
         }
+
+        return view('roles.index', compact('roles'));
     }
 
-    return view('roles.index', compact('roles'));
-}
-
-
-    // Show the form for creating a new role
-    // Make sure to import the Permission model
 
     public function create()
     {
@@ -48,18 +40,34 @@ class RoleController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:roles',
-            'guard_name' => 'required'
+            'guard_name' => 'required',
+            'permissions' => 'array', // Ensure permissions are passed as an array
         ]);
 
-        Role::create(['name' => $request->name, 'guard_name' => $request->guard_name]);
+        // Create the role
+        $role = Role::create([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name,
+        ]);
 
-        return redirect()->back()->with('success', 'Role created successfully.');
+        // Fetch permissions by their IDs
+        if ($request->has('permissions')) {
+            $permissions = Permission::whereIn('id', $request->permissions)->get();
+
+            if ($permissions->isEmpty()) {
+                return redirect()->back()->withErrors(['permissions' => 'No matching permissions found.']);
+            }
+
+            // Sync permissions with the role
+            $role->permissions()->sync($permissions->pluck('id')->toArray());
+        }
+
+        // Redirect to /roles with a success message
+        return redirect('/roles')->with('success', 'Role created successfully with permissions.');
     }
 
-    // Display the specified role
 
 
-    // Show the form for editing the specified role
     public function edit($id)
     {
         $role = Role::findOrFail($id);
@@ -68,19 +76,36 @@ class RoleController extends Controller
         return view('roles.edit', compact('role', 'permissions'));
     }
 
-
-    // Update the specified role in the database
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => 'required',
-            'guard_name' => 'required'
+            'name' => 'required|unique:roles,name,' . $role->id, // Allow the current role's name
+            'guard_name' => 'required',
+            'permissions' => 'array', // Ensure permissions are passed as an array
         ]);
 
-        $role->update($request->all());
+        // Update the role
+        $role->update([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name,
+        ]);
 
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
+        // Fetch permissions by their IDs and sync
+        if ($request->has('permissions')) {
+            $permissions = Permission::whereIn('id', $request->permissions)->get();
+
+            if ($permissions->isEmpty()) {
+                return redirect()->back()->withErrors(['permissions' => 'No matching permissions found.']);
+            }
+
+            // Sync permissions with the role
+            $role->permissions()->sync($permissions->pluck('id')->toArray());
+        }
+
+        // Redirect to /roles with a success message
+        return redirect('/roles')->with('success', 'Role updated successfully with permissions.');
     }
+
 
     // Remove the specified role from the database
     public function destroy(Role $role)
@@ -120,7 +145,7 @@ class RoleController extends Controller
     {
         // Fetch the role by name
         $role = Role::where('name', $request->input('role_name'))->firstOrFail();
-    
+
         // Check if the selected role is "Owner"
         if ($role->name == 'Owner') {
             // Assign all permissions to the "Owner" role
@@ -131,7 +156,7 @@ class RoleController extends Controller
             $selectedPermissions = $request->input('permissions', []);
             $role->syncPermissions($selectedPermissions); // Sync selected permissions for the role
         }
-    
+
         return back()->with('success', 'Permissions assigned successfully!');
     }
     public function getRolePermissions($roleName)

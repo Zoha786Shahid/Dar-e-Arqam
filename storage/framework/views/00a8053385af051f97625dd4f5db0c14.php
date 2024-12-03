@@ -73,11 +73,12 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="teacher_id" name="teacher_id" required>
+unset($__errorArgs, $__bag); ?>" id="teacher_id"
+                                        name="teacher_id" required>
                                         <option value="">Select Teacher</option>
                                         <!-- Populate the dropdown with all teachers if campus is pre-selected -->
                                         <?php $__currentLoopData = $teachers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $teacher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($teacher->id); ?>" 
+                                            <option value="<?php echo e($teacher->id); ?>"
                                                 <?php echo e($evaluation->teacher_id == $teacher->id ? 'selected' : ''); ?>>
                                                 <?php echo e($teacher->first_name); ?> <?php echo e($teacher->last_name); ?>
 
@@ -96,7 +97,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-                            
+
                             <!-- Observer Name -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
@@ -436,36 +437,41 @@ unset($__errorArgs, $__bag); ?>
 <?php $__env->startSection('script'); ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Store the initially selected teacher ID (for edit view)
             const selectedTeacherId = "<?php echo e($evaluation->teacher_id); ?>";
-    
-            $('#campus_id').on('change', function () {
+
+            $('#campus_id').on('change', function() {
                 const campusId = $(this).val();
                 if (campusId) {
                     $.ajax({
                         url: '/get-teachers/' + campusId, // API endpoint for fetching teachers
                         type: 'GET',
                         dataType: 'json',
-                        success: function (data) {
+                        success: function(data) {
                             $('#teacher_id').empty(); // Clear the dropdown
-                            $('#teacher_id').append('<option value="">Select Teacher</option>'); // Default option
-    
+                            $('#teacher_id').append(
+                                '<option value="">Select Teacher</option>'); // Default option
+
                             if (Array.isArray(data) && data.length > 0) {
-                                $.each(data, function (index, teacher) {
-                                    const isSelected = selectedTeacherId == teacher.id ? 'selected' : ''; // Retain selected teacher
-                                    const teacherName = `${teacher.first_name} ${teacher.last_name}`;
+                                $.each(data, function(index, teacher) {
+                                    const isSelected = selectedTeacherId == teacher.id ?
+                                        'selected' : ''; // Retain selected teacher
+                                    const teacherName =
+                                        `${teacher.first_name} ${teacher.last_name}`;
                                     $('#teacher_id').append(
                                         `<option value="${teacher.id}" ${isSelected}>${teacherName}</option>`
                                     );
                                 });
                             } else {
-                                $('#teacher_id').append('<option value="">No Teachers Available</option>');
+                                $('#teacher_id').append(
+                                    '<option value="">No Teachers Available</option>');
                             }
                         },
-                        error: function () {
+                        error: function() {
                             $('#teacher_id').empty();
-                            $('#teacher_id').append('<option value="">Error loading teachers</option>');
+                            $('#teacher_id').append(
+                                '<option value="">Error loading teachers</option>');
                         },
                     });
                 } else {
@@ -473,14 +479,14 @@ unset($__errorArgs, $__bag); ?>
                     $('#teacher_id').append('<option value="">Select Teacher</option>');
                 }
             });
-    
+
             // Trigger change event on page load if a campus is already selected
             if ($('#campus_id').val()) {
                 $('#campus_id').trigger('change');
             }
         });
     </script>
-    
+
     <script>
         $(document).ready(function() {
             // List of all input field IDs

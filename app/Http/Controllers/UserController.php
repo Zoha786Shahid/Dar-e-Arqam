@@ -10,155 +10,110 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    private function validateUser(Request $request, $isUpdate = false, $userId = null)
+    {
+        return $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => $isUpdate
+                ? 'required|string|email|max:255|unique:users,email,' . $userId
+                : 'required|string|email|max:255|unique:users',
+            'password' => $isUpdate
+                ? 'nullable|string|min:8|confirmed'
+                : 'required|string|min:8|confirmed',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'role_id' => 'nullable|exists:roles,id',
+            'campus_id' => 'required|exists:campuses,id',
+        ]);
+    }
+
+    private function handleAvatarUpload(Request $request, $oldAvatar = null)
+    {
+        if ($request->hasFile('avatar')) {
+            if ($oldAvatar) {
+                $oldAvatarPath = public_path('images/' . $oldAvatar);
+                if (file_exists($oldAvatarPath)) {
+                    unlink($oldAvatarPath); // Remove the old avatar
+                }
+            }
+
+            $avatarName = time() . '.' . $request->file('avatar')->extension();
+            $request->file('avatar')->move(public_path('images'), $avatarName);
+            return $avatarName;
+        }
+
+        return $oldAvatar; // Retain the old avatar if no new file is provided
+    }
+
+    private function assignOrSyncRole(User $user, $roleId)
+    {
+        if ($roleId) {
+            $role = Role::find($roleId);
+            if ($role) {
+                $user->syncRoles($role->name);
+            }
+        }
+    }
 
     public function index()
     {
-        // Fetch all users and eager load their roles
-
         $campus = Campus::all();
-        $users = User::with('roles')->get(); // Eager load roles (note it's 'roles', not 'role')
+        $users = User::with('roles')->get();
         return view('user.index', compact('users', 'campus'));
     }
 
-    /**
-     * Show the form for creating a new user.
-     */
     public function create()
     {
-        // Return the create u
         $campuses = Campus::all();
         $roles = Role::all();
         return view('user.create', compact('roles', 'campuses'));
     }
 
-    /**
-     * Store a newly created user in storage.
-     */
-
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'role_id' => 'nullable|exists:roles,id',
-            'campus_id' => 'required|exists:campuses,id',
+        $data = $this->validateUser($request);
+        $data['password'] = Hash::make($data['password']);
+        $data['avatar'] = $this->handleAvatarUpload($request);
 
-        ]);
+        $user = User::create($data);
 
-        // Handle the avatar upload if provided
-        $avatarName = null; // Initialize the avatar name variable
-        if ($request->hasFile('avatar')) {
-            $avatarName = time() . '.' . $request->file('avatar')->extension(); // Generate a unique filename
-            $request->file('avatar')->move(public_path('images'), $avatarName); // Move file to public/images
-        }
+        $this->assignOrSyncRole($user, $request->role_id);
 
-        // Create and store the new user
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'avatar' => $avatarName, // Store the avatar filename in the database
-
-            'campus_id' => $request->campus_id,
-        ]);
-
-        // Assign the role to the user if role_id is provided
-        if ($request->role_id) {
-            // Check if the role exists
-            $role = Role::find($request->role_id);
-
-            if (!$role) {
-                return redirect()->back()->with('error', 'Invalid role selected.');
-            }
-
-
-            // Assign the role to the user
-            $user->assignRole($role->name);
-        }
-        // dd($role->name);
-        // Redirect to user list after successful creation
         return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
 
-
-
-    /**
-     * Show the form for editing the specified user.
-     */
     public function edit(User $user)
     {
         $roles = Role::all();
         $campuses = Campus::all();
-        $userRoles = $user->roles->pluck('id')->toArray(); // Get the user's assigned roles
-        $permissions = $user->roles->flatMap->permissions; // Get all permissions from the roles
+        $userRoles = $user->roles->pluck('id')->toArray();
+        $permissions = $user->roles->flatMap->permissions;
 
         return view('user.edit', compact('user', 'roles', 'userRoles', 'permissions', 'campuses'));
     }
 
-    /**
-     * Update the specified user in storage.
-     */
     public function update(Request $request, User $user)
     {
-        // Validate the request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // allowing image files
-            'role_id' => 'nullable|exists:roles,id',
-            'campus_id' => 'required|exists:campuses,id',
-        ]);
+        $data = $this->validateUser($request, true, $user->id);
+        $data['password'] = $data['password'] ? Hash::make($data['password']) : $user->password;
+        $data['avatar'] = $this->handleAvatarUpload($request, $user->avatar);
 
-        // Handle the avatar upload if a new file is provided
-        if ($request->hasFile('avatar')) {
-            // Delete the old avatar if it exists
-            if ($user->avatar) {
-                $oldAvatarPath = public_path('images/' . $user->avatar);
-                if (file_exists($oldAvatarPath)) {
-                    unlink($oldAvatarPath); // Remove the old file
-                }
-            }
+        $user->update($data);
 
-            // Generate a new unique filename
-            $avatarName = time() . '.' . $request->file('avatar')->extension();
-            $request->file('avatar')->move(public_path('images'), $avatarName); // Move file to public/images
-        } else {
-            $avatarName = $user->avatar; // Retain the old avatar if no new file is provided
-        }
+        $this->assignOrSyncRole($user, $request->role_id);
 
-        // Update user fields
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ? Hash::make($request->password) : $user->password,
-            'avatar' => $avatarName, // Store the updated or old avatar filename
-            'role_id' => $request->role_id,
-            'campus_id' => $request->campus_id,
-        ]);
-        // Sync role to user
-        if ($request->role_id) {
-            $role = Role::find($request->role_id);
-            $user->syncRoles($role->name); // Sync roles using the role name
-        }
-
-        // Redirect to user list after successful update
         return redirect()->route('user.index')->with('success', 'User updated successfully.');
     }
 
-
-    /**
-     * Remove the specified user from storage.
-     */
     public function destroy(User $user)
     {
-        // Delete the user
-        $user->delete();
+        if ($user->avatar) {
+            $avatarPath = public_path('images/' . $user->avatar);
+            if (file_exists($avatarPath)) {
+                unlink($avatarPath);
+            }
+        }
 
-        // Redirect back to user list
+        $user->delete();
         return redirect()->route('user.index')->with('success', 'User deleted successfully.');
     }
 }

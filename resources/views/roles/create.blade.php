@@ -50,6 +50,26 @@
                                     @enderror
                                 </div>
                             </div>
+                            <!-- Permissions -->
+
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="permissions" class="form-label">Assign Permissions</label>
+                                    <select class="form-select select2 @error('permissions') is-invalid @enderror"
+                                        id="permissions" name="permissions[]" multiple>
+                                        @foreach ($permissions as $permission)
+                                            <option value="{{ $permission->id }}"
+                                                {{ isset($role) && $role->permissions->pluck('id')->contains($permission->id) ? 'selected' : '' }}>
+                                                {{ $permission->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('permissions')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
 
 
 

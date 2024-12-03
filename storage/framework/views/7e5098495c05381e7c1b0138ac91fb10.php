@@ -65,7 +65,8 @@ if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="teacher_id" name="teacher_id" required>
+unset($__errorArgs, $__bag); ?>" id="teacher_id"
+                                        name="teacher_id" required>
                                         <option value="">Select Teacher</option>
                                     </select>
                                     <?php $__errorArgs = ['teacher_id'];
@@ -80,7 +81,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-                            
+
 
                             <div class="col-xxl-4 col-md-6">
                                 <div>
@@ -364,7 +365,7 @@ unset($__errorArgs, $__bag); ?>
 
     <!-- Your other script files -->
     <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script> 
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 
     <script>
         $(document).ready(function() {
@@ -377,21 +378,27 @@ unset($__errorArgs, $__bag); ?>
                         dataType: 'json',
                         success: function(data) {
                             $('#teacher_id').empty(); // Clear the dropdown
-                            $('#teacher_id').append('<option value="">Select Teacher</option>'); // Default option
-                            
+                            $('#teacher_id').append(
+                                '<option value="">Select Teacher</option>'); // Default option
+
                             if (Array.isArray(data) && data.length > 0) {
                                 $.each(data, function(index, teacher) {
                                     // Combine only the teacher's first and last name
-                                    const teacherName = `${teacher.first_name} ${teacher.last_name}`;
-                                    $('#teacher_id').append(`<option value="${teacher.id}">${teacherName}</option>`);
+                                    const teacherName =
+                                        `${teacher.first_name} ${teacher.last_name}`;
+                                    $('#teacher_id').append(
+                                        `<option value="${teacher.id}">${teacherName}</option>`
+                                    );
                                 });
                             } else {
-                                $('#teacher_id').append('<option value="">No Teachers Available</option>');
+                                $('#teacher_id').append(
+                                    '<option value="">No Teachers Available</option>');
                             }
                         },
                         error: function() {
                             $('#teacher_id').empty();
-                            $('#teacher_id').append('<option value="">Error loading teachers</option>');
+                            $('#teacher_id').append(
+                                '<option value="">Error loading teachers</option>');
                         }
                     });
                 } else {
@@ -401,8 +408,8 @@ unset($__errorArgs, $__bag); ?>
             });
         });
     </script>
-    
-    
+
+
 
 <?php $__env->startSection('script'); ?>
     
@@ -435,28 +442,28 @@ unset($__errorArgs, $__bag); ?>
                 'personality_trait_confidence',
                 'response_of_previous_knowledge'
             ];
-    
+
             function calculateTotalAndPercentage() {
                 let total = 0;
                 let count = fields.length; // The total number of fields
-    
+
                 // Iterate through each field and sum up the values
                 fields.forEach(function(field) {
                     const fieldValue = parseInt($(`#${field}`).val()) || 0; // Default to 0 if empty
                     total += fieldValue;
                 });
-    
+
                 // Set the total marks in the total_marks field
                 $('#total_marks').val(total);
-    
+
                 // Calculate percentage (assuming max value for each field is 10)
                 let maxMarks = count * 10; // Maximum marks for all fields (23 fields with max 10 each)
                 let percentage = (total / maxMarks) * 100;
-    
+
                 // Set the calculated percentage in the percentage field
                 $('#percentage').val(percentage.toFixed(2)); // Round to 2 decimal places
             }
-    
+
             // Attach an event listener to all the fields to trigger the calculation when values change
             fields.forEach(function(field) {
                 $(`#${field}`).on('input', function() {
@@ -465,7 +472,7 @@ unset($__errorArgs, $__bag); ?>
             });
         });
     </script>
-    
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/evaluation/create.blade.php ENDPATH**/ ?>

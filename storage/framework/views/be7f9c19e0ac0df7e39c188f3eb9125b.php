@@ -21,7 +21,7 @@
             text-align: center;
             margin: 0;
         }
-        
+
 
         table {
             width: 100%;
@@ -64,12 +64,14 @@
 </head>
 
 <body>
-   
+
     <h2>رپورٹ کارڈ برائے مشاہدہ کلاس</h2>
 
 
     <div class="details">
-        <p><strong>استاد کا نام:</strong> <?php echo e($evaluation->teacher->first_name); ?> <?php echo e($evaluation->teacher->last_name); ?></p>
+        <p><strong>استاد کا نام:</strong> <?php echo e($evaluation->teacher->first_name); ?> <?php echo e($evaluation->teacher->last_name); ?>
+
+        </p>
         <p><strong>کوالفیکیشن:</strong> <?php echo e($evaluation->teacher->qualification); ?></p>
         <p><strong>کمپیس:</strong> <?php echo e($evaluation->campus->name); ?></p>
         <p><strong>تاریخ:</strong> <?php echo e(\Carbon\Carbon::parse($evaluation->created_at)->format('d-m-Y')); ?></p>

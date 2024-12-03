@@ -44,14 +44,14 @@
 
                             <div class="col-xxl-6 col-md-6">
                                 <div>
-                                    <label for="teacher_id" class="form-label">استاد کا نام<< /label>
-                                            <select class="form-select @error('teacher_id') is-invalid @enderror"
-                                                id="teacher_id" name="teacher_id" required>
-                                                <option value="">استاد منتخب کریں</option>
-                                            </select>
-                                            @error('teacher_id')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
+                                    <label for="teacher_id" class="form-label">استاد کا نام</label>
+                                    <select class="form-select @error('teacher_id') is-invalid @enderror" id="teacher_id"
+                                        name="teacher_id" required>
+                                        <option value="">استاد منتخب کریں</option>
+                                    </select>
+                                    @error('teacher_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

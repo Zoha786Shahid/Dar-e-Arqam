@@ -53,28 +53,28 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
 
-                            
+
                             <div class="col-xxl-6 col-md-6">
                                 <div>
-                                    <label for="teacher_id" class="form-label">استاد کا نام<</label>
-                                    <select class="form-select <?php $__errorArgs = ['teacher_id'];
+                                    <label for="teacher_id" class="form-label">استاد کا نام</label>
+                                            <select class="form-select <?php $__errorArgs = ['teacher_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>" id="teacher_id"
-                                        name="teacher_id" required>
-                                        <option value="">استاد منتخب کریں</option>
-                                    </select>
-                                    <?php $__errorArgs = ['teacher_id'];
+unset($__errorArgs, $__bag); ?>"
+                                                id="teacher_id" name="teacher_id" required>
+                                                <option value="">استاد منتخب کریں</option>
+                                            </select>
+                                            <?php $__errorArgs = ['teacher_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
-                                    <?php unset($message);
+                                                <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                            <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
@@ -297,54 +297,54 @@ unset($__errorArgs, $__bag); ?>
     <!-- end row -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
-   <!-- Load jQuery before your script -->
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Load jQuery before your script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-   <!-- Your other script files -->
-   <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
-   <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+    <!-- Your other script files -->
+    <script src="<?php echo e(URL::asset('build/libs/prismjs/prism.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 
-   <script>
-       $(document).ready(function() {
-           $('#campus_id').on('change', function() {
-               var campusId = $(this).val(); // Get the selected campus ID
-               if (campusId) {
-                   $.ajax({
-                       url: '/get-teachers/' + campusId, // Correct route for fetching teachers
-                       type: 'GET',
-                       dataType: 'json',
-                       success: function(data) {
-                           $('#teacher_id').empty(); // Clear the dropdown
-                           $('#teacher_id').append(
-                               '<option value="">Select Teacher</option>'); // Default option
+    <script>
+        $(document).ready(function() {
+            $('#campus_id').on('change', function() {
+                var campusId = $(this).val(); // Get the selected campus ID
+                if (campusId) {
+                    $.ajax({
+                        url: '/get-teachers/' + campusId, // Correct route for fetching teachers
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#teacher_id').empty(); // Clear the dropdown
+                            $('#teacher_id').append(
+                                '<option value="">Select Teacher</option>'); // Default option
 
-                           if (Array.isArray(data) && data.length > 0) {
-                               $.each(data, function(index, teacher) {
-                                   // Combine only the teacher's first and last name
-                                   const teacherName =
-                                       `${teacher.first_name} ${teacher.last_name}`;
-                                   $('#teacher_id').append(
-                                       `<option value="${teacher.id}">${teacherName}</option>`
-                                   );
-                               });
-                           } else {
-                               $('#teacher_id').append(
-                                   '<option value="">No Teachers Available</option>');
-                           }
-                       },
-                       error: function() {
-                           $('#teacher_id').empty();
-                           $('#teacher_id').append(
-                               '<option value="">Error loading teachers</option>');
-                       }
-                   });
-               } else {
-                   $('#teacher_id').empty();
-                   $('#teacher_id').append('<option value="">Select Teacher</option>');
-               }
-           });
-       });
-   </script>
+                            if (Array.isArray(data) && data.length > 0) {
+                                $.each(data, function(index, teacher) {
+                                    // Combine only the teacher's first and last name
+                                    const teacherName =
+                                        `${teacher.first_name} ${teacher.last_name}`;
+                                    $('#teacher_id').append(
+                                        `<option value="${teacher.id}">${teacherName}</option>`
+                                    );
+                                });
+                            } else {
+                                $('#teacher_id').append(
+                                    '<option value="">No Teachers Available</option>');
+                            }
+                        },
+                        error: function() {
+                            $('#teacher_id').empty();
+                            $('#teacher_id').append(
+                                '<option value="">Error loading teachers</option>');
+                        }
+                    });
+                } else {
+                    $('#teacher_id').empty();
+                    $('#teacher_id').append('<option value="">Select Teacher</option>');
+                }
+            });
+        });
+    </script>
 
 
     <script>
