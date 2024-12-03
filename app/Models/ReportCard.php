@@ -42,4 +42,6 @@ class ReportCard extends Model
     {
         return $this->belongsTo(Campus::class); // Adjust 'Campus' to the correct model namespace if necessary
     }
+
+
 }

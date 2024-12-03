@@ -52,29 +52,28 @@
 
                                         <!-- Display the campus name -->
                                     </td>
+
                                     <td>
-                                        <div class="dropdown">
-                                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                <i class="ri-more-2-fill"></i>
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <li><a class="dropdown-item"
-                                                        href="<?php echo e(route('user.edit', $user->id)); ?>">Edit</a></li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#"
-                                                        onclick="confirmDelete(event, 'delete-form-<?php echo e($user->id); ?>')">
-                                                        Delete
-                                                    </a>
-                                                </li>
-                                                <form id="delete-form-<?php echo e($user->id); ?>"
-                                                    action="<?php echo e(route('user.destroy', $user->id)); ?>" method="POST"
-                                                    style="display: none;">
-                                                    <?php echo csrf_field(); ?>
-                                                    <?php echo method_field('DELETE'); ?>
-                                                </form>
-                                            </ul>
-                                        </div>
+                                        <!-- Check if the user has permission to edit the section -->
+                                        
+                                        <a href="<?php echo e(route('user.edit', $user->id)); ?>" class="btn btn-sm btn-warning">
+                                            <i class="ri-edit-line"></i> Edit
+                                        </a>
+                                        
+
+                                        <!-- Check if the user has permission to delete the section -->
+                                        
+                                        <form id="delete-form-<?php echo e($user->id); ?>"
+                                            action="<?php echo e(route('user.destroy', $user->id)); ?>" method="POST"
+                                            style="display:inline;">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Are you sure?')">
+                                                <i class="ri-delete-bin-line"></i> Delete
+                                            </button>
+                                        </form>
+                                        
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -43,6 +43,7 @@ Route::resource('user', UserController::class)->middleware('permission:view user
 Route::resource('seniorevaluation', SeniorEvaluationReportController::class)->middleware('permission:view senior evaluation');
 Route::resource('subjects', SubjectController::class);
 Route::resource('sections', SectionController::class);
+Route::post('/sections/import', [SectionController::class, 'import'])->name('sections.import');
 
 
 // end apply middleware

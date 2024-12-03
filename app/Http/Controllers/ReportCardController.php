@@ -6,55 +6,44 @@ use Illuminate\Http\Request;
 use App\Models\ReportCard;
 use App\Models\Teacher;
 use App\Models\Campus;
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Mpdf\Mpdf;
 
 
 class ReportCardController extends Controller
 {
-    
+
     public function showEvaluationForm($id)
     {
         // Fetch evaluation data
         $evaluation = ReportCard::findOrFail($id);
-    
+
         // Pass the evaluation data to the view
         return view('seniorEvaluation.evaluation_pdf', compact('evaluation'));
     }
-    
+
 
 
     public function downloadReportCard($id)
     {
-        // Fetch evaluation with related campus
         $evaluation = ReportCard::with('campus')->findOrFail($id);
-    
-        // Initialize Dompdf instance
-        $options = new Options();
-        $options->set('isHtml5ParserEnabled', true);
-        $options->set('isRemoteEnabled', true);
-    
-        // You can specify the default font here as well
-        $options->setDefaultFont('Jameel Noori Nastaleeq');
-    
-        // Create the Dompdf object with options
-        $pdf = new Dompdf($options);
-    
-        // Load the view file for generating the PDF
-        $pdf->loadHtml(view('report.evaluation_pdf', compact('evaluation'))->render());
-    
-        // Set paper size and orientation if needed (e.g., A4 size)
-        $pdf->setPaper('A4', 'portrait');
-    
-        // Render the PDF
-        $pdf->render();
-    
-        // Return the generated PDF as a downloadable file
-        return $pdf->stream('evaluation_' . $evaluation->id . '.pdf');
+
+        $mpdf = new Mpdf([
+            'default_font' => 'Jameel Noori Nastaleeq',
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'orientation' => 'P',
+            'default_font_size' => 12,
+        ]);
+
+        $html = view('report.evaluation_pdf', compact('evaluation'))->render();
+        $mpdf->WriteHTML($html);
+        return $mpdf->Output('evaluation_' . $evaluation->id . '.pdf', 'D');
     }
-    
+
     // Display a listing of the report cards
     public function index()
     {
@@ -62,7 +51,7 @@ class ReportCardController extends Controller
         $reports = ReportCard::with('teacher', 'campus')->get();
         return view('report.index', compact('reports'));
     }
-    
+
     // Show the form for creating a new report card
     public function create()
     {
@@ -194,9 +183,4 @@ class ReportCardController extends Controller
         $report->delete();
         return redirect()->route('report.index')->with('success', 'Report card deleted successfully');
     }
-    
-  
-    
-    
-    
 }
