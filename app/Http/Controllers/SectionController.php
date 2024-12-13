@@ -116,4 +116,6 @@ class SectionController extends Controller
         $sections = Section::where('class_id', $classId)->get();
         return response()->json(['sections' => $sections]);
     }
+
+
 }

@@ -61,6 +61,8 @@ class Teacher extends Model
     {
         return $this->hasMany(TeacherSectionSubject::class, 'teacher_id');
     }
+
+
     public static function boot()
     {
         parent::boot();

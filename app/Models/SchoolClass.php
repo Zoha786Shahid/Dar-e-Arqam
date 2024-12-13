@@ -15,15 +15,19 @@ class SchoolClass extends Model
     ];
 
     // Relationship with Section model
-    public function sections()
-    {
-        return $this->hasMany(Section::class);
-    }
+    // public function sections()
+    // {
+    //     return $this->hasMany(Section::class);
+    // }
     public function teacherSectionsSubjects()
 {
     return $this->belongsToMany(Teacher::class, 'teacher_section_subject')
                 ->withPivot('section_id', 'subject_id')
                 ->withTimestamps();
+}
+public function sections()
+{
+    return $this->hasMany(Section::class, 'class_id');
 }
 
 }

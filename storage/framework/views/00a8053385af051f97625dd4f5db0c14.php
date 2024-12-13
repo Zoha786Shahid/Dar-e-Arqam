@@ -74,7 +74,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="teacher_id"
-                                        name="teacher_id" required>
+                                        name="teacher_id" onchange="fetchClasses()"  required>
                                         <option value="">Select Teacher</option>
                                         <!-- Populate the dropdown with all teachers if campus is pre-selected -->
                                         <?php $__currentLoopData = $teachers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $teacher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -97,8 +97,49 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
+                            <!-- Class Dropdown -->
+<div class="col-xxl-4 col-md-6">
+    <label for="class_id" class="form-label">Class</label>
+    <select class="form-select" id="class_id" name="class_id" required>
+        <option value="">Select Class</option>
+        <?php $__currentLoopData = $classes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $class): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($class->id); ?>" <?php echo e($evaluation->class_id == $class->id ? 'selected' : ''); ?>>
+                <?php echo e($class->name); ?>
 
-                            <!-- Observer Name -->
+            </option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+</div>
+
+<!-- Section Dropdown -->
+<div class="col-xxl-4 col-md-6">
+    <label for="section_id" class="form-label">Section</label>
+    <select class="form-select" id="section_id" name="section_id" required>
+        <option value="">Select Section</option>
+        <?php $__currentLoopData = $sections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($section->id); ?>" <?php echo e($evaluation->section_id == $section->id ? 'selected' : ''); ?>>
+                <?php echo e($section->name); ?>
+
+            </option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+</div>
+
+<!-- Subject Dropdown -->
+<div class="col-xxl-4 col-md-6">
+    <label for="subject_id" class="form-label">Subject</label>
+    <select class="form-select" id="subject_id" name="subject_id" required>
+        <option value="">Select Subject</option>
+        <?php $__currentLoopData = $subjects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subject): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($subject->id); ?>" <?php echo e($evaluation->subject_id == $subject->id ? 'selected' : ''); ?>>
+                <?php echo e($subject->name); ?>
+
+            </option>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+</div>
+
+                       <!-- Observer Name -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="observer_name" class="form-label">Observer Name</label>
@@ -552,6 +593,114 @@ unset($__errorArgs, $__bag); ?>
             });
         });
     </script>
+<script>
+    $(document).ready(function () {
+        const selectedSectionId = "<?php echo e($evaluation->section_id); ?>";
+        const selectedSubjectId = "<?php echo e($evaluation->subject_id); ?>";
+        const selectedClassId = "<?php echo e($evaluation->class_id); ?>";
+
+        // Fetch Classes Based on Teacher
+        $('#teacher_id').on('change', function () {
+            const teacherId = $(this).val();
+            if (teacherId) {
+                $.ajax({
+                    url: '/get-classes/' + teacherId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#class_id').empty().append('<option value="">Select Class</option>');
+                        if (Array.isArray(data) && data.length > 0) {
+                            data.forEach((classData) => {
+                                const isSelected = selectedClassId == classData.id ? 'selected' : '';
+                                $('#class_id').append(
+                                    `<option value="${classData.id}" ${isSelected}>${classData.name}</option>`
+                                );
+                            });
+                            // Trigger change for dependent sections
+                            $('#class_id').trigger('change');
+                        } else {
+                            $('#class_id').append('<option value="">No Classes Available</option>');
+                        }
+                    },
+                    error: function () {
+                        $('#class_id').empty().append('<option value="">Error loading classes</option>');
+                    },
+                });
+            } else {
+                $('#class_id').empty().append('<option value="">Select Class</option>');
+            }
+        });
+
+        // Fetch Sections Based on Class
+        $('#class_id').on('change', function () {
+            const classId = $(this).val();
+            if (classId) {
+                $.ajax({
+                    url: '/get-sections-by-class?class_id=' + classId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#section_id').empty().append('<option value="">Select Section</option>');
+                        if (Array.isArray(data.sections) && data.sections.length > 0) {
+                            data.sections.forEach((section) => {
+                                const isSelected = selectedSectionId == section.id ? 'selected' : '';
+                                $('#section_id').append(
+                                    `<option value="${section.id}" ${isSelected}>${section.name}</option>`
+                                );
+                            });
+                            // Trigger change for dependent subjects
+                            $('#section_id').trigger('change');
+                        } else {
+                            $('#section_id').append('<option value="">No Sections Available</option>');
+                        }
+                    },
+                    error: function () {
+                        $('#section_id').empty().append('<option value="">Error loading sections</option>');
+                    },
+                });
+            } else {
+                $('#section_id').empty().append('<option value="">Select Section</option>');
+            }
+        });
+
+        // Fetch Subjects Based on Section
+        $('#section_id').on('change', function () {
+            const sectionId = $(this).val();
+            if (sectionId) {
+                $.ajax({
+                    url: '/get-subjects-by-section?section_id=' + sectionId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#subject_id').empty().append('<option value="">Select Subject</option>');
+                        if (Array.isArray(data.subjects) && data.subjects.length > 0) {
+                            data.subjects.forEach((subject) => {
+                                const isSelected = selectedSubjectId == subject.id ? 'selected' : '';
+                                $('#subject_id').append(
+                                    `<option value="${subject.id}" ${isSelected}>${subject.name}</option>`
+                                );
+                            });
+                        } else {
+                            $('#subject_id').append('<option value="">No Subjects Available</option>');
+                        }
+                    },
+                    error: function () {
+                        $('#subject_id').empty().append('<option value="">Error loading subjects</option>');
+                    },
+                });
+            } else {
+                $('#subject_id').empty().append('<option value="">Select Subject</option>');
+            }
+        });
+
+        // Trigger initial teacher change if editing
+        if ($('#teacher_id').val()) {
+            $('#teacher_id').trigger('change');
+        }
+    });
+</script>
+
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/evaluation/edit.blade.php ENDPATH**/ ?>

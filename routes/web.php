@@ -26,6 +26,7 @@ use App\Http\Controllers\SeniorEvaluationReportController;
 */
 // Route::resource('campus', CampusController::class);
 
+Route::get('/get-classes/{teacherId}', [TeacherController::class, 'getClassesByTeacher']);
 // Place this custom route before the resource route ->middleware('permission:view campus');
 Route::get('/get-teachers/{campusId}', [TeacherController::class, 'getTeachersByCampus']);
 Route::get('/roles/assign-permissions-form', [RoleController::class, 'assignPermissionsForm'])->name('roles.assignPermissionsForm');
@@ -58,6 +59,8 @@ Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPD
 Route::post('/evaluation/save', [EvaluationController::class, 'save'])->name('evaluation.save');
 Route::get('/get-sections-by-class', [SectionController::class, 'getSectionsByClass'])
     ->name('get.sections.by.class');
+    Route::get('/get-subjects-by-section', [SubjectController::class, 'getSubjectsBySection'])
+    ->name('get.subjects.by.section');
 // download
 Route::get('reportcard/{id}/download', [ReportCardController::class, 'downloadReportCard'])->name('reportcard.download');
 Route::post('/reportcard/saveas', [ReportCardController::class, 'saveAs'])->name('reportcard.saveas');
@@ -74,3 +77,5 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('roo
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
 Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+
+

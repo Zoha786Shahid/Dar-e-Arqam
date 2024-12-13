@@ -45,7 +45,7 @@
                                 <div>
                                     <label for="teacher_id" class="form-label">Teacher’s name</label>
                                     <select class="form-select @error('teacher_id') is-invalid @enderror" id="teacher_id"
-                                        name="teacher_id" required>
+                                        name="teacher_id" onchange="fetchClasses()"  required>
                                         <option value="">Select Teacher</option>
                                     </select>
                                     @error('teacher_id')
@@ -54,7 +54,41 @@
                                 </div>
                             </div>
 
-
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="class_id" class="form-label">Class</label>
+                                    <select class="form-select" id="class_id" name="class_id" onchange="fetchSections()" required>
+                                        <option value="">Select Class</option>
+                                    </select>
+                                    @error('class_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="section_id" class="form-label">Section</label>
+                                    <select class="form-select @error('section_id') is-invalid @enderror" id="section_id" name="section_id"  onchange="fetchSubjects()" required>
+                                        <option value="">Select Section</option>
+                                    </select>
+                                    @error('section_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="subject_id" class="form-label">Subject</label>
+                                    <select class="form-select @error('subject_id') is-invalid @enderror" id="subject_id" name="subject_id" required>
+                                        <option value="">Select Subject</option>
+                                    </select>
+                                    @error('subject_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="observer_name" class="form-label">Observer Name</label>
@@ -444,5 +478,66 @@
             });
         });
     </script>
+<script type="text/javascript">
+function fetchClasses() {
+    let teacherId = document.getElementById('teacher_id').value; // Get selected teacher ID
+    fetch(`/get-classes/${teacherId}`)
+        .then(response => response.json())
+        .then(data => {
+            let classDropdown = document.getElementById('class_id');
+            classDropdown.innerHTML = '<option value="">Select Class</option>'; // Clear previous options
+            data.forEach(classData => {
+                classDropdown.innerHTML += `<option value="${classData.id}">${classData.name}</option>`; // Populate dropdown
+            });
+        })
+        .catch(error => console.error('Error fetching classes:', error));
+}
+function fetchSections() {
+    let classId = document.getElementById('class_id').value; // Get selected class ID
+    console.log('Selected Class ID:', classId); // Log the class ID
 
+    if (classId) {
+        fetch(`/get-sections-by-class?class_id=${classId}`)
+            .then(response => response.json())
+            .then(data => {
+                let sectionDropdown = document.getElementById('section_id');
+                sectionDropdown.innerHTML = '<option value="">Select Section</option>'; // Clear previous options
+                if (Array.isArray(data.sections) && data.sections.length > 0) {
+                    data.sections.forEach(section => {
+                        sectionDropdown.innerHTML += `<option value="${section.id}">${section.name}</option>`;
+                    });
+                } else {
+                    sectionDropdown.innerHTML = '<option value="">No Sections Available</option>';
+                }
+            })
+            .catch(error => console.error('Error fetching sections:', error));
+    } else {
+        console.error('No Class ID selected'); // Log if class ID is missing
+    }
+}
+
+function fetchSubjects() {
+    let sectionId = document.getElementById('section_id').value; // Get selected section ID
+    if (sectionId) {
+        fetch(`/get-subjects-by-section?section_id=${sectionId}`)
+            .then(response => response.json())
+            .then(data => {
+                let subjectDropdown = document.getElementById('subject_id');
+                subjectDropdown.innerHTML = '<option value="">Select Subject</option>'; // Clear previous options
+                if (Array.isArray(data.subjects) && data.subjects.length > 0) {
+                    data.subjects.forEach(subject => {
+                        subjectDropdown.innerHTML += `<option value="${subject.id}">${subject.name}</option>`; // Populate dropdown
+                    });
+                } else {
+                    subjectDropdown.innerHTML = '<option value="">No Subjects Available</option>';
+                }
+            })
+            .catch(error => console.error('Error fetching subjects:', error));
+    } else {
+        document.getElementById('subject_id').innerHTML = '<option value="">Select Subject</option>'; // Reset dropdown
+    }
+}
+
+
+</script>
 @endsection
