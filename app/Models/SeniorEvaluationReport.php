@@ -11,6 +11,9 @@ class SeniorEvaluationReport extends Model
     protected $fillable = [
         'teacher_id',
         'campus_id',
+        'class_id',
+        'section_id',
+        'subject_id',
         'observer_name',
         'observer_guidance',
         'teacher_views',
@@ -46,14 +49,29 @@ class SeniorEvaluationReport extends Model
 
     ];
     // Define the relationship to the Teacher model
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class); // Adjust 'Teacher' to the correct model namespace if necessary
-    }
+ public function campus()
+ {
+     return $this->belongsTo(Campus::class, 'campus_id');
+ }
 
-    // Define the relationship to the Campus model
-    public function campus()
-    {
-        return $this->belongsTo(Campus::class); // Adjust 'Campus' to the correct model namespace if necessary
-    }
+ public function teacher()
+ {
+     return $this->belongsTo(Teacher::class, 'teacher_id');
+ }
+
+ public function schoolClass()
+ {
+     return $this->belongsTo(SchoolClass::class, 'class_id');
+ }
+
+ public function section()
+ {
+     return $this->belongsTo(Section::class, 'section_id');
+ }
+
+ public function subject()
+ {
+     return $this->belongsTo(Subject::class, 'subject_id');
+ }
+
 }

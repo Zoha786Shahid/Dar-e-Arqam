@@ -537,7 +537,5 @@ function fetchSubjects() {
         document.getElementById('subject_id').innerHTML = '<option value="">Select Subject</option>'; // Reset dropdown
     }
 }
-
-
 </script>
 @endsection

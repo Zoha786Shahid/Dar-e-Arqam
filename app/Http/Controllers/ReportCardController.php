@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\ReportCard;
 use App\Models\Teacher;
 use App\Models\Campus;
+use App\Models\Section;
+use App\Models\Subject;
+use App\Models\SchoolClass;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Mpdf\Mpdf;
 
@@ -16,6 +19,9 @@ class ReportCardController extends Controller
         return $request->validate([
             'teacher_id' => 'required',
             'campus_id' => 'required',
+            'class_id' => 'required',
+            'section_id' => 'required',
+            'subject_id' => 'required',
             'entrance_welcome' => 'required',
             'appearance_dress' => 'required',
             'teaching_style' => 'required',
@@ -72,14 +78,44 @@ class ReportCardController extends Controller
         }
     }
 
+    // public function edit($id)
+    // {
+    //     $evaluation = ReportCard::findOrFail($id);
+    //     $data = array_merge(['evaluation' => $evaluation], $this->getCampusesAndTeachers());
+
+    //     return view('report.edit', $data);
+    // }
     public function edit($id)
     {
         $evaluation = ReportCard::findOrFail($id);
-        $data = array_merge(['evaluation' => $evaluation], $this->getCampusesAndTeachers());
-
+    
+        // Fetch teachers based on selected campus
+        $teachers = Teacher::where('campus_id', $evaluation->campus_id)->get();
+    
+        // Fetch classes taught by the selected teacher
+        $classes = SchoolClass::whereHas('sections.teacherSectionSubjects', function ($query) use ($evaluation) {
+            $query->where('teacher_id', $evaluation->teacher_id);
+        })->get();
+    
+        // Fetch sections for the selected class
+        $sections = Section::where('class_id', $evaluation->class_id)->get();
+    
+        // Fetch subjects for the selected section
+        $subjects = Subject::whereHas('teacherSectionSubjects', function ($query) use ($evaluation) {
+            $query->where('section_id', $evaluation->section_id);
+        })->get();
+    
+        $data = array_merge([
+            'evaluation' => $evaluation,
+            'teachers' => $teachers,
+            'classes' => $classes,
+            'sections' => $sections,
+            'subjects' => $subjects,
+        ], $this->getCampusesAndTeachers());
+    
         return view('report.edit', $data);
     }
-
+    
     public function update(Request $request, $id)
     {
         try {

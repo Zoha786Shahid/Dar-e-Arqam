@@ -11,6 +11,9 @@ class ReportCard extends Model
     protected $fillable = [
         'teacher_id',
         'campus_id',
+        'class_id',
+        'section_id',
+        'subject_id',
         'entrance_welcome',
         'appearance_dress',
         'teaching_style',
