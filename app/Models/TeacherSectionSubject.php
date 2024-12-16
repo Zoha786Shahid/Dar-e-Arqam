@@ -16,4 +16,23 @@ class TeacherSectionSubject extends Model
         'section_id',
         'subject_id',
     ];
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+
+    public function schoolClass()
+    {
+        return $this->belongsTo(SchoolClass::class, 'class_id');
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section_id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
 }

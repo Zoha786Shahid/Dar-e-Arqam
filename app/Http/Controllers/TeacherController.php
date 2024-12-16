@@ -196,4 +196,17 @@ class TeacherController extends Controller
         $teachers = Teacher::where('campus_id', $campusId)->get();
         return response()->json($teachers);
     }
+    public function getClassesByTeacher($teacherId)
+    {
+        $classes = SchoolClass::whereHas('sections', function ($query) use ($teacherId) {
+            $query->whereHas('teacherSectionSubjects', function ($q) use ($teacherId) {
+                $q->where('teacher_id', $teacherId);
+            });
+        })->get(['id', 'name']);
+    
+        return response()->json($classes);
+    }
+    
+    
+
 }

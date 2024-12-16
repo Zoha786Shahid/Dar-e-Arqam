@@ -40,25 +40,26 @@
 
 
                 <!-- Campus Menu -->
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('campus.index')); ?>" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarCampus">
-                        <i class="mdi mdi-school"></i> <span><?php echo app('translator')->get('Campus'); ?></span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarCampus">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('campus.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Capmus'); ?></a>
-                            </li>
+              <!-- Campus Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarCampus"
+        role="button" aria-expanded="false" aria-controls="sidebarCampus">
+        <i class="mdi mdi-school"></i> <span><?php echo app('translator')->get('Campus'); ?></span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarCampus">
+        <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+                <a href="<?php echo e(route('campus.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Campus'); ?></a>
+            </li>
+        </ul>
+    </div>
+</li>
 
-                        </ul>
-                    </div>
-                </li>
 
                 <!-- end Campus Menu -->
                 <!-- Sections Menu -->
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('sections.index')); ?>" data-bs-toggle="collapse"
+                    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarSections"
                         role="button" aria-expanded="false" aria-controls="sidebarSections">
                         <i class="mdi mdi-view-grid-outline"></i> <span><?php echo app('translator')->get('Sections'); ?></span>
                     </a>
@@ -67,159 +68,133 @@
                             <li class="nav-item">
                                 <a href="<?php echo e(route('sections.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Sections'); ?></a>
                             </li>
-
                         </ul>
                     </div>
                 </li>
+                
                 <!-- end Sections Menu -->
 
                 <!-- Subjects Menu -->
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('subjects.index')); ?>" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarSubjects">
-                        <i class="mdi mdi-book-open-variant"></i> <span><?php echo app('translator')->get('Subjects'); ?></span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarSubjects">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('subjects.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Subjects'); ?></a>
-                            </li>
+            <!-- Subjects Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarSubjects"
+        role="button" aria-expanded="false" aria-controls="sidebarSubjects">
+        <i class="mdi mdi-book-open-variant"></i> <span><?php echo app('translator')->get('Subjects'); ?></span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarSubjects">
+        <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+                <a href="<?php echo e(route('subjects.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Subjects'); ?></a>
+            </li>
+        </ul>
+    </div>
+</li>
+<!-- End Subjects Menu -->
 
-                        </ul>
-                    </div>
-                </li>
-                <!-- end Subjects Menu -->
+<!-- Teacher Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarTeacher"
+        role="button" aria-expanded="false" aria-controls="sidebarTeacher">
+        <i class="mdi mdi-account-plus-outline"></i> <span><?php echo app('translator')->get('Teachers'); ?></span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarTeacher">
+        <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+                <a href="<?php echo e(route('teacher.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-account-multiple-outline"></i> <?php echo app('translator')->get('Show Teachers'); ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
+<!-- End Teacher Menu -->
 
-                <!-- Teacher Menu -->
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('teacher.index')); ?>" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarTeacher">
-                        <!-- Teacher Icon -->
-                        <i class="mdi mdi-account-plus-outline"></i>
-                        <span><?php echo app('translator')->get('Teachers'); ?></span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarTeacher">
-                        <ul class="nav nav-sm flex-column">
-                            <!-- Show Teachers Link -->
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('teacher.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-account-multiple-outline"></i> <!-- List Icon -->
-                                    <?php echo app('translator')->get('Show Teachers'); ?>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+<!-- Users Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarUser"
+        role="button" aria-expanded="false" aria-controls="sidebarUser">
+        <i class="mdi mdi-account-outline"></i> <span><?php echo app('translator')->get('Users'); ?></span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarUser">
+        <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+                <a href="<?php echo e(route('user.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-account-multiple-outline"></i> <?php echo app('translator')->get('Show Users'); ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
+<!-- End Users Menu -->
 
-                <!-- end Teacher Menu -->
-                <!-- Users Menu -->
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('user.index')); ?>" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarUser">
-                        <!-- User Icon -->
-                        <i class="mdi mdi-account-outline"></i>
-                        <span><?php echo app('translator')->get('Users'); ?></span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarUser">
-                        <ul class="nav nav-sm flex-column">
-                            <!-- Show Users Link -->
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('user.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-account-multiple-outline"></i> <!-- List Icon -->
-                                    <?php echo app('translator')->get('Show Users'); ?>
-                                </a>
-                            </li>
-                            <!-- Add more links for user-specific actions if necessary -->
-                        </ul>
-                    </div>
-                </li>
+<!-- Evaluation Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarEvaluation"
+        role="button" aria-expanded="false" aria-controls="sidebarEvaluation">
+        <i class="mdi mdi-clipboard-outline"></i> <span><?php echo app('translator')->get('Teacher Evaluations'); ?></span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarEvaluation">
+        <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+                <a href="<?php echo e(route('evaluation.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-clipboard-text-outline"></i> <?php echo app('translator')->get('View Evaluations 1-7'); ?>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-clipboard-plus-outline"></i> <?php echo app('translator')->get('View Evaluation 8-10'); ?>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo e(route('report.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-clipboard-plus-outline"></i> <?php echo app('translator')->get('View Nazra Report'); ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
+<!-- End Evaluation Menu -->
 
+<!-- Roles Management Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarRoles"
+        role="button" aria-expanded="false" aria-controls="sidebarRoles">
+        <i class="mdi mdi-account-key-outline"></i> <span><?php echo app('translator')->get('Roles Management'); ?></span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarRoles">
+        <ul class="nav nav-sm flex-column">
+            <!-- View All Roles Link -->
+            <li class="nav-item">
+                <a href="<?php echo e(route('roles.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-file-document-outline"></i> <?php echo app('translator')->get('View All Roles'); ?>
+                </a>
+            </li>
+            <!-- Assign Permissions to Role Link -->
+            <li class="nav-item">
+                <a href="<?php echo e(route('roles.assignPermissionsForm')); ?>" class="nav-link">
+                    <i class="mdi mdi-file-key-outline"></i> <?php echo app('translator')->get('Assign Permissions to Role'); ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
 
-                <!-- end Users Menu -->
-
-                <!-- Evaluation Menu -->
-
-                <!-- Evaluation Menu -->
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('evaluation.index')); ?>">
-                        <i class="mdi mdi-clipboard-outline"></i>
-                        <span><?php echo app('translator')->get('Teacher Evaluations'); ?></span>
-                        <i class="mdi mdi-chevron-down toggle-icon" data-bs-toggle="collapse"
-                            data-bs-target="#sidebarEvaluation"></i>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarEvaluation">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('evaluation.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-text-outline"></i>
-                                    <?php echo app('translator')->get('View Evaluations 1-7'); ?>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('seniorevaluation.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-plus-outline"></i>
-                                    <?php echo app('translator')->get('View Evaluation 8-10'); ?>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('report.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-clipboard-plus-outline"></i>
-                                    <?php echo app('translator')->get('View Nazra Report'); ?>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('roles.index')); ?>" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarRoles">
-                        <!-- Roles Icon (certificate icon for roles management) -->
-                        <i class="mdi mdi-account-key-outline"></i>
-                        <span><?php echo app('translator')->get('Roles Management'); ?></span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarRoles">
-                        <ul class="nav nav-sm flex-column">
-                            <!-- View All Roles Link -->
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('roles.index')); ?>" class="nav-link">
-                                    <i class="mdi mdi-file-document-outline"></i>
-                                    <!-- Icon representing listing of roles -->
-                                    <?php echo app('translator')->get('View All Roles'); ?>
-                                </a>
-                            </li>
-                            <!-- Add New Role Link -->
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('roles.assignPermissionsForm')); ?>" class="nav-link">
-                                    <i class="mdi mdi-file-key-outline"></i>
-                                    <!-- Icon representing assigning permissions -->
-                                    <?php echo app('translator')->get('Assign Permissions to Role'); ?>
-                                </a>
-                            </li>
-
-
-                            <!-- Add more links if necessary for additional role-related actions -->
-                        </ul>
-                    </div>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="<?php echo e(route('permissions.index')); ?>" role="button">
-                        <i class="mdi mdi-file-certificate-outline"></i>
-                        <span><?php echo app('translator')->get('permissions'); ?></span>
-                        <i class="mdi mdi-chevron-down toggle-icon" data-bs-toggle="collapse"
-                            data-bs-target="#sidebarPermissions"></i>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarPermissions">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('permissions.index')); ?>" class="nav-link"><?php echo app('translator')->get('Show Permissions'); ?></a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+<!-- Permissions Menu -->
+<li class="nav-item">
+    <a class="nav-link menu-link" href="#" data-bs-toggle="collapse" data-bs-target="#sidebarPermissions"
+        role="button" aria-expanded="false" aria-controls="sidebarPermissions">
+        <i class="mdi mdi-file-certificate-outline"></i> <span><?php echo app('translator')->get('Permissions'); ?></span>
+    </a>
+    <div class="collapse menu-dropdown" id="sidebarPermissions">
+        <ul class="nav nav-sm flex-column">
+            <li class="nav-item">
+                <a href="<?php echo e(route('permissions.index')); ?>" class="nav-link">
+                    <i class="mdi mdi-shield-key-outline"></i> <?php echo app('translator')->get('Show Permissions'); ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+</li>
 
                 
             </ul>

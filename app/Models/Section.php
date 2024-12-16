@@ -34,4 +34,9 @@ class Section extends Model
                 ->withTimestamps();
 }
 
+public function teacherSectionSubjects()
+{
+    return $this->hasMany(TeacherSectionSubject::class, 'section_id');
+}
+
 }

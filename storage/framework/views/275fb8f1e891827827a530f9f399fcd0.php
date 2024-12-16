@@ -23,7 +23,8 @@
                     <form method="POST" action="<?php echo e(route('report.store')); ?>">
                         <?php echo csrf_field(); ?>
                         <div class="row gy-4">
-                            <div class="col-xxl-6 col-md-6">
+
+                            <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">کیمپس</label>
                                     <select class="form-select <?php $__errorArgs = ['campus_id'];
@@ -36,6 +37,7 @@ endif;
 unset($__errorArgs, $__bag); ?>" id="campus_id"
                                         name="campus_id" required>
                                         <option value="">کیمپس منتخب کریں</option>
+
                                         <?php $__currentLoopData = $campuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <option value="<?php echo e($campus->id); ?>"><?php echo e($campus->name); ?></option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -52,46 +54,122 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-
-
-                            <div class="col-xxl-6 col-md-6">
+                            <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="teacher_id" class="form-label">استاد کا نام</label>
-                                            <select class="form-select <?php $__errorArgs = ['teacher_id'];
+
+                                    <select class="form-select <?php $__errorArgs = ['teacher_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
-unset($__errorArgs, $__bag); ?>"
-                                                id="teacher_id" name="teacher_id" required>
-                                                <option value="">استاد منتخب کریں</option>
-                                            </select>
-                                            <?php $__errorArgs = ['teacher_id'];
+unset($__errorArgs, $__bag); ?>" id="teacher_id"
+                                        name="teacher_id" onchange="fetchClasses()" required>
+                                        <option value="">استاد منتخب کریں</option>
+
+                                    </select>
+                                    <?php $__errorArgs = ['teacher_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                <div class="invalid-feedback"><?php echo e($message); ?></div>
-                                            <?php unset($message);
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row gy-4">
 
-                            <!-- Field 1: آمد و استقبال (Entrance and Welcome) -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>
-                                    <label for="entrance_welcome" class="form-label">آمد و استقبال</label>
-                                    <input type="number" class="form-control" id="entrance_welcome" name="entrance_welcome"
-                                        oninput="calculateTotal()" placeholder="نمبر درج کریں" min="0" max="2"
+                                    <label for="class_id" class="form-label">کلاس</label>
+                                    <select class="form-select" id="class_id" name="class_id" onchange="fetchSections()"
                                         required>
+                                        <option value="">کلاس منتخب کریں</option>
+                                    </select>
+                                    <?php $__errorArgs = ['class_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
+                        
+
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="section_id" class="form-label">سیکشن</label>
+                                    <select class="form-select <?php $__errorArgs = ['section_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="section_id"
+                                        name="section_id" onchange="fetchSubjects()" required>
+                                        <option value="">سیکشن منتخب کریں</option>
+                                    </select>
+                                    <?php $__errorArgs = ['section_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="subject_id" class="form-label">مضمون</label>
+
+                                    <select class="form-select <?php $__errorArgs = ['subject_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" id="subject_id"
+                                        name="subject_id" required>
+                                        <option value="">مضمون منتخب کریں</option>
+                                    </select>
+                                    <?php $__errorArgs = ['subject_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                        <div class="invalid-feedback"><?php echo e($message); ?></div>
+                                    <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+
+                        <!-- Field 1: آمد و استقبال (Entrance and Welcome) -->
+                        <div class="col-xxl-4 col-md-6">
+                            <div>
+                                <label for="entrance_welcome" class="form-label">آمد و استقبال</label>
+                                <input type="number" class="form-control" id="entrance_welcome" name="entrance_welcome"
+                                    oninput="calculateTotal()" placeholder="نمبر درج کریں" min="0" max="2"
+                                    required>
+                            </div>
+                        </div></div>
+                        <div class="row gy-4">
+
+                          
 
                             <!-- Field 2: شخصی سلیقہ و لباس (Personal Appearance and Dress) -->
                             <div class="col-xxl-4 col-md-6">
@@ -128,8 +206,8 @@ unset($__errorArgs, $__bag); ?>
                                 <div>
                                     <label for="discipline" class="form-label">نظم و ضبط</label>
                                     <input type="number" class="form-control" id="discipline" name="discipline"
-                                        oninput="calculateTotal()" placeholder="نمبر درج کریں" min="0" max="5"
-                                        required>
+                                        oninput="calculateTotal()" placeholder="نمبر درج کریں" min="0"
+                                        max="5" required>
                                 </div>
                             </div>
 
@@ -138,8 +216,8 @@ unset($__errorArgs, $__bag); ?>
                                 <div>
                                     <label for="class_board" class="form-label">کلاس بورڈ</label>
                                     <input type="number" class="form-control" id="class_board" name="class_board"
-                                        oninput="calculateTotal()" placeholder="نمبر درج کریں" min="0" max="2"
-                                        required>
+                                        oninput="calculateTotal()" placeholder="نمبر درج کریں" min="0"
+                                        max="2" required>
                                 </div>
                             </div>
 
@@ -270,7 +348,7 @@ unset($__errorArgs, $__bag); ?>
                             </div>
 
                             <!-- Total Marks Field -->
-                            <div class="col-xxl-12 col-md-6">
+                            <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="total_marks" class="form-label">Total Marks</label>
                                     <input type="number" class="form-control" id="total_marks" name="total_marks"
@@ -278,7 +356,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                         </div>
-
+                  
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary">جمع کرائیں</button>
                             <a href="<?php echo e(route('report.index')); ?>" class="btn btn-secondary">منسوخ کریں</a>
@@ -381,6 +459,73 @@ unset($__errorArgs, $__bag); ?>
 
             // Display the total in the total_marks field
             document.getElementById('total_marks').value = total;
+        }
+    </script>
+    <script type="text/javascript">
+        function fetchClasses() {
+            let teacherId = document.getElementById('teacher_id').value; // Get selected teacher ID
+            fetch(`/get-classes/${teacherId}`)
+                .then(response => response.json())
+                .then(data => {
+                    let classDropdown = document.getElementById('class_id');
+                    classDropdown.innerHTML = '<option value="">Select Class</option>'; // Clear previous options
+                    data.forEach(classData => {
+                        classDropdown.innerHTML +=
+                        `<option value="${classData.id}">${classData.name}</option>`; // Populate dropdown
+                    });
+                })
+                .catch(error => console.error('Error fetching classes:', error));
+        }
+
+        function fetchSections() {
+            let classId = document.getElementById('class_id').value; // Get selected class ID
+            console.log('Selected Class ID:', classId); // Log the class ID
+
+            if (classId) {
+                fetch(`/get-sections-by-class?class_id=${classId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let sectionDropdown = document.getElementById('section_id');
+                        sectionDropdown.innerHTML =
+                        '<option value="">Select Section</option>'; // Clear previous options
+                        if (Array.isArray(data.sections) && data.sections.length > 0) {
+                            data.sections.forEach(section => {
+                                sectionDropdown.innerHTML +=
+                                    `<option value="${section.id}">${section.name}</option>`;
+                            });
+                        } else {
+                            sectionDropdown.innerHTML = '<option value="">No Sections Available</option>';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching sections:', error));
+            } else {
+                console.error('No Class ID selected'); // Log if class ID is missing
+            }
+        }
+
+        function fetchSubjects() {
+            let sectionId = document.getElementById('section_id').value; // Get selected section ID
+            if (sectionId) {
+                fetch(`/get-subjects-by-section?section_id=${sectionId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let subjectDropdown = document.getElementById('subject_id');
+                        subjectDropdown.innerHTML =
+                        '<option value="">Select Subject</option>'; // Clear previous options
+                        if (Array.isArray(data.subjects) && data.subjects.length > 0) {
+                            data.subjects.forEach(subject => {
+                                subjectDropdown.innerHTML +=
+                                    `<option value="${subject.id}">${subject.name}</option>`; // Populate dropdown
+                            });
+                        } else {
+                            subjectDropdown.innerHTML = '<option value="">No Subjects Available</option>';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching subjects:', error));
+            } else {
+                document.getElementById('subject_id').innerHTML =
+                '<option value="">Select Subject</option>'; // Reset dropdown
+            }
         }
     </script>
 <?php $__env->stopSection(); ?>

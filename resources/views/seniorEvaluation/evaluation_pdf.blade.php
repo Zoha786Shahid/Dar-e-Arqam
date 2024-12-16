@@ -82,9 +82,11 @@
 
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Class/Sec:</strong> 5th C</p>
-        <p style=" display: inline-block;"><strong>Subject:</strong> Math</p>
-        <p style="display: inline-block;"><strong>Topic:</strong> Algebra</p>
+        {{-- <p style=" display: inline-block;"><strong>Class/Sec:</strong> 5th C</p> --}}
+        <p style=" display: inline-block;"><strong>Class/Sec:</strong> {{ $evaluation->schoolClass->name ?? 'N/A' }}</p>
+        {{-- <p style=" display: inline-block;"><strong>Subject:</strong> Math</p> --}}
+        {{-- <p style="display: inline-block;"><strong>Topic:</strong> Algebra</p> --}}
+        <p style=" display: inline-block;"><strong>Subject:</strong>  {{ $evaluation->subject->name ?? 'N/A' }} </p>
     </div>
 
     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">

@@ -64,4 +64,18 @@ class SubjectController extends Controller
 
         return response()->json(['subjects' => $subjects]);
     }
+    public function getSubjectsBySection(Request $request)
+    {
+        // dd('Section ID:', [$request->input('section_id')]);
+        $subjects = Subject::whereHas('teacherSectionSubjects', function ($query) use ($request) {
+            $query->where('section_id', $request->input('section_id'));
+        })->get(['id', 'name']);
+    
+    
+    
+        return response()->json(['subjects' => $subjects]);
+    }
+    
+  
+    
 }

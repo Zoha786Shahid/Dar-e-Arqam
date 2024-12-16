@@ -12,6 +12,9 @@ class EvaluationForm extends Model
       protected $fillable = [
           'teacher_id',
           'campus_id',
+          'class_id',
+          'section_id',
+          'subject_id',
           'total_students',
           'appearance_dress_code',
           'lesson_plan',
@@ -53,14 +56,38 @@ class EvaluationForm extends Model
                 //   'date',
       ];
       // In your Evaluation model (Evaluation.php)
-public function campus()
-{
-    return $this->belongsTo(Campus::class, 'campus_id');
-}
-// In EvaluationForm.php model
-public function teacher()
-{
-    return $this->belongsTo(Teacher::class, 'teacher_id');
-}
+// public function campus()
+// {
+//     return $this->belongsTo(Campus::class, 'campus_id');
+// }
+// // In EvaluationForm.php model
+// public function teacher()
+// {
+//     return $this->belongsTo(Teacher::class, 'teacher_id');
+// }
+ // Relationships
+ public function campus()
+ {
+     return $this->belongsTo(Campus::class, 'campus_id');
+ }
 
+ public function teacher()
+ {
+     return $this->belongsTo(Teacher::class, 'teacher_id');
+ }
+
+ public function schoolClass()
+ {
+     return $this->belongsTo(SchoolClass::class, 'class_id');
+ }
+
+ public function section()
+ {
+     return $this->belongsTo(Section::class, 'section_id');
+ }
+
+ public function subject()
+ {
+     return $this->belongsTo(Subject::class, 'subject_id');
+ }
 }

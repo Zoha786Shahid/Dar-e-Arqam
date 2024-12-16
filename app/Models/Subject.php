@@ -29,5 +29,9 @@ public function teacherClassesSections()
                 ->withTimestamps();
 }
 
+public function teacherSectionSubjects()
+{
+    return $this->hasMany(TeacherSectionSubject::class, 'subject_id');
+}
 
 }
