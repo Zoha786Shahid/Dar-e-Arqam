@@ -67,10 +67,7 @@
             <?php echo e($evaluation->teacher->last_name ?? ''); ?> </p>
         <p style=" display: inline-block;"><strong>Qualification:</strong>
             <?php echo e($evaluation->teacher->qualification ?? 'N/A'); ?></p>
-        <p style="display: inline-block;"><strong>Joining
-                Date:</strong><?php echo e(\Carbon\Carbon::parse($evaluation->teacher->joining_date)->format('d-m-Y') ?? 'N/A'); ?>
-
-        </p>
+        
     </div>
 
 
