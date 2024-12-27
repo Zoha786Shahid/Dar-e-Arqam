@@ -26,7 +26,7 @@
                         @csrf
                         <div class="row gy-4">
 
-                            <div class="col-xxl-4 col-md-6">
+                            {{-- <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">کیمپس</label>
                                     <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
@@ -41,7 +41,28 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div> --}}
+                            <div class="col-xxl-4 col-md-6">
+                                <div>
+                                    <label for="campus_id" class="form-label">کیمپس</label>
+                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                        name="campus_id" required {{ auth()->user()->hasRole('Principal') ? 'disabled' : '' }}>
+                                        @foreach ($campuses as $campus)
+                                            <option value="{{ $campus->id }}"
+                                                {{ auth()->user()->hasRole('Principal') && $campus->id == auth()->user()->campus_id ? 'selected' : '' }}>
+                                                {{ $campus->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if(auth()->user()->hasRole('Principal'))
+                                        <input type="hidden" name="campus_id" value="{{ auth()->user()->campus_id }}">
+                                    @endif
+                                    @error('campus_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
+                            
                             <div class="col-xxl-4 col-md-6">
                                 <div>
                                     <label for="teacher_id" class="form-label">استاد کا نام</label>

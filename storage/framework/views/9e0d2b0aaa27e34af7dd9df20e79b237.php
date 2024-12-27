@@ -109,32 +109,12 @@
                             </div>
                             <!--end col-->
 
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="principal_name" class="form-label">Principal Name</label>
-                                    <input type="text" class="form-control" id="principal_name" name="principal_name"
-                                        value="<?php echo e(old('principal_name', $campus->principal_name)); ?>">
-                                </div>
-                            </div>
                             <!--end col-->
 
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="principal_email" class="form-label">Principal Email</label>
-                                    <input type="email" class="form-control" id="principal_email" name="principal_email"
-                                        value="<?php echo e(old('principal_email', $campus->principal_email)); ?>">
-                                </div>
-                            </div>
+                          
                             <!--end col-->
 
-                            <div class="col-xxl-4 col-md-6">
-                                <div>
-                                    <label for="principal_phone" class="form-label">Principal Phone</label>
-                                    <input type="text" class="form-control" id="principal_phone"
-                                        name="principal_phone"
-                                        value="<?php echo e(old('principal_phone', $campus->principal_phone)); ?>">
-                                </div>
-                            </div>
+                       
                             <!--end col-->
 
                             <div class="col-xxl-6 col-md-6">

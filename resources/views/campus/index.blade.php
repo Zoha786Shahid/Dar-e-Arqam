@@ -53,9 +53,13 @@
                                     <td>
                                         <!-- Check if the user has permission to edit the section -->
                                         {{-- @can('update', $section) --}}
-                                        <a href="{{ route('campus.edit', $campus->id) }}" class="btn btn-sm btn-warning">
+                                        {{-- <a href="{{ route('campus.edit', $campus->id) }}" class="btn btn-sm btn-warning">
                                             <i class="ri-edit-line"></i> Edit
-                                        </a>
+                                        </a> --}}
+                                        @if($canEdit)
+    <a href="{{ route('campus.edit', $campus->id) }}" class="btn btn-sm btn-warning">Edit</a>
+@endif
+
                                         {{-- @endcan --}}
 
                                         <!-- Check if the user has permission to delete the section -->

@@ -60,18 +60,64 @@ class SeniorEvaluationReportController extends Controller
         ];
     }
 
-    public function index()
-    {
-        $reports = SeniorEvaluationReport::with('teacher', 'campus')->get();
-        return view('seniorEvaluation.index', compact('reports'));
+    
+    // public function index()
+    // {
+    //     $user = auth()->user();
+    
+    //     // Filter reports based on the user's role
+    //     $reports = $user->hasRole('Principal')
+    //         ? SeniorEvaluationReport::with('teacher', 'campus')->where('campus_id', $user->campus_id)->get()
+    //         : SeniorEvaluationReport::with('teacher', 'campus')->get();
+    
+    //     return view('seniorEvaluation.index', compact('reports'));
+    // }
+    public function index(Request $request)
+{
+    $user = auth()->user();
+    $search = $request->input('search'); // Get the search query
+
+    // Base query
+    $query = SeniorEvaluationReport::with(['teacher', 'campus']);
+
+    // Filter reports based on the user's role
+    if ($user->hasRole('Principal')) {
+        $query->where('campus_id', $user->campus_id);
     }
 
+    // Apply search filter for teacher name
+    if ($search) {
+        $query->whereHas('teacher', function ($q) use ($search) {
+            $q->where('first_name', 'LIKE', "%$search%")
+              ->orWhere('last_name', 'LIKE', "%$search%")
+              ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$search%"]);
+        });
+    }
+
+    $reports = $query->get();
+
+    return view('seniorEvaluation.index', compact('reports', 'search'));
+}
+
+    // public function create()
+    // {
+    //     $data = $this->getCampusesAndTeachers();
+    //     return view('seniorEvaluation.create', $data);
+    // }
     public function create()
     {
-        $data = $this->getCampusesAndTeachers();
+        $user = auth()->user();
+    
+        // Fetch campuses based on role
+        $campuses = $user->hasRole('Principal')
+            ? Campus::where('id', $user->campus_id)->get()
+            : Campus::all();
+    
+        $data = array_merge($this->getCampusesAndTeachers(), compact('campuses', 'user'));
+    
         return view('seniorEvaluation.create', $data);
     }
-
+    
     public function store(Request $request)
     {
         try {
@@ -86,17 +132,15 @@ class SeniorEvaluationReportController extends Controller
             return redirect()->back()->with('error', 'An error occurred while saving the evaluation report.')->withInput();
         }
     }
-
-    // public function edit($id)
-    // {
-    //     $evaluation = SeniorEvaluationReport::findOrFail($id);
-    //     $data = array_merge(['evaluation' => $evaluation], $this->getCampusesAndTeachers());
-
-    //     return view('seniorEvaluation.edit', $data);
-    // }
     public function edit($id)
     {
+        $user = auth()->user();
         $evaluation = SeniorEvaluationReport::findOrFail($id);
+    
+        // Fetch campuses based on the role
+        $campuses = $user->hasRole('Principal')
+            ? Campus::where('id', $user->campus_id)->get()
+            : Campus::all();
     
         // Fetch teachers based on selected campus
         $teachers = Teacher::where('campus_id', $evaluation->campus_id)->get();
@@ -120,10 +164,44 @@ class SeniorEvaluationReportController extends Controller
             'classes' => $classes,
             'sections' => $sections,
             'subjects' => $subjects,
+            'campuses' => $campuses,
+            'user' => $user,
         ], $this->getCampusesAndTeachers());
     
         return view('seniorEvaluation.edit', $data);
     }
+    
+  
+    // public function edit($id)
+    // {
+    //     $evaluation = SeniorEvaluationReport::findOrFail($id);
+    
+    //     // Fetch teachers based on selected campus
+    //     $teachers = Teacher::where('campus_id', $evaluation->campus_id)->get();
+    
+    //     // Fetch classes taught by the selected teacher
+    //     $classes = SchoolClass::whereHas('sections.teacherSectionSubjects', function ($query) use ($evaluation) {
+    //         $query->where('teacher_id', $evaluation->teacher_id);
+    //     })->get();
+    
+    //     // Fetch sections for the selected class
+    //     $sections = Section::where('class_id', $evaluation->class_id)->get();
+    
+    //     // Fetch subjects for the selected section
+    //     $subjects = Subject::whereHas('teacherSectionSubjects', function ($query) use ($evaluation) {
+    //         $query->where('section_id', $evaluation->section_id);
+    //     })->get();
+    
+    //     $data = array_merge([
+    //         'evaluation' => $evaluation,
+    //         'teachers' => $teachers,
+    //         'classes' => $classes,
+    //         'sections' => $sections,
+    //         'subjects' => $subjects,
+    //     ], $this->getCampusesAndTeachers());
+    
+    //     return view('seniorEvaluation.edit', $data);
+    // }
     
     public function update(Request $request, $id)
     {

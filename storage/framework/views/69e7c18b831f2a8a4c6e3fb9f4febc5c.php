@@ -53,9 +53,11 @@
                                     <td>
                                         <!-- Check if the user has permission to edit the section -->
                                         
-                                        <a href="<?php echo e(route('campus.edit', $campus->id)); ?>" class="btn btn-sm btn-warning">
-                                            <i class="ri-edit-line"></i> Edit
-                                        </a>
+                                        
+                                        <?php if($canEdit): ?>
+    <a href="<?php echo e(route('campus.edit', $campus->id)); ?>" class="btn btn-sm btn-warning">Edit</a>
+<?php endif; ?>
+
                                         
 
                                         <!-- Check if the user has permission to delete the section -->

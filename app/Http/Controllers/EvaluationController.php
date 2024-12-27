@@ -11,7 +11,7 @@ use App\Models\SchoolClass;
 use App\Models\EvaluationForm;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use App\Helpers\SearchHelper;
 class EvaluationController extends Controller
 {
     private function validateEvaluation(Request $request)
@@ -63,17 +63,66 @@ class EvaluationController extends Controller
         ];
     }
 
-    public function index()
-    {
-        $evaluations = EvaluationForm::with(['campus', 'teacher'])->get();
-        return view('evaluation.index', compact('evaluations'));
-    }
+  
 
-    public function create()
+    public function index(Request $request)
     {
-        $data = $this->getCampusesAndTeachers();
-        return view('evaluation.create', $data);
+        $user = auth()->user();
+        $search = $request->input('search'); // Get the search query
+    
+        // Base query
+        $query = EvaluationForm::with(['campus', 'teacher']);
+    
+        // Filter evaluations based on the user's role
+        if ($user->hasRole('Principal')) {
+            $query->where('campus_id', $user->campus_id);
+        }
+    
+        // Apply search filter using the helper
+        if ($search) {
+            $query = SearchHelper::filterByTeacherName($query, $search);
+    
+            // Prioritize records that match the search term
+            $query->orderByRaw("FIELD(teacher_id, (SELECT id FROM teachers WHERE CONCAT(first_name, ' ', last_name) LIKE ?)) DESC", ["%$search%"]);
+        }
+    
+        $evaluations = $query->get();
+    
+        return view('evaluation.index', compact('evaluations', 'search'));
     }
+    
+//     public function index()
+// {
+//     $user = auth()->user();
+
+//     // Filter evaluations based on the user's role
+//     $evaluations = $user->hasRole('Principal')
+//         ? EvaluationForm::with(['campus', 'teacher'])->where('campus_id', $user->campus_id)->get()
+//         : EvaluationForm::with(['campus', 'teacher'])->get();
+
+//     return view('evaluation.index', compact('evaluations'));
+// }
+
+
+    // public function create()
+    // {
+    //     $data = $this->getCampusesAndTeachers();
+    //     return view('evaluation.create', $data);
+    // }
+    public function create()
+{
+    $user = auth()->user();
+
+    // Filter campuses if the user is a Principal
+    $campuses = $user->hasRole('Principal')
+        ? Campus::where('id', $user->campus_id)->get()
+        : Campus::all();
+
+    $data = array_merge($this->getCampusesAndTeachers(), compact('campuses', 'user'));
+
+    return view('evaluation.create', $data);
+}
+
 
     public function store(Request $request)
     {
@@ -89,37 +138,75 @@ class EvaluationController extends Controller
             return redirect()->back()->with('error', 'An error occurred while saving the evaluation.')->withInput();
         }
     }
+    // public function edit($id)
+    // {
+    //     $evaluation = EvaluationForm::findOrFail($id);
+    
+    //     // Fetch teachers based on selected campus
+    //     $teachers = Teacher::where('campus_id', $evaluation->campus_id)->get();
+    
+    //     // Fetch classes taught by the selected teacher
+    //     $classes = SchoolClass::whereHas('sections.teacherSectionSubjects', function ($query) use ($evaluation) {
+    //         $query->where('teacher_id', $evaluation->teacher_id);
+    //     })->get();
+    
+    //     // Fetch sections for the selected class
+    //     $sections = Section::where('class_id', $evaluation->class_id)->get();
+    
+    //     // Fetch subjects for the selected section
+    //     $subjects = Subject::whereHas('teacherSectionSubjects', function ($query) use ($evaluation) {
+    //         $query->where('section_id', $evaluation->section_id);
+    //     })->get();
+    
+    //     $data = array_merge([
+    //         'evaluation' => $evaluation,
+    //         'teachers' => $teachers,
+    //         'classes' => $classes,
+    //         'sections' => $sections,
+    //         'subjects' => $subjects,
+    //     ], $this->getCampusesAndTeachers());
+    
+    //     return view('evaluation.edit', $data);
+    // }
     public function edit($id)
-    {
-        $evaluation = EvaluationForm::findOrFail($id);
-    
-        // Fetch teachers based on selected campus
-        $teachers = Teacher::where('campus_id', $evaluation->campus_id)->get();
-    
-        // Fetch classes taught by the selected teacher
-        $classes = SchoolClass::whereHas('sections.teacherSectionSubjects', function ($query) use ($evaluation) {
-            $query->where('teacher_id', $evaluation->teacher_id);
-        })->get();
-    
-        // Fetch sections for the selected class
-        $sections = Section::where('class_id', $evaluation->class_id)->get();
-    
-        // Fetch subjects for the selected section
-        $subjects = Subject::whereHas('teacherSectionSubjects', function ($query) use ($evaluation) {
-            $query->where('section_id', $evaluation->section_id);
-        })->get();
-    
-        $data = array_merge([
-            'evaluation' => $evaluation,
-            'teachers' => $teachers,
-            'classes' => $classes,
-            'sections' => $sections,
-            'subjects' => $subjects,
-        ], $this->getCampusesAndTeachers());
-    
-        return view('evaluation.edit', $data);
-    }
-    
+{
+    $user = auth()->user();
+    $evaluation = EvaluationForm::findOrFail($id);
+
+    // Filter campuses if the user is a Principal
+    $campuses = $user->hasRole('Principal')
+        ? Campus::where('id', $user->campus_id)->get()
+        : Campus::all();
+
+    // Fetch teachers based on the selected campus
+    $teachers = Teacher::where('campus_id', $evaluation->campus_id)->get();
+
+    // Fetch classes taught by the selected teacher
+    $classes = SchoolClass::whereHas('sections.teacherSectionSubjects', function ($query) use ($evaluation) {
+        $query->where('teacher_id', $evaluation->teacher_id);
+    })->get();
+
+    // Fetch sections for the selected class
+    $sections = Section::where('class_id', $evaluation->class_id)->get();
+
+    // Fetch subjects for the selected section
+    $subjects = Subject::whereHas('teacherSectionSubjects', function ($query) use ($evaluation) {
+        $query->where('section_id', $evaluation->section_id);
+    })->get();
+
+    $data = array_merge([
+        'evaluation' => $evaluation,
+        'teachers' => $teachers,
+        'classes' => $classes,
+        'sections' => $sections,
+        'subjects' => $subjects,
+        'campuses' => $campuses,
+        'user' => $user,
+    ], $this->getCampusesAndTeachers());
+
+    return view('evaluation.edit', $data);
+}
+
     
     public function update(Request $request, $id)
     {

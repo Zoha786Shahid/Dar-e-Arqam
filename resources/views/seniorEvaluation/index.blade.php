@@ -20,6 +20,17 @@
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1"> Senior Evaluation Report</h4>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <form method="GET" action="{{ route('seniorevaluation.index') }}">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control" placeholder="Search by Teacher Name"
+                                        value="{{ request('search') }}">
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <a href="{{ route('seniorevaluation.create') }}" class="btn btn-primary ms-auto">Create </a>
                 </div><!-- end card header -->
                 <div class="card-body">

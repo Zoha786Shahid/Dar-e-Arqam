@@ -64,14 +64,30 @@ class TeacherController extends Controller
         return view('teachers.index', compact('teachers'));
     }
 
+    // public function create()
+    // {
+    //     $campuses = Campus::all();
+    //     $subjects = Subject::all();
+    //     $sections = Section::all();
+    //     $classes = SchoolClass::all();
+    //     return view('teachers.create', compact('campuses', 'subjects', 'sections', 'classes'));
+    // }
     public function create()
-    {
-        $campuses = Campus::all();
-        $subjects = Subject::all();
-        $sections = Section::all();
-        $classes = SchoolClass::all();
-        return view('teachers.create', compact('campuses', 'subjects', 'sections', 'classes'));
-    }
+{
+    $user = auth()->user();
+
+    // If the user is a Principal, filter the campus
+    $campuses = $user->hasRole('Principal')
+        ? Campus::where('id', $user->campus_id)->get()
+        : Campus::all();
+
+    $subjects = Subject::all();
+    $sections = Section::all();
+    $classes = SchoolClass::all();
+
+    return view('teachers.create', compact('campuses', 'subjects', 'sections', 'classes', 'user'));
+}
+
 
     public function store(Request $request)
     {
@@ -103,16 +119,32 @@ class TeacherController extends Controller
         }
     }
 
+    // public function edit($id)
+    // {
+    //     $teacher = Teacher::with(['teacherSectionSubjects'])->findOrFail($id);
+    //     $campuses = Campus::all();
+    //     $subjects = Subject::all();
+    //     $sections = Section::all();
+    //     $classes = SchoolClass::all();
+    //     return view('teachers.edit', compact('teacher', 'campuses', 'subjects', 'sections', 'classes'));
+    // }
     public function edit($id)
     {
+        $user = auth()->user();
         $teacher = Teacher::with(['teacherSectionSubjects'])->findOrFail($id);
-        $campuses = Campus::all();
+    
+        // Filter campuses if the user is a Principal
+        $campuses = $user->hasRole('Principal')
+            ? Campus::where('id', $user->campus_id)->get()
+            : Campus::all();
+    
         $subjects = Subject::all();
         $sections = Section::all();
         $classes = SchoolClass::all();
-        return view('teachers.edit', compact('teacher', 'campuses', 'subjects', 'sections', 'classes'));
+    
+        return view('teachers.edit', compact('teacher', 'campuses', 'subjects', 'sections', 'classes', 'user'));
     }
-
+    
     public function update(Request $request, $id)
     {
         try {

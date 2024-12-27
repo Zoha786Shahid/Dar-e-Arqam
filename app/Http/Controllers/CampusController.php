@@ -26,9 +26,6 @@ class CampusController extends Controller
             'phone_number' => 'nullable|string|max:20',
             'email' => 'nullable|email|max:100',
             'website' => 'nullable|url|max:255',
-            'principal_name' => 'nullable|string|max:255',
-            'principal_email' => 'nullable|email|max:255',
-            'principal_phone' => 'nullable|string|max:20',
             'capacity' => 'nullable|integer',
             'status' => 'required|in:active,inactive',
             'description' => 'nullable|string',
@@ -40,16 +37,29 @@ class CampusController extends Controller
         return Campus::findOrFail($id);
     }
 
+    // public function index()
+    // {
+    //     $user = auth()->user();
+    //     $campuses = $user->hasRole('Principal')
+    //         ? Campus::where('id', $user->campus_id)->get()
+    //         : Campus::all();
+
+    //     return view('campus.index', compact('campuses'));
+    // }
     public function index()
     {
         $user = auth()->user();
         $campuses = $user->hasRole('Principal')
-            ? Campus::where('id', $user->campus_id)->get()
-            : Campus::all();
-
-        return view('campus.index', compact('campuses'));
+            ? Campus::where('id', $user->campus_id)->get() // Show only the campus for Principal
+            : Campus::all(); // Show all campuses for Admin/Owner
+    
+        $canEdit = !$user->hasRole('Principal'); // Disable edit for Principals
+    
+        return view('campus.index', compact('campuses', 'canEdit'));
     }
-
+    
+    
+    
     public function create()
     {
         return view('campus.create');

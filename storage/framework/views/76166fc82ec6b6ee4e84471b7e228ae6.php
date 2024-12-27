@@ -20,6 +20,18 @@
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1"> Evaluation Report</h4>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <form method="GET" action="<?php echo e(route('evaluation.index')); ?>">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control" placeholder="Search by Teacher Name"
+                                        value="<?php echo e(request('search')); ?>">
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
                     <a href="<?php echo e(route('evaluation.create')); ?>" class="btn btn-primary ms-auto">Create </a>
                 </div><!-- end card header -->
                 <div class="card-body">
@@ -31,7 +43,7 @@
                                 <th scope="col">Campus</th>
                                 <th scope="col">Percentage</th>
                                 <th scope="col">Created At</th>
-                                <th scope="col"></th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -104,7 +104,6 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-
                             <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">Campus</label>
@@ -116,7 +115,7 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="campus_id"
-                                        name="campus_id" required>
+                                        name="campus_id" required <?php echo e(auth()->user()->hasRole('Principal') ? 'disabled' : ''); ?>>
                                         <?php $__currentLoopData = $campuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <option value="<?php echo e($campus->id); ?>"
                                                 <?php echo e($teacher->campus_id == $campus->id ? 'selected' : ''); ?>>
@@ -125,6 +124,9 @@ unset($__errorArgs, $__bag); ?>" id="campus_id"
                                             </option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
+                                    <?php if(auth()->user()->hasRole('Principal')): ?>
+                                        <input type="hidden" name="campus_id" value="<?php echo e($teacher->campus_id); ?>">
+                                    <?php endif; ?>
                                     <?php $__errorArgs = ['campus_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -137,6 +139,8 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
+                            
+                            
                             <div class="col-xxl-12">
                                 <div id="subjectClassSectionContainer">
                                     <?php $__currentLoopData = $teacher->teacherSectionSubjects ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $assignment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

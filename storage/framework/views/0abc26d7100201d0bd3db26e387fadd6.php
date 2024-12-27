@@ -312,6 +312,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                             <!--end col-->
+                            
                             <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">Campus</label>
@@ -323,11 +324,18 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>" id="campus_id"
-                                        name="campus_id" required>
+                                        name="campus_id" required <?php echo e(auth()->user()->hasRole('Principal') ? 'disabled' : ''); ?>>
                                         <?php $__currentLoopData = $campuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($campus->id); ?>"><?php echo e($campus->name); ?></option>
+                                            <option value="<?php echo e($campus->id); ?>"
+                                                <?php echo e(auth()->user()->hasRole('Principal') && $campus->id == auth()->user()->campus_id ? 'selected' : ''); ?>>
+                                                <?php echo e($campus->name); ?>
+
+                                            </option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
+                                    <?php if(auth()->user()->hasRole('Principal')): ?>
+                                        <input type="hidden" name="campus_id" value="<?php echo e(auth()->user()->campus_id); ?>">
+                                    <?php endif; ?>
                                     <?php $__errorArgs = ['campus_id'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -340,6 +348,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
+                            
                             <!-- Dynamic Subject-Class-Section Assignment -->
                             <div class="col-xxl-12">
 

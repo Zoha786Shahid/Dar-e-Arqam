@@ -76,8 +76,28 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="col-xxl-3 col-md-6">
+                                <div>
+                                    <label for="campus_id" class="form-label">Campus</label>
+                                    <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
+                                        name="campus_id" required {{ auth()->user()->hasRole('Principal') ? 'disabled' : '' }}>
+                                        @foreach ($campuses as $campus)
+                                            <option value="{{ $campus->id }}"
+                                                {{ $teacher->campus_id == $campus->id ? 'selected' : '' }}>
+                                                {{ $campus->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @if(auth()->user()->hasRole('Principal'))
+                                        <input type="hidden" name="campus_id" value="{{ $teacher->campus_id }}">
+                                    @endif
+                                    @error('campus_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            {{-- <div class="col-xxl-3 col-md-6">
                                 <div>
                                     <label for="campus_id" class="form-label">Campus</label>
                                     <select class="form-select @error('campus_id') is-invalid @enderror" id="campus_id"
@@ -93,7 +113,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-xxl-12">
                                 <div id="subjectClassSectionContainer">
                                     @foreach ($teacher->teacherSectionSubjects ?? [] as $index => $assignment)

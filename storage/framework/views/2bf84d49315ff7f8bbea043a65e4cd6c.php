@@ -18,6 +18,17 @@
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1"> ناظرہ رپورٹ</h4>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <form method="GET" action="<?php echo e(route('report.index')); ?>">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control" placeholder="Search by Teacher Name"
+                                        value="<?php echo e(request('search')); ?>">
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <a href="<?php echo e(route('report.create')); ?>" class="btn btn-primary ms-auto">Create </a>
                 </div><!-- end card header -->
                 <div class="card-body">
