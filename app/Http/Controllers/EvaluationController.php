@@ -10,8 +10,9 @@ use App\Models\Subject;
 use App\Models\SchoolClass;
 use App\Models\EvaluationForm;
 use Illuminate\Support\Facades\Log;
-use Barryvdh\DomPDF\Facade\Pdf;
+// use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\SearchHelper;
+use Barryvdh\DomPDF\Facade\Pdf;
 class EvaluationController extends Controller
 {
     private function validateEvaluation(Request $request)
@@ -65,50 +66,74 @@ class EvaluationController extends Controller
 
   
 
-    public function index(Request $request)
-    {
-        $user = auth()->user();
-        $search = $request->input('search'); // Get the search query
-    
-        // Base query
-        $query = EvaluationForm::with(['campus', 'teacher']);
-    
-        // Filter evaluations based on the user's role
-        if ($user->hasRole('Principal')) {
-            $query->where('campus_id', $user->campus_id);
-        }
-    
-        // Apply search filter using the helper
-        if ($search) {
-            $query = SearchHelper::filterByTeacherName($query, $search);
-    
-            // Prioritize records that match the search term
-            $query->orderByRaw("FIELD(teacher_id, (SELECT id FROM teachers WHERE CONCAT(first_name, ' ', last_name) LIKE ?)) DESC", ["%$search%"]);
-        }
-    
-        $evaluations = $query->get();
-    
-        return view('evaluation.index', compact('evaluations', 'search'));
-    }
-    
-//     public function index()
-// {
-//     $user = auth()->user();
-
-//     // Filter evaluations based on the user's role
-//     $evaluations = $user->hasRole('Principal')
-//         ? EvaluationForm::with(['campus', 'teacher'])->where('campus_id', $user->campus_id)->get()
-//         : EvaluationForm::with(['campus', 'teacher'])->get();
-
-//     return view('evaluation.index', compact('evaluations'));
-// }
-
-
-    // public function create()
+    // public function index(Request $request)
     // {
-    //     $data = $this->getCampusesAndTeachers();
-    //     return view('evaluation.create', $data);
+       
+    //     $user = auth()->user();
+    //     $search = $request->input('search'); // Get the search query
+    
+    //     // Base query
+    //     $query = EvaluationForm::with(['campus', 'teacher']);
+    
+    //     // Filter evaluations based on the user's role
+    //     if ($user->hasRole('Principal')) {
+    //         $query->where('campus_id', $user->campus_id);
+    //     }
+    
+    //     // Apply search filter using the helper
+    //     if ($search) {
+    //         $query = SearchHelper::filterByTeacherName($query, $search);
+    
+    //         // Prioritize records that match the search term
+    //         $query->orderByRaw("FIELD(teacher_id, (SELECT id FROM teachers WHERE CONCAT(first_name, ' ', last_name) LIKE ?)) DESC", ["%$search%"]);
+    //     }
+    
+    //     $evaluations = $query->get();
+    
+    //     return view('evaluation.index', compact('evaluations', 'search'));
     // }
+    public function index(Request $request)
+{
+    $user = auth()->user();
+    $search = $request->input('search');
+    $campusFilter = $request->input('campus');
+    $teacherFilter = $request->input('teacher');
+    $subjectFilter = $request->input('subject');
+
+    // Use 'schoolClass' instead of 'class' to match the model relationship
+    $query = EvaluationForm::with(['campus', 'teacher', 'subject', 'schoolClass', 'section']);
+
+    if ($user->hasRole('Principal')) {
+        $query->where('campus_id', $user->campus_id);
+    }
+
+    if ($search) {
+        $query = SearchHelper::filterByTeacherName($query, $search);
+    }
+
+    if ($campusFilter) {
+        $query->where('campus_id', $campusFilter);
+    }
+
+    if ($teacherFilter) {
+        $query->whereIn('teacher_id', explode(',', $teacherFilter));
+    }
+
+    if ($subjectFilter) {
+        $query->where('subject_id', $subjectFilter);
+    }
+
+    // $evaluations = $query->get()->sortBy('subject_id')->groupBy('subject_id')->map(function ($subjectGroup) {
+    //     return $subjectGroup->sortBy('teacher_id')->groupBy('teacher_id');
+    // });
+    $evaluations = $query->get();
+    $campuses = Campus::all();
+    $teachers = Teacher::all();
+    $subjects = Subject::all();
+
+    return view('evaluation.index', compact('evaluations', 'search', 'campuses', 'teachers', 'subjects'));
+}
+
     public function create()
 {
     $user = auth()->user();
@@ -138,36 +163,7 @@ class EvaluationController extends Controller
             return redirect()->back()->with('error', 'An error occurred while saving the evaluation.')->withInput();
         }
     }
-    // public function edit($id)
-    // {
-    //     $evaluation = EvaluationForm::findOrFail($id);
-    
-    //     // Fetch teachers based on selected campus
-    //     $teachers = Teacher::where('campus_id', $evaluation->campus_id)->get();
-    
-    //     // Fetch classes taught by the selected teacher
-    //     $classes = SchoolClass::whereHas('sections.teacherSectionSubjects', function ($query) use ($evaluation) {
-    //         $query->where('teacher_id', $evaluation->teacher_id);
-    //     })->get();
-    
-    //     // Fetch sections for the selected class
-    //     $sections = Section::where('class_id', $evaluation->class_id)->get();
-    
-    //     // Fetch subjects for the selected section
-    //     $subjects = Subject::whereHas('teacherSectionSubjects', function ($query) use ($evaluation) {
-    //         $query->where('section_id', $evaluation->section_id);
-    //     })->get();
-    
-    //     $data = array_merge([
-    //         'evaluation' => $evaluation,
-    //         'teachers' => $teachers,
-    //         'classes' => $classes,
-    //         'sections' => $sections,
-    //         'subjects' => $subjects,
-    //     ], $this->getCampusesAndTeachers());
-    
-    //     return view('evaluation.edit', $data);
-    // }
+  
     public function edit($id)
 {
     $user = auth()->user();
@@ -244,11 +240,11 @@ class EvaluationController extends Controller
         return response()->json($teachers);
     }
 
-    public function showEvaluationForm($id)
-    {
-        $evaluation = EvaluationForm::findOrFail($id);
-        return view('evaluation.evaluation_pdf', compact('evaluation'));
-    }
+    // public function showEvaluationForm($id)
+    // {
+    //     $evaluation = EvaluationForm::findOrFail($id);
+    //     return view('evaluation.evaluation_pdf', compact('evaluation'));
+    // }
 
     public function downloadPDF($id)
     {
@@ -261,4 +257,31 @@ class EvaluationController extends Controller
         $pdf = Pdf::loadView('evaluation.evaluation_pdf', compact('evaluation'));
         return $pdf->download('evaluation_' . $evaluation->id . '.pdf');
     }
+   
+
+    public function batchDownload(Request $request)
+    {
+        $subjectId = $request->input('subject_id');
+    
+        \Log::info('Selected Subject ID:', ['subject_id' => $subjectId]);
+    
+        $evaluations = EvaluationForm::where('subject_id', $subjectId)
+            ->with(['campus', 'teacher', 'schoolClass', 'section'])
+            ->get();
+    
+        \Log::info('Evaluations Retrieved:', ['evaluations' => $evaluations]);
+    
+        if ($evaluations->isEmpty()) {
+            return redirect()->back()->with('error', 'No evaluations found for this subject.');
+        }
+    
+        $pdf = Pdf::loadView('evaluation.batch_pdf', compact('evaluations'));
+    
+        return $pdf->download('batch_evaluations.pdf');
+    }
+    
+    
+    
+
+
 }

@@ -42,7 +42,8 @@ Route::get('campus/{campus}', [CampusController::class, 'show'])->name('campus.s
 Route::get('campus/{campus}/edit', [CampusController::class, 'edit'])->name('campus.edit')->middleware('permission:edit campus');
 Route::put('campus/{campus}', [CampusController::class, 'update'])->name('campus.update')->middleware('permission:edit campus');
 Route::delete('campus/{campus}', [CampusController::class, 'destroy'])->name('campus.destroy')->middleware('permission:delete campus');
-
+Route::get('/evaluation/batch-download', [EvaluationController::class, 'batchDownload'])
+    ->name('evaluation.batchDownload');
 Route::resource('evaluation', EvaluationController::class)->middleware('permission:view evaluation');
 Route::resource('report', ReportCardController::class)->middleware('permission:view report');
 Route::resource('roles', RoleController::class)->middleware('permission:manage roles');
@@ -64,6 +65,8 @@ Route::get('seniorevaluation/{id}/download', [SeniorEvaluationReportController::
 Route::post('/seniorevaluation/save', [SeniorEvaluationReportController::class, 'save'])->name('seniorevaluation.save');
 
 Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPDF'])->name('evaluation.download');
+
+
 Route::post('/evaluation/save', [EvaluationController::class, 'save'])->name('evaluation.save');
 Route::get('/get-sections-by-class', [SectionController::class, 'getSectionsByClass'])
     ->name('get.sections.by.class');
@@ -85,5 +88,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'root'])->name('roo
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
 Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+
+
 
 

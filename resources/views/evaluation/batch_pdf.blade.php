@@ -54,6 +54,7 @@
 </head>
 
 <body>
+    @foreach ($evaluations as $evaluation)
     <div class="header">
         <img src="{{ public_path('images/school.jpeg') }}" alt="School Image">
     </div>
@@ -267,7 +268,7 @@
         <strong>Signature:</strong>
         <span style="display: inline-block; width: 200px; border-bottom: 1px solid black;"></span>
     </p>
-
+    @endforeach
 </body>
 
 </html>

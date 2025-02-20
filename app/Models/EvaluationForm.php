@@ -56,15 +56,7 @@ class EvaluationForm extends Model
                 //   'date',
       ];
       // In your Evaluation model (Evaluation.php)
-// public function campus()
-// {
-//     return $this->belongsTo(Campus::class, 'campus_id');
-// }
-// // In EvaluationForm.php model
-// public function teacher()
-// {
-//     return $this->belongsTo(Teacher::class, 'teacher_id');
-// }
+
  // Relationships
  public function campus()
  {
