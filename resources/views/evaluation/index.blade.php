@@ -23,7 +23,37 @@
 
                     {{-- Align all elements in one row --}}
                     <div class="d-flex align-items-center gap-2 ms-auto">
-                        <form method="GET" action="{{ route('evaluation.batchDownload') }}" class="d-flex align-items-center">
+                        <form method="GET" action="{{ route('evaluation.batchDownload') }}"
+                            class="d-flex align-items-center">
+
+                            @if(auth()->user()->hasRole('Owner'))
+                            <select name="campus_id" class="form-control me-2" id="campus_id" name="campus_id" required>
+                                <option value="">Select Campus</option>
+                                @foreach ($campuses as $campus)
+                                    <option value="{{ $campus->id }}">{{ $campus->name }}</option>
+                                @endforeach
+                            </select>
+                            <select class="form-control me-2 classDropdown" name="class_ids[]" required>
+
+                                <option value="">Select Class</option>
+                                @foreach ($classes as $class)
+                                    <option value="{{ $class->id }}">{{ $class->name }}</option>
+                                @endforeach
+                            </select>
+                            <select class="form-control me-2 sectionDropdown" name="section_ids[]" required>
+
+                                <option value="">Select Section</option>
+                            </select>
+                            <select name="subject_id" class="form-control me-2">
+                                <option value="">Select Subject</option>
+                                @foreach ($subjects as $subject)
+                                    <option value="{{ $subject->id }}"
+                                        {{ request('subject_id') == $subject->id ? 'selected' : '' }}>
+                                        {{ $subject->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @else
                             <select name="subject_id" class="form-control me-2">
                                 <option value="">Select Subject</option>
                                 @foreach ($subjects as $subject)
@@ -33,12 +63,13 @@
                                     </option>
                                 @endforeach
                             </select>
+                        @endif
                             <button type="submit" class="btn btn-primary">Download</button>
                         </form>
 
                         <form method="GET" action="{{ route('evaluation.index') }}" class="d-flex align-items-center">
-                            <input type="text" name="search" class="form-control me-2" placeholder="Search by Teacher Name"
-                                value="{{ request('search') }}">
+                            <input type="text" name="search" class="form-control me-2"
+                                placeholder="Search by Teacher Name" value="{{ request('search') }}">
                             <button class="btn btn-primary" type="submit">Search</button>
                         </form>
 
@@ -68,10 +99,12 @@
                                     <td>{{ $evaluation->percentage }}%</td>
                                     <td>{{ $evaluation->created_at->format('Y-m-d') }}</td>
                                     <td>
-                                        <a href="{{ route('evaluation.edit', $evaluation->id) }}" class="btn btn-sm btn-warning">
+                                        <a href="{{ route('evaluation.edit', $evaluation->id) }}"
+                                            class="btn btn-sm btn-warning">
                                             <i class="ri-edit-line"></i> Edit
                                         </a>
-                                        <a href="{{ route('evaluation.download', $evaluation->id) }}" class="btn btn-sm btn-success">
+                                        <a href="{{ route('evaluation.download', $evaluation->id) }}"
+                                            class="btn btn-sm btn-success">
                                             <i class="ri-download-line"></i> Download
                                         </a>
                                         <form id="delete-form-{{ $evaluation->id }}"
@@ -96,8 +129,33 @@
     </div>
     <!-- end row -->
 @endsection
-
 @section('script')
-    <script src="{{ URL::asset('build/libs/prismjs/prism.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    <script>
+        $(document).on('change', '.classDropdown', function() {
+            var classId = $(this).val();
+            var sectionDropdown = $(this).closest('form').find('.sectionDropdown');
+
+            if (classId) {
+                $.ajax({
+                    url: '{{ route('get.sections.by.class') }}',
+                    type: 'GET',
+                    data: {
+                        class_id: classId
+                    },
+                    success: function(data) {
+                        sectionDropdown.empty().append('<option value="">Select Section</option>');
+                        $.each(data.sections, function(key, section) {
+                            sectionDropdown.append('<option value="' + section.id + '">' +
+                                section.name + '</option>');
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            } else {
+                sectionDropdown.empty().append('<option value="">Select Section</option>');
+            }
+        });
+    </script>
 @endsection

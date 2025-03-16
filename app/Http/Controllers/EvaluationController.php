@@ -99,7 +99,6 @@ class EvaluationController extends Controller
     $campusFilter = $request->input('campus');
     $teacherFilter = $request->input('teacher');
     $subjectFilter = $request->input('subject');
-
     // Use 'schoolClass' instead of 'class' to match the model relationship
     $query = EvaluationForm::with(['campus', 'teacher', 'subject', 'schoolClass', 'section']);
 
@@ -130,8 +129,9 @@ class EvaluationController extends Controller
     $campuses = Campus::all();
     $teachers = Teacher::all();
     $subjects = Subject::all();
+    $classes = SchoolClass::all();
 
-    return view('evaluation.index', compact('evaluations', 'search', 'campuses', 'teachers', 'subjects'));
+    return view('evaluation.index', compact('evaluations', 'search', 'campuses', 'teachers', 'subjects', 'classes'));
 }
 
     public function create()
@@ -240,12 +240,6 @@ class EvaluationController extends Controller
         return response()->json($teachers);
     }
 
-    // public function showEvaluationForm($id)
-    // {
-    //     $evaluation = EvaluationForm::findOrFail($id);
-    //     return view('evaluation.evaluation_pdf', compact('evaluation'));
-    // }
-
     public function downloadPDF($id)
     {
         $evaluation = EvaluationForm::with('campus')->findOrFail($id);
@@ -259,27 +253,136 @@ class EvaluationController extends Controller
     }
    
 
-    public function batchDownload(Request $request)
-    {
-        $subjectId = $request->input('subject_id');
+    // public function batchDownload(Request $request)
+    // {
+    //     $subjectId = $request->input('subject_id');
     
-        \Log::info('Selected Subject ID:', ['subject_id' => $subjectId]);
+    //     \Log::info('Selected Subject ID:', ['subject_id' => $subjectId]);
     
+    //     $evaluations = EvaluationForm::where('subject_id', $subjectId)
+    //         ->with(['campus', 'teacher', 'schoolClass', 'section'])
+    //         ->get();
+    
+    //     \Log::info('Evaluations Retrieved:', ['evaluations' => $evaluations]);
+    
+    //     if ($evaluations->isEmpty()) {
+    //         return redirect()->back()->with('error', 'No evaluations found for this subject.');
+    //     }
+    
+    //     $pdf = Pdf::loadView('evaluation.batch_pdf', compact('evaluations'));
+    
+    //     return $pdf->download('batch_evaluations.pdf');
+    // }
+//     public function batchDownload(Request $request)
+// {
+//     $campusId = $request->input('campus_id');
+//     $classIds = $request->input('class_ids', []);
+//     $sectionIds = $request->input('section_ids', []);
+//     $subjectId = $request->input('subject_id');
+
+//     \Log::info('Selected Filters:', [
+//         'campus_id' => $campusId,
+//         'class_ids' => $classIds,
+//         'section_ids' => $sectionIds,
+//         'subject_id' => $subjectId
+//     ]);
+
+//     // Query Evaluations based on the selected filters
+//     $query = EvaluationForm::with(['campus', 'teacher', 'schoolClass', 'section']);
+
+//     if ($campusId) {
+//         $query->where('campus_id', $campusId);
+//     }
+
+//     if (!empty($classIds)) {
+//         $query->whereIn('class_id', $classIds);
+//     }
+
+//     if (!empty($sectionIds)) {
+//         $query->whereIn('section_id', $sectionIds);
+//     }
+
+//     if ($subjectId) {
+//         $query->where('subject_id', $subjectId);
+//     }
+
+//     $evaluations = $query->get();
+
+//     \Log::info('Evaluations Retrieved:', ['evaluations' => $evaluations]);
+
+//     if ($evaluations->isEmpty()) {
+//         return redirect()->back()->with('error', 'No evaluations found for the selected filters.');
+//     }
+
+//     $pdf = Pdf::loadView('evaluation.batch_pdf', compact('evaluations'));
+
+//     return $pdf->download('batch_evaluations.pdf');
+// }
+public function batchDownload(Request $request)
+{
+    $user = auth()->user();
+    $subjectId = $request->input('subject_id');
+
+    \Log::info('Selected Filters:', [
+        'user_role' => $user->roles->pluck('name')->toArray(),
+        'subject_id' => $subjectId,
+    ]);
+
+    // If the user is an Owner, allow full filtering
+    if ($user->hasRole('Owner')) {
+        $campusId = $request->input('campus_id');
+        $classIds = $request->input('class_ids', []);
+        $sectionIds = $request->input('section_ids', []);
+
+        \Log::info('Owner Selected Filters:', [
+            'campus_id' => $campusId,
+            'class_ids' => $classIds,
+            'section_ids' => $sectionIds
+        ]);
+
+        // Query with all filters
+        $query = EvaluationForm::with(['campus', 'teacher', 'schoolClass', 'section']);
+
+        if ($campusId) {
+            $query->where('campus_id', $campusId);
+        }
+
+        if (!empty($classIds)) {
+            $query->whereIn('class_id', $classIds);
+        }
+
+        if (!empty($sectionIds)) {
+            $query->whereIn('section_id', $sectionIds);
+        }
+
+        if ($subjectId) {
+            $query->where('subject_id', $subjectId);
+        }
+
+        $evaluations = $query->get();
+    } else {
+        // For non-owners, only filter by subject_id
         $evaluations = EvaluationForm::where('subject_id', $subjectId)
             ->with(['campus', 'teacher', 'schoolClass', 'section'])
             ->get();
-    
-        \Log::info('Evaluations Retrieved:', ['evaluations' => $evaluations]);
-    
-        if ($evaluations->isEmpty()) {
-            return redirect()->back()->with('error', 'No evaluations found for this subject.');
-        }
-    
-        $pdf = Pdf::loadView('evaluation.batch_pdf', compact('evaluations'));
-    
-        return $pdf->download('batch_evaluations.pdf');
     }
-    
+
+    \Log::info('Evaluations Retrieved:', ['evaluations' => $evaluations]);
+
+    if ($evaluations->isEmpty()) {
+        return redirect()->back()->with('error', 'No evaluations found for the selected filters.');
+    }
+
+    $pdf = Pdf::loadView('evaluation.batch_pdf', compact('evaluations'));
+
+    return $pdf->download('batch_evaluations.pdf');
+}
+
+    public function getSectionsByClass(Request $request)
+    {
+        $sections = Section::where('class_id', $request->input('class_id'))->get();
+        return response()->json(['sections' => $sections]);
+    }
     
     
 

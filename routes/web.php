@@ -65,7 +65,8 @@ Route::get('seniorevaluation/{id}/download', [SeniorEvaluationReportController::
 Route::post('/seniorevaluation/save', [SeniorEvaluationReportController::class, 'save'])->name('seniorevaluation.save');
 
 Route::get('evaluation/{id}/download', [EvaluationController::class, 'downloadPDF'])->name('evaluation.download');
-
+Route::get('/get-sections-by-class', [EvaluationController::class, 'getSectionsByClass'])
+    ->name('get.sections.by.class');
 
 Route::post('/evaluation/save', [EvaluationController::class, 'save'])->name('evaluation.save');
 Route::get('/get-sections-by-class', [SectionController::class, 'getSectionsByClass'])
