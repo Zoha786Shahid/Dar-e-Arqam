@@ -253,60 +253,73 @@ class EvaluationController extends Controller
     }
    
 
-    // public function batchDownload(Request $request)
-    // {
-    //     $subjectId = $request->input('subject_id');
-    
-    //     \Log::info('Selected Subject ID:', ['subject_id' => $subjectId]);
-    
-    //     $evaluations = EvaluationForm::where('subject_id', $subjectId)
-    //         ->with(['campus', 'teacher', 'schoolClass', 'section'])
-    //         ->get();
-    
-    //     \Log::info('Evaluations Retrieved:', ['evaluations' => $evaluations]);
-    
-    //     if ($evaluations->isEmpty()) {
-    //         return redirect()->back()->with('error', 'No evaluations found for this subject.');
-    //     }
-    
-    //     $pdf = Pdf::loadView('evaluation.batch_pdf', compact('evaluations'));
-    
-    //     return $pdf->download('batch_evaluations.pdf');
-    // }
-//     public function batchDownload(Request $request)
-// {
-//     $campusId = $request->input('campus_id');
-//     $classIds = $request->input('class_ids', []);
-//     $sectionIds = $request->input('section_ids', []);
-//     $subjectId = $request->input('subject_id');
 
+// public function batchDownload(Request $request)
+// {
+//     $user = auth()->user();
+//     $subjectId = $request->input('subject_id');
+    
 //     \Log::info('Selected Filters:', [
-//         'campus_id' => $campusId,
-//         'class_ids' => $classIds,
-//         'section_ids' => $sectionIds,
-//         'subject_id' => $subjectId
+//         'user_role' => $user->roles->pluck('name')->toArray(),
+//         'subject_id' => $subjectId,
 //     ]);
 
-//     // Query Evaluations based on the selected filters
-//     $query = EvaluationForm::with(['campus', 'teacher', 'schoolClass', 'section']);
+//     if ($user->hasRole('Owner')) {
+//         $campusId = $request->input('campus_id');
+//         $classIds = $request->input('class_ids', []);
 
-//     if ($campusId) {
-//         $query->where('campus_id', $campusId);
+//         \Log::info('Owner Selected Filters:', [
+//             'campus_id' => $campusId,
+//             'class_ids' => $classIds
+//         ]);
+
+//         // Query with filters but ensuring all sections are included
+//         $query = EvaluationForm::with(['campus', 'teacher', 'schoolClass', 'section'])
+//             ->where('subject_id', $subjectId);
+
+//         if ($campusId) {
+//             $query->where('campus_id', $campusId);
+//         }
+
+//         if (!empty($classIds)) {
+//             $query->whereIn('class_id', $classIds);
+//         }
+
+//         \Log::info('Generated Query for Owner:', ['query' => $query->toSql()]);
+//         $evaluations = $query->get();
+//     } 
+//     elseif ($user->hasRole('Principal')) {
+//         $campusId = $request->input('campus_id');
+//         $teacherId = $request->input('teacher_id');
+//         $subjectId = $request->input('subject_id'); // Ensure this is set correctly
+    
+//         \Log::info('Principal Selected Filters:', [
+//             'campus_id' => $campusId,
+//             'teacher_id' => $teacherId,
+//             'subject_id' => $subjectId
+//         ]);
+    
+//         $query = EvaluationForm::with(['campus', 'teacher', 'schoolClass', 'section'])
+//             ->where('campus_id', $campusId);
+    
+//         if ($subjectId) {
+//             $query->where('subject_id', $subjectId);
+//         }
+    
+//         if ($teacherId) {
+//             $query->where('teacher_id', $teacherId);
+//         }
+    
+//         \Log::info('Generated Query for Principal:', ['query' => $query->toSql()]);
+//         $evaluations = $query->get();
 //     }
-
-//     if (!empty($classIds)) {
-//         $query->whereIn('class_id', $classIds);
+    
+//     else {
+//         // For non-owners, only filter by subject_id
+//         $evaluations = EvaluationForm::where('subject_id', $subjectId)
+//             ->with(['campus', 'teacher', 'schoolClass', 'section'])
+//             ->get();
 //     }
-
-//     if (!empty($sectionIds)) {
-//         $query->whereIn('section_id', $sectionIds);
-//     }
-
-//     if ($subjectId) {
-//         $query->where('subject_id', $subjectId);
-//     }
-
-//     $evaluations = $query->get();
 
 //     \Log::info('Evaluations Retrieved:', ['evaluations' => $evaluations]);
 
@@ -322,46 +335,52 @@ public function batchDownload(Request $request)
 {
     $user = auth()->user();
     $subjectId = $request->input('subject_id');
+    $campusId = $request->input('campus_id');
+    $classIds = $request->input('class_ids', []);
+    $teacherId = $request->input('teacher_id');
 
     \Log::info('Selected Filters:', [
         'user_role' => $user->roles->pluck('name')->toArray(),
         'subject_id' => $subjectId,
+        'campus_id' => $campusId,
+        'class_ids' => $classIds,
+        'teacher_id' => $teacherId
     ]);
 
-    // If the user is an Owner, allow full filtering
-    if ($user->hasRole('Owner')) {
-        $campusId = $request->input('campus_id');
-        $classIds = $request->input('class_ids', []);
-        $sectionIds = $request->input('section_ids', []);
+    if ($user->hasRole('Owner') || $user->hasRole('Principal')) {
 
-        \Log::info('Owner Selected Filters:', [
+        \Log::info('Owner/Principal Selected Filters:', [
             'campus_id' => $campusId,
             'class_ids' => $classIds,
-            'section_ids' => $sectionIds
+            'teacher_id' => $teacherId
         ]);
 
         // Query with all filters
         $query = EvaluationForm::with(['campus', 'teacher', 'schoolClass', 'section']);
 
-        if ($campusId) {
-            $query->where('campus_id', $campusId);
+        if ($teacherId) {
+            // If a teacher is selected, fetch report only for that teacher
+            $query->where('teacher_id', $teacherId);
+        } else {
+            // Otherwise, use normal Owner filtering
+            if ($subjectId) {
+                $query->where('subject_id', $subjectId);
+            }
+    
+            if ($campusId) {
+                $query->where('campus_id', $campusId);
+            }
+    
+            if (!empty($classIds)) {
+                $query->whereIn('class_id', $classIds);
+            }
         }
 
-        if (!empty($classIds)) {
-            $query->whereIn('class_id', $classIds);
-        }
-
-        if (!empty($sectionIds)) {
-            $query->whereIn('section_id', $sectionIds);
-        }
-
-        if ($subjectId) {
-            $query->where('subject_id', $subjectId);
-        }
-
+        \Log::info('Generated Query for Owner/Principal:', ['query' => $query->toSql()]);
         $evaluations = $query->get();
+
     } else {
-        // For non-owners, only filter by subject_id
+        // For other users, only filter by subject_id
         $evaluations = EvaluationForm::where('subject_id', $subjectId)
             ->with(['campus', 'teacher', 'schoolClass', 'section'])
             ->get();
@@ -377,6 +396,8 @@ public function batchDownload(Request $request)
 
     return $pdf->download('batch_evaluations.pdf');
 }
+
+
 
     public function getSectionsByClass(Request $request)
     {

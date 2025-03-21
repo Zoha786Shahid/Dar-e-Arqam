@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title'); ?>
     <?php echo app('translator')->get('translation.campus-form'); ?>
 <?php $__env->stopSection(); ?>

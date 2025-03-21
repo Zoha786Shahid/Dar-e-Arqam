@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -272,5 +271,4 @@
 
 </body>
 
-</html>
-<?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/evaluation/evaluation_pdf.blade.php ENDPATH**/ ?>
+</html><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/evaluation/evaluation_pdf.blade.php ENDPATH**/ ?>
