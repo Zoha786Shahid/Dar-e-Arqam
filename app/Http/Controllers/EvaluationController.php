@@ -347,6 +347,7 @@ public function batchDownload(Request $request)
         'teacher_id' => $teacherId
     ]);
 
+    // Check if user is either Owner or Principal
     if ($user->hasRole('Owner') || $user->hasRole('Principal')) {
 
         \Log::info('Owner/Principal Selected Filters:', [
@@ -355,25 +356,35 @@ public function batchDownload(Request $request)
             'teacher_id' => $teacherId
         ]);
 
-        // Query with all filters
+        // Query with all filters for Owner/Principal
         $query = EvaluationForm::with(['campus', 'teacher', 'schoolClass', 'section']);
 
+        // Fetch evaluations based on selected teacher or filters
         if ($teacherId) {
             // If a teacher is selected, fetch report only for that teacher
             $query->where('teacher_id', $teacherId);
         } else {
-            // Otherwise, use normal Owner filtering
+            // Otherwise, use filters for Owner
             if ($subjectId) {
                 $query->where('subject_id', $subjectId);
             }
-    
+
             if ($campusId) {
                 $query->where('campus_id', $campusId);
             }
-    
+
             if (!empty($classIds)) {
                 $query->whereIn('class_id', $classIds);
             }
+        }
+
+        // If the user is a Principal, filter campuses and teachers accordingly
+        if ($user->hasRole('Principal')) {
+            $campuses = Campus::where('id', $user->campus_id)->get(); // Show only the campus related to Principal
+            $teachers = Teacher::where('campus_id', $user->campus_id)->get(); // Filter teachers based on Principal's campus
+        } else {
+            $campuses = Campus::all(); // If Owner, show all campuses
+            $teachers = Teacher::where('campus_id', $campusId)->get(); // Filter teachers based on selected campus
         }
 
         \Log::info('Generated Query for Owner/Principal:', ['query' => $query->toSql()]);
@@ -384,6 +395,10 @@ public function batchDownload(Request $request)
         $evaluations = EvaluationForm::where('subject_id', $subjectId)
             ->with(['campus', 'teacher', 'schoolClass', 'section'])
             ->get();
+        
+        // No need to fetch teachers for other roles
+        $teachers = collect();
+        $campuses = collect();
     }
 
     \Log::info('Evaluations Retrieved:', ['evaluations' => $evaluations]);
@@ -392,10 +407,12 @@ public function batchDownload(Request $request)
         return redirect()->back()->with('error', 'No evaluations found for the selected filters.');
     }
 
+    // Load PDF view and download
     $pdf = Pdf::loadView('evaluation.batch_pdf', compact('evaluations'));
 
     return $pdf->download('batch_evaluations.pdf');
 }
+
 
 
 

@@ -22,11 +22,11 @@
                     <div class="d-flex align-items-center gap-2 ms-auto">
                         
                         <form method="GET" action="<?php echo e(route('evaluation.batchDownload')); ?>" class="d-flex align-items-center">
-                            <?php if(auth()->user()->hasRole('Owner') || auth()->user()->hasRole('Principal')): ?>
+                            <?php if(auth()->user()->hasRole('Principal') || auth()->user()->hasRole('Owner')): ?>
                                 <select name="campus_id" class="form-control me-2" id="campus_id" required>
                                     <option value="">Select Campus</option>
                                     <?php $__currentLoopData = $campuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $campus): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($campus->id); ?>" <?php echo e(auth()->user()->hasRole('Principal') && auth()->user()->campus_id == $campus->id ? 'selected' : ''); ?>>
+                                        <option value="<?php echo e($campus->id); ?>" <?php echo e(old('campus_id') == $campus->id ? 'selected' : ''); ?>>
                                             <?php echo e($campus->name); ?>
 
                                         </option>
@@ -40,14 +40,17 @@
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                         
-                                <?php if(auth()->user()->hasRole('Principal')): ?>
-                                    <select name="teacher_id" class="form-control me-2">
-                                        <option value="">Select Teacher</option>
-                                        <?php $__currentLoopData = $teachers->where('campus_id', auth()->user()->campus_id); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $teacher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($teacher->id); ?>"><?php echo e($teacher->first_name); ?> <?php echo e($teacher->last_name); ?></option>
+                                <select name="teacher_id" class="form-control me-2" id="teacher_id">
+                                    <option value="">Select Teacher</option>
+                                    <?php if(old('campus_id')): ?>
+                                        <?php $__currentLoopData = $teachers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $teacher): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($teacher->id); ?>" <?php echo e(old('teacher_id') == $teacher->id ? 'selected' : ''); ?>>
+                                                <?php echo e($teacher->first_name); ?> <?php echo e($teacher->last_name); ?>
+
+                                            </option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </select>
-                                <?php endif; ?>
+                                    <?php endif; ?>
+                                </select>
                         
                                 <select name="subject_id" class="form-control me-2">
                                     <option value="">Select Subject</option>
@@ -61,7 +64,8 @@
                             <?php endif; ?>
                             <button type="submit" class="btn btn-primary">Download</button>
                         </form>
-    
+                        
+                   
                         <form method="GET" action="<?php echo e(route('evaluation.index')); ?>" class="d-flex align-items-center">
                             <input type="text" name="search" class="form-control me-2" placeholder="Search by Teacher Name" value="<?php echo e(request('search')); ?>">
                             <button class="btn btn-primary" type="submit">Search</button>
@@ -114,34 +118,30 @@
     <!-- end row -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
-    <script>
-        $(document).on('change', '.classDropdown', function() {
-            var classId = $(this).val();
-            var sectionDropdown = $(this).closest('form').find('.sectionDropdown');
+<script>
+    // Update the teacher dropdown based on the selected campus
+    document.getElementById('campus_id').addEventListener('change', function () {
+        var campusId = this.value;
 
-            if (classId) {
-                $.ajax({
-                    url: '<?php echo e(route('get.sections.by.class')); ?>',
-                    type: 'GET',
-                    data: {
-                        class_id: classId
-                    },
-                    success: function(data) {
-                        sectionDropdown.empty().append('<option value="">Select Section</option>');
-                        $.each(data.sections, function(key, section) {
-                            sectionDropdown.append('<option value="' + section.id + '">' +
-                                section.name + '</option>');
-                        });
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
+        // Make an AJAX request to fetch teachers based on selected campus
+        fetch(`/get-teachers/${campusId}`)
+            .then(response => response.json())
+            .then(data => {
+                let teacherDropdown = document.getElementById('teacher_id');
+                teacherDropdown.innerHTML = '<option value="">Select Teacher</option>'; // Reset teacher options
+
+                // Add teachers to the dropdown
+                data.forEach(teacher => {
+                    let option = document.createElement('option');
+                    option.value = teacher.id;
+                    option.textContent = `${teacher.first_name} ${teacher.last_name}`;
+                    teacherDropdown.appendChild(option);
                 });
-            } else {
-                sectionDropdown.empty().append('<option value="">Select Section</option>');
-            }
-        });
-    </script>
+            })
+            .catch(error => console.log('Error:', error));
+    });
+</script>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\wamp\www\Dar-e-Arqam\resources\views/evaluation/index.blade.php ENDPATH**/ ?>

@@ -64,11 +64,11 @@
                             <button type="submit" class="btn btn-primary">Download</button>
                         </form> --}}
                         <form method="GET" action="{{ route('evaluation.batchDownload') }}" class="d-flex align-items-center">
-                            @if(auth()->user()->hasRole('Owner') || auth()->user()->hasRole('Principal'))
+                            @if(auth()->user()->hasRole('Principal') || auth()->user()->hasRole('Owner'))
                                 <select name="campus_id" class="form-control me-2" id="campus_id" required>
                                     <option value="">Select Campus</option>
                                     @foreach ($campuses as $campus)
-                                        <option value="{{ $campus->id }}" {{ auth()->user()->hasRole('Principal') && auth()->user()->campus_id == $campus->id ? 'selected' : '' }}>
+                                        <option value="{{ $campus->id }}" {{ old('campus_id') == $campus->id ? 'selected' : '' }}>
                                             {{ $campus->name }}
                                         </option>
                                     @endforeach
@@ -81,14 +81,16 @@
                                     @endforeach
                                 </select>
                         
-                                @if(auth()->user()->hasRole('Principal'))
-                                    <select name="teacher_id" class="form-control me-2">
-                                        <option value="">Select Teacher</option>
-                                        @foreach ($teachers->where('campus_id', auth()->user()->campus_id) as $teacher)
-                                            <option value="{{ $teacher->id }}">{{ $teacher->first_name }} {{ $teacher->last_name }}</option>
+                                <select name="teacher_id" class="form-control me-2" id="teacher_id">
+                                    <option value="">Select Teacher</option>
+                                    @if(old('campus_id'))
+                                        @foreach ($teachers as $teacher)
+                                            <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
+                                                {{ $teacher->first_name }} {{ $teacher->last_name }}
+                                            </option>
                                         @endforeach
-                                    </select>
-                                @endif
+                                    @endif
+                                </select>
                         
                                 <select name="subject_id" class="form-control me-2">
                                     <option value="">Select Subject</option>
@@ -101,7 +103,8 @@
                             @endif
                             <button type="submit" class="btn btn-primary">Download</button>
                         </form>
-    
+                        
+                   
                         <form method="GET" action="{{ route('evaluation.index') }}" class="d-flex align-items-center">
                             <input type="text" name="search" class="form-control me-2" placeholder="Search by Teacher Name" value="{{ request('search') }}">
                             <button class="btn btn-primary" type="submit">Search</button>
@@ -154,32 +157,28 @@
     <!-- end row -->
 @endsection
 @section('script')
-    <script>
-        $(document).on('change', '.classDropdown', function() {
-            var classId = $(this).val();
-            var sectionDropdown = $(this).closest('form').find('.sectionDropdown');
+<script>
+    // Update the teacher dropdown based on the selected campus
+    document.getElementById('campus_id').addEventListener('change', function () {
+        var campusId = this.value;
 
-            if (classId) {
-                $.ajax({
-                    url: '{{ route('get.sections.by.class') }}',
-                    type: 'GET',
-                    data: {
-                        class_id: classId
-                    },
-                    success: function(data) {
-                        sectionDropdown.empty().append('<option value="">Select Section</option>');
-                        $.each(data.sections, function(key, section) {
-                            sectionDropdown.append('<option value="' + section.id + '">' +
-                                section.name + '</option>');
-                        });
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
+        // Make an AJAX request to fetch teachers based on selected campus
+        fetch(`/get-teachers/${campusId}`)
+            .then(response => response.json())
+            .then(data => {
+                let teacherDropdown = document.getElementById('teacher_id');
+                teacherDropdown.innerHTML = '<option value="">Select Teacher</option>'; // Reset teacher options
+
+                // Add teachers to the dropdown
+                data.forEach(teacher => {
+                    let option = document.createElement('option');
+                    option.value = teacher.id;
+                    option.textContent = `${teacher.first_name} ${teacher.last_name}`;
+                    teacherDropdown.appendChild(option);
                 });
-            } else {
-                sectionDropdown.empty().append('<option value="">Select Section</option>');
-            }
-        });
-    </script>
+            })
+            .catch(error => console.log('Error:', error));
+    });
+</script>
+
 @endsection
