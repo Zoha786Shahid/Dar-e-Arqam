@@ -14,6 +14,7 @@ class ReportCard extends Model
         'class_id',
         'section_id',
         'subject_id',
+        'evaluation_date',
         'entrance_welcome',
         'appearance_dress',
         'teaching_style',

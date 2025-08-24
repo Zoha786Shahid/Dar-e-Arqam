@@ -17,9 +17,7 @@ class SeniorEvaluationReport extends Model
         'observer_name',
         'observer_guidance',
         'teacher_views',
-
-
-
+        'evaluation_date',
         'entrance_welcome_marks',           // Entrance (Salam/Welcome)
         'appearance_dress_code_marks',   // Appearance (Dress Code)
         'seating_cleanliness_marks',        // Seating Arrangement & Cleanliness

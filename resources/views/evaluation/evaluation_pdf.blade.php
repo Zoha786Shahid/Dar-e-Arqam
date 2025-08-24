@@ -78,11 +78,13 @@
         {{-- <p style="display: inline-block;"><strong>Topic:</strong> Algebra</p> --}}
     </div>
 
-    <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
-        <p style=" display: inline-block;"><strong>Campus:</strong> {{ $evaluation->campus->name ?? 'N/A' }}</p>
-        <p style=" display: inline-block;"><strong>Total Students:</strong> 80</p>
-        <p style="display: inline-block;"><strong>Date:</strong> {{ \Carbon\Carbon::now()->format('d-m-Y') }}</p>
-    </div>
+     <div style="display: flex; justify-content: space-between; flex-wrap: nowrap;">
+    <p style=" display: inline-block;"><strong>Campus:</strong> {{ $evaluation->campus->name ?? 'N/A' }}</p>
+    <p style=" display: inline-block;"><strong>Total Students:</strong> {{ $evaluation->total_students ?? 'N/A' }} </p>
+    <p style="display: inline-block;"><strong>Evaluation Date:</strong> 
+        {{ $evaluation->evaluation_date ? \Carbon\Carbon::parse($evaluation->evaluation_date)->format('d-m-Y') : 'N/A' }}
+    </p>
+</div>
 
     <table>
         <thead>

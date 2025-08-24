@@ -11,6 +11,7 @@ use App\Models\SchoolClass;
 use App\Models\SeniorEvaluationReport;
 use Illuminate\Support\Facades\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class SeniorEvaluationReportController extends Controller
 {
@@ -25,6 +26,7 @@ class SeniorEvaluationReportController extends Controller
             'observer_name' => 'nullable|string|max:255',
             'observer_guidance' => 'nullable|string',
             'teacher_views' => 'nullable|string',
+            'evaluation_date' => 'nullable|date',
             'entrance_welcome_marks' => 'required|integer|min:0|max:10',
             'appearance_dress_code_marks' => 'required|integer|min:0|max:10',
             'seating_cleanliness_marks' => 'required|integer|min:0|max:10',
@@ -122,6 +124,7 @@ class SeniorEvaluationReportController extends Controller
     {
         try {
             $validated = $this->validateEvaluation($request);
+            $validated['evaluation_date'] = Carbon::today()->format('Y-m-d');
             SeniorEvaluationReport::create($validated);
 
             return redirect()->route('seniorevaluation.index')->with('success', 'Evaluation report created successfully.');
@@ -208,6 +211,7 @@ class SeniorEvaluationReportController extends Controller
         try {
             $evaluation = SeniorEvaluationReport::findOrFail($id);
             $validated = $this->validateEvaluation($request);
+             unset($validated['evaluation_date']);
             $evaluation->update($validated);
 
             return redirect()->route('seniorevaluation.index')->with('success', 'Evaluation updated successfully.');

@@ -11,6 +11,7 @@ use App\Models\Subject;
 use App\Models\SchoolClass;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Mpdf\Mpdf;
+use Carbon\Carbon;
 
 class ReportCardController extends Controller
 {
@@ -22,6 +23,7 @@ class ReportCardController extends Controller
             'class_id' => 'required',
             'section_id' => 'required',
             'subject_id' => 'required',
+            'evaluation_date' => 'nullable|date',
             'entrance_welcome' => 'required',
             'appearance_dress' => 'required',
             'teaching_style' => 'required',
@@ -115,6 +117,9 @@ class ReportCardController extends Controller
     {
         try {
             $validatedData = $this->validateReportCard($request);
+                // Ensure evaluation_date is always set to today
+            $validated['evaluation_date'] = Carbon::today()->format('Y-m-d');
+
             ReportCard::create($validatedData);
 
             return redirect()->route('report.index')->with('success', 'Report card created successfully.');
@@ -199,6 +204,8 @@ class ReportCardController extends Controller
     {
         try {
             $validated = $this->validateReportCard($request);
+             // Remove evaluation_date to prevent it from being updated
+            unset($validated['evaluation_date']);
             $evaluation = ReportCard::findOrFail($id);
             $evaluation->update($validated);
 

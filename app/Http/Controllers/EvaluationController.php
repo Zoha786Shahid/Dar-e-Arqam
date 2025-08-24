@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Log;
 // use Barryvdh\DomPDF\Facade\Pdf;
 use App\Helpers\SearchHelper;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+
 class EvaluationController extends Controller
 {
     private function validateEvaluation(Request $request)
@@ -24,6 +26,7 @@ class EvaluationController extends Controller
             'subject_id' => 'required',
             'campus_id' => 'required',
             'total_students' => 'required',
+            'evaluation_date' => 'nullable|date', 
             'appearance_dress_code' => 'required',
             'lesson_plan' => 'required',
             'observer_name' => 'required',
@@ -65,33 +68,6 @@ class EvaluationController extends Controller
     }
 
   
-
-    // public function index(Request $request)
-    // {
-       
-    //     $user = auth()->user();
-    //     $search = $request->input('search'); // Get the search query
-    
-    //     // Base query
-    //     $query = EvaluationForm::with(['campus', 'teacher']);
-    
-    //     // Filter evaluations based on the user's role
-    //     if ($user->hasRole('Principal')) {
-    //         $query->where('campus_id', $user->campus_id);
-    //     }
-    
-    //     // Apply search filter using the helper
-    //     if ($search) {
-    //         $query = SearchHelper::filterByTeacherName($query, $search);
-    
-    //         // Prioritize records that match the search term
-    //         $query->orderByRaw("FIELD(teacher_id, (SELECT id FROM teachers WHERE CONCAT(first_name, ' ', last_name) LIKE ?)) DESC", ["%$search%"]);
-    //     }
-    
-    //     $evaluations = $query->get();
-    
-    //     return view('evaluation.index', compact('evaluations', 'search'));
-    // }
     public function index(Request $request)
 {
     $user = auth()->user();
@@ -148,21 +124,24 @@ class EvaluationController extends Controller
     return view('evaluation.create', $data);
 }
 
+   public function store(Request $request)
+{
+    try {
+        $validated = $this->validateEvaluation($request);
+        
+        // Ensure evaluation_date is always set to today
+        $validated['evaluation_date'] = Carbon::today()->format('Y-m-d');
+        
+        EvaluationForm::create($validated);
 
-    public function store(Request $request)
-    {
-        try {
-            $validated = $this->validateEvaluation($request);
-            EvaluationForm::create($validated);
-
-            return redirect()->route('evaluation.index')->with('success', 'Evaluation created successfully.');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while saving the evaluation.')->withInput();
-        }
+        return redirect()->route('evaluation.index')->with('success', 'Evaluation created successfully.');
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return redirect()->back()->withErrors($e->errors())->withInput();
+    } catch (\Exception $e) {
+        Log::error($e->getMessage());
+        return redirect()->back()->with('error', 'An error occurred while saving the evaluation.')->withInput();
     }
+}
   
     public function edit($id)
 {
@@ -204,21 +183,25 @@ class EvaluationController extends Controller
 }
 
     
-    public function update(Request $request, $id)
-    {
-        try {
-            $evaluation = EvaluationForm::findOrFail($id);
-            $validated = $this->validateEvaluation($request);
-            $evaluation->update($validated);
+ public function update(Request $request, $id)
+{
+    try {
+        $evaluation = EvaluationForm::findOrFail($id);
+        $validated = $this->validateEvaluation($request);
+        
+        // Remove evaluation_date to prevent it from being updated
+        unset($validated['evaluation_date']);
+        
+        $evaluation->update($validated);
 
-            return redirect()->route('evaluation.index')->with('success', 'Evaluation updated successfully.');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while updating the evaluation.')->withInput();
-        }
+        return redirect()->route('evaluation.index')->with('success', 'Evaluation updated successfully.');
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return redirect()->back()->withErrors($e->errors())->withInput();
+    } catch (\Exception $e) {
+        Log::error($e->getMessage());
+        return redirect()->back()->with('error', 'An error occurred while updating the evaluation.')->withInput();
     }
+}
 
     public function destroy($id)
     {

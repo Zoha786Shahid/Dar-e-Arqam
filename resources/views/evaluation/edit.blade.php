@@ -139,7 +139,14 @@
                                     @enderror
                                 </div>
                             </div>
-
+<div class="col-xxl-4 col-md-6">
+    <div>
+        <label for="evaluation_date" class="form-label">Evaluation Date</label>
+        <input type="date" class="form-control" id="evaluation_date" name="evaluation_date"
+            value="{{ $evaluation->evaluation_date->format('Y-m-d') }}" readonly 
+            style="background-color: #e9ecef;">
+    </div>
+</div>
                             <!-- Total Students -->
                             <div class="col-xxl-4 col-md-6">
                                 <div>

@@ -73,7 +73,7 @@
         </p>
         <p><strong>کوالفیکیشن:</strong> {{ $evaluation->teacher->qualification }}</p>
         <p><strong>کمپیس:</strong> {{ $evaluation->campus->name }}</p>
-        <p><strong>تاریخ:</strong> {{ \Carbon\Carbon::parse($evaluation->created_at)->format('d-m-Y') }}</p>
+        <p><strong>تاریخ:</strong> {{ \Carbon\Carbon::parse($evaluation->evaluation_date)->format('d-m-Y') }}</p>
     </div>
 
     <table>

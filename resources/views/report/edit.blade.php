@@ -128,7 +128,15 @@
                                     @enderror
                                 </div>
                             </div>
-
+<!-- Date Field - Original Date (Non-editable) -->
+<div class="col-xxl-4 col-md-6">
+    <div>
+        <label for="evaluation_date" class="form-label">تاریخ</label>
+        <input type="date" class="form-control" id="evaluation_date" name="evaluation_date"
+            value="{{ old('evaluation_date', $evaluation->evaluation_date) }}" 
+            readonly disabled style="background-color: #e9ecef;">
+    </div>
+</div>
                             <!-- Evaluation Fields with Radio Buttons -->
                             
                             <!-- Field 1: آمد و استقبال (Entrance and Welcome) -->
